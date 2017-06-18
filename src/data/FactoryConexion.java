@@ -11,10 +11,10 @@ public class FactoryConexion {
 	private FactoryConexion(){
 		
 		try {
-			//new com.mysql.jdbc.Driver();
-			Class.forName("com.mysql.jdbc.Driver");
+			new com.mysql.jdbc.Driver();
+			Class.forName("com.mysql.jdbc.Driver()");
 			
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			
 			
@@ -36,9 +36,13 @@ public class FactoryConexion {
 	
 	public Connection getConn(){
 		
-		conn = DriveManager.getConnection(
-				/* "jdbc:mysql://localhost:3306/Java2017?user=java" */ 
-				);
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:8080/personas?user=root");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
 	}
 	
 	
