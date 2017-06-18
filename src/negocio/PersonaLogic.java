@@ -2,20 +2,21 @@ package negocio;
 
 import java.util.ArrayList;
 
+import data.DataPersona;
 import entidades.Persona;
 
 public class PersonaLogic {
 
 	
 	private Persona per;
-	//private PersonaData perD;
+	private DataPersona perD;
 	ArrayList<Persona> lista = new ArrayList<Persona>();
 	
 	
 	public PersonaLogic(){
 	
 		per = new Persona(); 
-		//perD = new PersonaData();
+		perD = new DataPersona();
 		
 	}
 
@@ -97,7 +98,8 @@ public class PersonaLogic {
 
 		public ArrayList<Persona> GetAll(){
 	
-			return lista;
+			return perD.getAll();
+			
 		}
 
 
