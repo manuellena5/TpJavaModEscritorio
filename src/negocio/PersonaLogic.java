@@ -40,7 +40,7 @@ public class PersonaLogic {
 	
 	}
 
-	public Persona GetOne (int doc){
+	public Persona GetOne (String doc){
 	
 		for (Persona per : lista) {
 			if (per.getDni() == doc ) {
@@ -52,10 +52,10 @@ public class PersonaLogic {
 	}	
 
 	
-	public Persona GetByDni(Persona p){
+	public Persona GetByDni(Persona p) throws Exception{
 		
 		
-		return GetByDni(p.getDni());
+		return perD.getByDni(p);
 		
 		//return this.lista.get(this.lista.indexOf(p));
 		
@@ -67,7 +67,7 @@ public class PersonaLogic {
 	}
 	
 	
-	public Persona GetByDni (int doc){
+	public Persona GetByDni (String doc){
 		
 		/*Persona p=new Persona();
 		p.setDni(doc);
@@ -86,7 +86,7 @@ public class PersonaLogic {
 	
 	
 	
-	public void EliminarPersona(Persona p){
+	public void EliminarPersona(Persona p) throws Exception{
 	
 	 lista.remove(this.GetByDni(p));
 		
@@ -96,14 +96,14 @@ public class PersonaLogic {
 
 
 
-		public ArrayList<Persona> GetAll(){
+		public ArrayList<Persona> GetAll() throws Exception{
 	
 			return perD.getAll();
 			
 		}
 
 
-		public void ModificarPersona(Persona p) {
+		public void ModificarPersona(Persona p) throws Exception {
 			
 			this.EliminarPersona(p);
 			this.Save(p);

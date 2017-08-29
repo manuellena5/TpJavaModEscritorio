@@ -1,4 +1,4 @@
-package consola;
+package ui;
 
 import java.util.Scanner;
 
@@ -16,11 +16,11 @@ public class PrincipalConsola {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
 		String respuesta= "";
-		AbmPersona abmper = new AbmPersona();
+		AbmPersonaConsola abmper = new AbmPersonaConsola();
 		
 		s = new Scanner(System.in);
 		

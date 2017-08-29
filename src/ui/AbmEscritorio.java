@@ -1,4 +1,4 @@
-package escritorio;
+package ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -90,7 +90,12 @@ public class AbmEscritorio extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				BuscarPersona();
+				try {
+					BuscarPersona();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -108,7 +113,12 @@ public class AbmEscritorio extends JInternalFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EditarPersona();
+				try {
+					EditarPersona();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				LimpiarControles();
 			}
 		});
@@ -117,7 +127,12 @@ public class AbmEscritorio extends JInternalFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EliminarPersona();
+				try {
+					EliminarPersona();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				LimpiarControles();
 			}
 		});
@@ -193,7 +208,7 @@ public class AbmEscritorio extends JInternalFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
-	protected void BuscarPersona(){
+	protected void BuscarPersona() throws Exception{
 		
 		MapearAform(perlog.GetByDni(MapearDesdeform()));
 	
@@ -206,7 +221,7 @@ public class AbmEscritorio extends JInternalFrame {
 		
 	}
 	
-	 protected void EliminarPersona(){
+	 protected void EliminarPersona() throws Exception{
 		 
 		 
 		 perlog.EliminarPersona(MapearDesdeform());
@@ -214,7 +229,7 @@ public class AbmEscritorio extends JInternalFrame {
 	 }
 	
 	
-	protected void EditarPersona(){
+	protected void EditarPersona() throws Exception{
 		
 		
 		perlog.ModificarPersona(MapearDesdeform());
@@ -226,7 +241,7 @@ public class AbmEscritorio extends JInternalFrame {
 		
 		this.txtApellido.setText(per.getApellido());
 		this.txtNombre.setText(per.getNombre());
-		this.txtDni.setText(Integer.toString(per.getDni()));
+		this.txtDni.setText(per.getDni());
 		this.chkHabilitado.setSelected(per.isHabilitado());
 
 	}
@@ -237,7 +252,7 @@ public class AbmEscritorio extends JInternalFrame {
 		
 		per.setNombre(this.txtNombre.getText());
 		per.setApellido(this.txtApellido.getText());
-		per.setDni(Integer.parseInt(this.txtDni.getText()));
+		per.setDni(this.txtDni.getText());
 		per.setHabilitado(this.chkHabilitado.isSelected());
 		
 		return per;

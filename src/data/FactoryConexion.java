@@ -1,5 +1,6 @@
 package data;
 import java.sql.*;
+import util.AppDataException;
 
 
 public class FactoryConexion {
@@ -7,14 +8,22 @@ public class FactoryConexion {
 	private static FactoryConexion instancia;
 	
 	private Connection conn;
+	private int cantConn=0;
+	private String driver ="com.mysql.jdbc.Driver()";
+	private String host ="localhost";
+	private String user="root";
+	private String port = "8080";
+	private String password="";
+	private String db ="java2017";
+	
 	
 	private FactoryConexion(){
 		
 		try {
-			new com.mysql.jdbc.Driver();
-			Class.forName("com.mysql.jdbc.Driver()");
+			/*new com.mysql.jdbc.Driver();*/
+			Class.forName(driver);
 			
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
 			
@@ -23,7 +32,7 @@ public class FactoryConexion {
 	}
 	
 	public static FactoryConexion getInstancia(){
-		
+				
 		if (FactoryConexion.instancia == null) {
 		
 			FactoryConexion.instancia= new FactoryConexion();
@@ -34,16 +43,33 @@ public class FactoryConexion {
 	/* Pregunta si ya hay una conexion, si hay la devuelve, sino la crea
 	 * solo tiene que haber una unica instancia de la conexion por eso es singleton */
 	
-	public Connection getConn(){
+	
+	public Connection getConn() throws SQLException,AppDataException{
 		
-		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:8080/personas?user=root");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try {if (conn == null || conn.isClosed()) {
+			conn = DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/"+db+"?user="+user+"&password="+password);
+			
+			
 		}
+			}catch (SQLException e) {
+			
+				throw new AppDataException(e, "Error al conectar a la base de datos");
+			}
+		cantConn++; 	/*contador de cantidades de conexiones abiertas*/
 		return conn;
 	}
 	
-	
+	public void releaseConn() throws SQLException{
+		try {
+			cantConn--;
+			if (cantConn==0) {
+				conn.close();	
+			}
+			
+		} catch (SQLException e) {
+			
+			throw e;
+		}
+		
+	}
 }
