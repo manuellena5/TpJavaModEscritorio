@@ -5,7 +5,7 @@ import util.AppDataException;
 
 public class FactoryConexion {
 
-	private static FactoryConexion instancia;
+	
 	
 	
 	private Connection conn;
@@ -15,8 +15,10 @@ public class FactoryConexion {
 	private String user="root";
 	private String port = "3306";
 	private String password="";
-	private String db ="gimnasio";
-	
+	private String db="gimnasio";
+
+	private static FactoryConexion instancia;
+
 	
 	
 	private FactoryConexion(){
