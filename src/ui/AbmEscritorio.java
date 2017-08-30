@@ -3,7 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,10 +16,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AbmEscritorio extends JInternalFrame {
 
@@ -29,6 +33,10 @@ public class AbmEscritorio extends JInternalFrame {
 	private JTextField txtDni;
 	private PersonaLogic perlog;
 	private JCheckBox chkHabilitado;
+	private JTextField txtusuario;
+	private JPasswordField txtpassword;
+	private JTextField txtid;
+	private JComboBox cboCategoria;
 
 	public PersonaLogic getPerlog() {
 		return perlog;
@@ -61,12 +69,13 @@ public class AbmEscritorio extends JInternalFrame {
 		setTitle("ABM personas");
 		setMaximizable(true);
 		setClosable(true);
-		perlog = new PersonaLogic();
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
+		setBounds(100, 100, 450, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		perlog = new PersonaLogic();
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		
@@ -144,60 +153,111 @@ public class AbmEscritorio extends JInternalFrame {
 				LimpiarControles();
 			}
 		});
+		
+		
+		JLabel lblUsuario = new JLabel("Usuario");
+		
+		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
+		
+		txtusuario = new JTextField();
+		txtusuario.setColumns(10);
+		
+		txtpassword = new JPasswordField();
+		
+		JLabel lblId = new JLabel("Id");
+		
+		txtid = new JTextField();
+		txtid.setEditable(false);
+		txtid.setColumns(10);
+		
+		cboCategoria = new JComboBox();
+		cboCategoria.setModel(new DefaultComboBoxModel(new String[] {"Usuario", "Administrador", "Encargado"}));
+		
+		JLabel lblCategoria = new JLabel("Categoria");
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(chkHabilitado)
+								.addComponent(lblContrasea)
+								.addComponent(lblUsuario)
+								.addComponent(lblDni)
+								.addComponent(lblApellido)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblId)
+									.addComponent(lblNombre)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtusuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpassword, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblNombre)
-										.addComponent(lblApellido)
-										.addComponent(lblDni))
-									.addGap(29)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(46)
-											.addComponent(btnBuscar))))))
+									.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+									.addComponent(lblCategoria))
+								.addComponent(txtid, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(36)
 							.addComponent(btnNuevo)
 							.addGap(18)
 							.addComponent(btnEditar)
 							.addGap(18)
-							.addComponent(btnEliminar)
-							.addGap(18)
-							.addComponent(btnLimpiar)))
-					.addContainerGap(52, Short.MAX_VALUE))
+							.addComponent(btnEliminar)))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(btnLimpiar)
+							.addContainerGap(76, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(cboCategoria, 0, 99, Short.MAX_VALUE)
+							.addGap(42))))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(chkHabilitado)
+					.addContainerGap(345, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(154)
+					.addComponent(btnBuscar)
+					.addContainerGap(205, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(27)
+					.addGap(21)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnBuscar)
+						.addComponent(txtid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblId))
+					.addGap(38)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNombre)
 						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBuscar))
+						.addComponent(cboCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCategoria))
+					.addGap(23)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblApellido)
+						.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblApellido)
-							.addGap(18)
-							.addComponent(lblDni))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDni)
+						.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblUsuario)
+						.addComponent(txtusuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblContrasea)
+						.addComponent(txtpassword, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
 					.addComponent(chkHabilitado)
-					.addPreferredGap(ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNuevo)
 						.addComponent(btnEditar)
@@ -210,29 +270,46 @@ public class AbmEscritorio extends JInternalFrame {
 	
 	protected void BuscarPersona() throws Exception{
 		
-		MapearAform(perlog.GetByDni(MapearDesdeform()));
+		try {
+			this.MapearAform(perlog.GetByDni(this.MapearDesdeform()));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
 	
 	}
 	
 	protected void AgregarPersona(){
 		
+		Persona p = this.MapearDesdeform();
+		try{
+			perlog.add(p);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		this.txtid.setText(String.valueOf(p.getId()));
 		
-		perlog.Save(MapearDesdeform());
 		
 	}
 	
 	 protected void EliminarPersona() throws Exception{
 		 
 		 
-		 perlog.EliminarPersona(MapearDesdeform());
+		 try{
+				perlog.delete(this.MapearDesdeform());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
 	 
 	 }
 	
 	
 	protected void EditarPersona() throws Exception{
 		
-		
-		perlog.ModificarPersona(MapearDesdeform());
+		try{
+			perlog.update(this.MapearDesdeform());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
 		
 		
 	}
@@ -243,6 +320,11 @@ public class AbmEscritorio extends JInternalFrame {
 		this.txtNombre.setText(per.getNombre());
 		this.txtDni.setText(per.getDni());
 		this.chkHabilitado.setSelected(per.isHabilitado());
+		this.txtusuario.setText(per.getUsuario());
+		this.txtpassword.setText(per.getPassword());
+		/*this.cboCategoria.setSelectedItem(per.getCategoria()); */
+		this.txtid.setText(String.valueOf(per.getId()));
+		
 
 	}
 	
@@ -250,10 +332,18 @@ public class AbmEscritorio extends JInternalFrame {
 		
 		Persona per = new Persona();
 		
+		if(!this.txtid.getText().isEmpty()){
+			per.setId(Integer.parseInt(this.txtid.getText()));
+		}
 		per.setNombre(this.txtNombre.getText());
 		per.setApellido(this.txtApellido.getText());
 		per.setDni(this.txtDni.getText());
 		per.setHabilitado(this.chkHabilitado.isSelected());
+		per.setUsuario(this.txtusuario.getText());
+		per.setPassword(this.txtpassword.getText());
+		/*if (cboCategoria.getSelectedIndex() != -1){
+			per.setCategoria((Categoria)this.cboCategoria.getSelectedItem());
+		}*/
 		
 		return per;
 		
@@ -265,8 +355,9 @@ public class AbmEscritorio extends JInternalFrame {
 		this.txtDni.setText("");
 		this.txtNombre.setText("");
 		this.chkHabilitado.setSelected(false);
-		
+		this.txtusuario.setText("");
+		this.txtpassword.setText("");
+		this.txtid.setText("");
 		
 	}
-	
 }

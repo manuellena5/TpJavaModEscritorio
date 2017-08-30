@@ -81,7 +81,7 @@ public class AbmPersonaConsola {
 	}
 
 
-	public void CargarDatos(){
+	public void CargarDatos() throws Exception{
 		
 		s = new Scanner(System.in);
 		Persona per = new Persona();
@@ -100,7 +100,7 @@ public class AbmPersonaConsola {
 			per.setHabilitado(false);
 		}else{System.out.println("Dato ingresado incorrectamente"); }
 		
-		perlog.Save(per);
+		perlog.add(per);
 	
 		//s.close();
 

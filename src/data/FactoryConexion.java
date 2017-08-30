@@ -7,14 +7,16 @@ public class FactoryConexion {
 
 	private static FactoryConexion instancia;
 	
+	
 	private Connection conn;
 	private int cantConn=0;
 	private String driver ="com.mysql.jdbc.Driver()";
 	private String host ="localhost";
 	private String user="root";
-	private String port = "8080";
+	private String port = "3306";
 	private String password="";
-	private String db ="java2017";
+	private String db ="gimnasio";
+	
 	
 	
 	private FactoryConexion(){

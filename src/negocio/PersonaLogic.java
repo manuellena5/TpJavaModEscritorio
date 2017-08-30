@@ -21,23 +21,21 @@ public class PersonaLogic {
 	}
 
 
-	public void Save(Persona p){
+	public void add(Persona p) throws Exception{
 	
 		
-		lista.add(p);
+		perD.add(p);
+	
+	}
+	
+	public void delete(Persona p)throws Exception{
+		//this.pers.remove(this.getByDni(p));
+		this.perD.delete(p);
+	}
+	
+	public void update(Persona p)throws Exception{
 		
-		/*if (!lista.contains(p)) {
-			lista.add(p);
-		}else {
-			
-			EliminarPersona(p);
-			lista.add(p);
-		}*/
-	
-	
-	
-	//perD.GuardarSocio(p);
-	
+		this.perD.update(p);
 	}
 
 	public Persona GetOne (String doc){
@@ -67,19 +65,19 @@ public class PersonaLogic {
 	}
 	
 	
-	public Persona GetByDni (String doc){
+	public Persona GetByDni (String doc) throws Exception{
 		
-		/*Persona p=new Persona();
+		Persona p=new Persona();
 		p.setDni(doc);
-		return GetByDni(p);*/
+		return GetByDni(p);
 		
-		for (int i = 0; i < lista.size(); i++) {
+		/*for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).getDni() == doc) {
 				return lista.get(i);
 			}
 			
 		}
-		return null;
+		return null;*/
 		
 	}
 	
@@ -106,7 +104,7 @@ public class PersonaLogic {
 		public void ModificarPersona(Persona p) throws Exception {
 			
 			this.EliminarPersona(p);
-			this.Save(p);
+			this.add(p);
 			
 		}
 	

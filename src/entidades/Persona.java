@@ -7,10 +7,11 @@ public class Persona {
 	private String apellido;
 	private String dni;
 	private boolean habilitado;
-	private String categoria;
+	private int id_categoria;
 	private String usuario;
 	private String password;
 	
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -25,14 +26,6 @@ public class Persona {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
 	}
 
 	public int getId(){
@@ -68,22 +61,32 @@ public class Persona {
 		this.habilitado = habilitado;
 	}
 	
+	public int getId_categoria() {
+		return id_categoria;
+	}
+
+	public void setId_categoria(int id_categoria) {
+		this.id_categoria = id_categoria;
+	}
+	
 	public Persona(){
 		
 	}
 	
 	
-	public Persona(String nombre, String apellido, String dni, boolean habilitado, String categoria, String usuario, String password) {
+	public Persona(String nombre, String apellido, String dni, boolean habilitado, int id_categoria, String usuario, String password) {
 		super();
 		this.setNombre(nombre);
 		this.setApellido(apellido);
 		this.setDni(dni);
 		this.setHabilitado(habilitado);
-		this.setCategoria(categoria);
+		this.setId_categoria(id_categoria);
 		this.setPassword(password);
 		this.setUsuario(usuario);
 		}
 	
+	
+
 	@Override
 	public boolean equals(Object o){
 		return (o instanceof Persona) &&
