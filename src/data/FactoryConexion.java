@@ -15,7 +15,7 @@ public class FactoryConexion {
 	private String user="root";
 	private String port = "3306";
 	private String password="";
-	private String db="gimnasio";
+	private String db="biblioteca";
 
 	private static FactoryConexion instancia;
 

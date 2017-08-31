@@ -42,7 +42,7 @@ public class PrincipalEscritorio extends JFrame {
 	public PrincipalEscritorio() {
 		setTitle("Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 609, 419);
+		setBounds(100, 100, 795, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -79,6 +79,16 @@ public class PrincipalEscritorio extends JFrame {
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		
+		JMenuItem mntmListadoPersonas = new JMenuItem("Listado personas");
+		mntmListadoPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowListadoPersonas();
+			}
+
+			
+		});
+		mnNewMenu_1.add(mntmListadoPersonas);
+		
 		
 	}
 	
@@ -87,5 +97,12 @@ public class PrincipalEscritorio extends JFrame {
 		AbmEscritorio frm = new AbmEscritorio();
 		desktopPane.add(frm);
 		frm.setVisible(true);
+	}
+	
+	private void ShowListadoPersonas() {
+		ListadoPersonas lp = new ListadoPersonas();
+		desktopPane.add(lp);
+		lp.setVisible(true);
+		
 	}
 }

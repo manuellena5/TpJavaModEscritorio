@@ -17,16 +17,16 @@ public class DataPersona {
 				ArrayList<Persona> pers = new ArrayList<Persona>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from persona");
+					  rs = stmt.executeQuery("select * from personas");
 					  
 				if (rs != null) {
 						while (rs.next()) {
 								Persona p = new Persona();
-								p.setId(rs.getInt("id"));
+								p.setId_usuario(rs.getInt("id_persona"));
 								p.setNombre(rs.getString("nombre"));
 								p.setApellido(rs.getString("apellido"));
 								p.setDni(rs.getString("dni"));
-								p.setHabilitado(rs.getBoolean("habilitado"));
+								p.setHabilitado(rs.getBoolean("estado"));
 								p.setUsuario(rs.getString("usuario"));
 								p.setPassword(rs.getString("password"));
 								
@@ -73,7 +73,7 @@ public class DataPersona {
 				
 				if (rs!=null && rs.next()) {
 					p = new Persona();
-					p.setId(rs.getInt("id_persona"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
+					p.setId_usuario(rs.getInt("id_persona"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
 					p.setNombre(rs.getString("nombre"));
 					p.setApellido(rs.getString("apellido"));
 					p.setDni(rs.getString("dni"));
@@ -123,7 +123,7 @@ public class DataPersona {
 				stmt.executeUpdate();
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
-					p.setId(keyResultSet.getInt(1));
+					p.setId_usuario(keyResultSet.getInt(1));
 				}
 			} catch (SQLException | AppDataException e) {
 				throw e;
@@ -150,7 +150,7 @@ public class DataPersona {
 				stmt.setString(4, p.getUsuario());
 				stmt.setString(5, p.getPassword());
 				stmt.setBoolean(6, p.isHabilitado());
-				stmt.setInt(7, p.getId());
+				stmt.setInt(7, p.getId_usuario());
 				stmt.execute();
 				
 				
@@ -173,7 +173,7 @@ public class DataPersona {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
 						"delete from personas where id_persona=?");
 				
-				stmt.setInt(1, p.getId());
+				stmt.setInt(1, p.getId_usuario());
 				stmt.execute();
 				
 				

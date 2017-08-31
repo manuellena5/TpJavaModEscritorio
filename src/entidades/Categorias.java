@@ -18,5 +18,14 @@ public class Categorias {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+	public Categorias(int id_categoria, String descripcion) {
+		super();
+		this.id_categoria = id_categoria;
+		this.descripcion = descripcion;
+	}
+	
+	public Categorias()
+	{
+		
+	}
 }
