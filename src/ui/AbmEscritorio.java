@@ -286,7 +286,7 @@ public class AbmEscritorio extends JInternalFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		this.txtid.setText(String.valueOf(p.getId()));
+		this.txtid.setText(String.valueOf(p.getId_usuario()));
 		
 		
 	}
@@ -323,7 +323,7 @@ public class AbmEscritorio extends JInternalFrame {
 		this.txtusuario.setText(per.getUsuario());
 		this.txtpassword.setText(per.getPassword());
 		/*this.cboCategoria.setSelectedItem(per.getCategoria()); */
-		this.txtid.setText(String.valueOf(per.getId()));
+		this.txtid.setText(String.valueOf(per.getId_usuario()));
 		
 
 	}
@@ -333,7 +333,7 @@ public class AbmEscritorio extends JInternalFrame {
 		Persona per = new Persona();
 		
 		if(!this.txtid.getText().isEmpty()){
-			per.setId(Integer.parseInt(this.txtid.getText()));
+			per.setId_usuario(Integer.parseInt(this.txtid.getText()));
 		}
 		per.setNombre(this.txtNombre.getText());
 		per.setApellido(this.txtApellido.getText());
@@ -358,6 +358,11 @@ public class AbmEscritorio extends JInternalFrame {
 		this.txtusuario.setText("");
 		this.txtpassword.setText("");
 		this.txtid.setText("");
+		
+	}
+	
+	public void showPersona(Persona p){
+		this.MapearAform(p);
 		
 	}
 }
