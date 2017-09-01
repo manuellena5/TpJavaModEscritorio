@@ -89,9 +89,101 @@ public class PrincipalEscritorio extends JFrame {
 		});
 		mnNewMenu_1.add(mntmListadoPersonas);
 		
+		JMenuItem mntmDatosPersonales = new JMenuItem("Datos Personales");
+		/*mntmDatosPersonales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowDatosPersonales();
+			}
+
+			
+		});*/
+		mnNewMenu_1.add(mntmDatosPersonales);
+		
+		
+		JMenu mnReservas = new JMenu("Reservas");
+		menuBar.add(mnReservas);
+		
+		JMenuItem mntmABMReservas = new JMenuItem("ABM Reservas");
+		/*mntmABMReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowAbmReservas();
+			}
+
+			
+		});*/
+		mnReservas.add(mntmABMReservas);
+		
+		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
+		/*mntmListadoReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowListadoReservas();
+			}
+
+			
+		});*/
+		mnReservas.add(mntmListadoReservas);
+		
+		JMenuItem mntmMisReservas = new JMenuItem("Mis Reservas");
+		/*mntmMisReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowMisReservas();
+			}
+
+			
+		});*/
+		mnReservas.add(mntmMisReservas);
+		
+		
+		
+		JMenu mnTiposElementos = new JMenu("Tipos Elementos");
+		menuBar.add(mnTiposElementos);
+		
+		JMenuItem mntmAbmTiposElementos = new JMenuItem("ABM Tipos Elementos");
+		/*mntmAbmTiposElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowAbmTiposElementos();
+			}
+
+			
+		});*/
+		mnTiposElementos.add(mntmAbmTiposElementos);
+		
+		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos Elementos");
+		/*mntmListadoTiposElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowListadoTiposElementos();
+			}
+			
+		});*/
+		mnTiposElementos.add(mntmListadoTiposElementos);
+		
+		
+		
+		JMenu mnElementos = new JMenu("Elementos");
+		menuBar.add(mnElementos);
+		
+		JMenuItem mntmAbmElementos = new JMenuItem("ABM Elementos");
+		/*mntmAbmElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowAbmElementos();
+			}
+
+			
+		});*/
+		mnElementos.add(mntmAbmElementos);
+		
+		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
+		/*mntmListadoElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowListadoElementos();
+			}
+			
+		});*/
+		mnElementos.add(mntmListadoElementos);
 		
 	}
 	
+	//para personas
 	private void ShowAbmPersonas(){
 		
 		AbmEscritorio frm = new AbmEscritorio();
@@ -105,4 +197,68 @@ public class PrincipalEscritorio extends JFrame {
 		lp.setVisible(true);
 		
 	}
+	
+	/*private void ShowDatosPersonales() {
+		DatosPersonales dp = new DatosPersonales();
+		desktopPane.add(dp);
+		dp.setVisible(true);
+		
+	}*/
+	
+	
+	
+	//para reservas
+	/*private void ShowAbmReservas(){
+		
+		AbmReservas frm2 = new AbmReservas();
+		desktopPane.add(frm2);
+		frm2.setVisible(true);
+	}
+	
+	private void ShowListadoReservas() {
+		ListadoReservas lr = new ListadoReservas();
+		desktopPane.add(lr);
+		lr.setVisible(true);
+		
+	}
+	
+	private void ShowMisReservas() {
+		MisReservas mr = new MisReservas();
+		desktopPane.add(mr);
+		mr.setVisible(true);
+		
+	}*/
+	
+	
+	//para tipos elementos
+	/* private void ShowAbmTiposElementos(){
+			
+			AbmTiposElementos frm3 = new AbmTiposElementos();
+			desktopPane.add(frm3);
+			frm3.setVisible(true);
+		} 
+		
+		private void ShowListadoTiposElementos() {
+			ListadoTiposElementos lte = new ListadoTiposElementos();
+			desktopPane.add(lte);
+			lte.setVisible(true);
+			
+		}*/
+		
+		
+		//para elementos
+		
+		/*private void ShowAbmElementos(){
+					
+		AbmElementos frm4 = new AbmElementos();
+		desktopPane.add(frm4);
+		frm4.setVisible(true);
+		} 
+				
+		private void ShowListadoElementos() {
+		ListadoElementos le = new ListadoElementos();
+		desktopPane.add(le);
+		le.setVisible(true);
+					
+		}*/
 }
