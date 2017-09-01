@@ -7,26 +7,30 @@ import util.AppDataException;
 import javax.swing.JOptionPane;
 import java.security.KeyStore.ProtectionParameter;
 
-public class DataTipo_Elementos {
+public class DataElementos {
 	
 	
-	public ArrayList<Tipo_Elementos> getAll() throws Exception{
+	public ArrayList<Elementos> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Tipo_Elementos> tipoElementos = new ArrayList<Tipo_Elementos>();
+				ArrayList<Elementos> elementos = new ArrayList<Elementos>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from tipo_elementos");
+					  rs = stmt.executeQuery("select * from elementos");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Tipo_Elementos te = new Tipo_Elementos();
-								te.setId_tipoelemento(rs.getInt("id_tipoelemento"));
-								te.setNombre(rs.getString("nombre"));
-								te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
+								Elementos el = new Elementos();
+								el.setId_elemento(rs.getInt("id_elemento"));
+								el.setNombre(rs.getString("nombre"));
+								el.setStock(rs.getInt("stock"));
+								el.setAutor(rs.getString("autor"));
+								el.setGenero(rs.getString("genero"));
+								el.setDescripcion(rs.getString("descripcion"));
+								el.setId_tipoelemento(rs.getInt("id_tipoelemento"));
 								
-								tipoElementos.add(te);
+								elementos.add(el);
 										}
 					}
 				
@@ -47,31 +51,36 @@ public class DataTipo_Elementos {
 					e.printStackTrace();
 				}
 				
-					return tipoElementos;
+					return elementos;
 					
 					
 				}
  
 	
-	public Tipo_Elementos getByNombre(Tipo_Elementos tipoElementos) throws Exception{
+	public Elementos getByNombre(Elementos elementos) throws Exception{
 	
-			Tipo_Elementos te = null;
+			Elementos el = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
 			try {
 				 /*al poner el signo de pregunta el driver se da cuenta que en ese lugar va a ir un parametro*/
 				stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-						"select id_tipoelemento, nombre, cantMaxReservasPend from tipo_elementos where nombre=?");
+						"select e.id_elemento, e.nombre, e.stock, e.autor, e.genero, e.descripcion, e.id_tipoelementos from elementos e "
+						+ "inner join tipo_elementos te on e.id_tipoelemento=te.id_tipoelemento where e.nombre=?");
 						
-				stmt.setString(1, tipoElementos.getNombre());
+				stmt.setString(1, elementos.getNombre());
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					te = new Tipo_Elementos();
-					te.setId_tipoelemento(rs.getInt("id_tipoelemento"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
-					te.setNombre(rs.getString("nombre"));
-					te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
+					el = new Elementos();
+					el.setId_elemento(rs.getInt("id_elemento"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
+					el.setNombre(rs.getString("nombre"));
+					el.setStock(rs.getInt("stock"));
+					el.setAutor(rs.getString("autor"));
+					el.setGenero(rs.getString("genero"));
+					el.setDescripcion(rs.getString("descripcion"));
+					el.setId_tipoelemento(rs.getInt("id_tipoelemento"));
 				
 				}
 				
@@ -91,28 +100,33 @@ public class DataTipo_Elementos {
 					e.printStackTrace();
 				}
 			
-			return te;
+			return el;
 		}
 	
 	
 		
-		public void add(Tipo_Elementos te) throws Exception{
+		public void add(Elementos el) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into tipo_elementos(id_tipoelemento, nombre,cantMaxReservasPend) values (?,?,?)",
+						"insert into elementos(id_elemento, nombre, stock, autor, genero, descripcion, id_tipoelemento) values (?,?,?,?,?,?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				
-				stmt.setString(1, te.getNombre());
-				stmt.setInt(2, te.getCantMaxReservasPend());
+				stmt.setString(1, el.getNombre());
+				stmt.setInt(2, el.getStock());
+				stmt.setString(3, el.getAutor());
+				stmt.setString(4, el.getGenero());
+				stmt.setString(5, el.getDescripcion());
+				stmt.setInt(6, el.getId_tipoelemento());
 				
 				stmt.executeUpdate();
+				
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
-					te.setId_tipoelemento(keyResultSet.getInt(1));
+					el.setId_elemento(keyResultSet.getInt(1));
 				}
 			} catch (SQLException | AppDataException e) {
 				throw e;
@@ -126,15 +140,19 @@ public class DataTipo_Elementos {
 			}
 		}
 		
-		public void update(Tipo_Elementos te) throws Exception{
+		public void update(Elementos el) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"update tipo_elementos set nombre=?, cantMaxReservasPend=? where id_tipoelemento=?");
+						"update elementos set nombre=?, stock=?, autor=?, genero=?, descripcion=?, id_tipoelemento=? where id_elemento=?");
 				
-				stmt.setString(1, te.getNombre());
-				stmt.setInt(2, te.getCantMaxReservasPend());
+				stmt.setString(1, el.getNombre());
+				stmt.setInt(2, el.getStock());
+				stmt.setString(3, el.getAutor());
+				stmt.setString(4, el.getGenero());
+				stmt.setString(5, el.getDescripcion());
+				stmt.setInt(6, el.getId_tipoelemento());
 			
 				stmt.execute();
 				
@@ -151,14 +169,14 @@ public class DataTipo_Elementos {
 			}
 		} 
 		
-		public void delete(Tipo_Elementos te) throws Exception{
+		public void delete(Elementos el) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"delete from tipo_elementos where id_tipoelemento=?");
+						"delete from elementos where id_elemento=?");
 				
-				stmt.setInt(1, te.getId_tipoelemento());
+				stmt.setInt(1, el.getId_elemento());
 				stmt.execute();
 				
 				

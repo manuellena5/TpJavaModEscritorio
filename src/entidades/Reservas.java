@@ -8,7 +8,6 @@ public class Reservas{
 	private int id_persona;
 	private int id_elemento;
 	private Date fecha_registro;
-	private String descripcion;
 	private Date fecha_inicio;
 	private Date fecha_fin;
 	private String detalle;
@@ -56,20 +55,14 @@ public class Reservas{
 	public void setFecha_registro(Date fecha_registro) {
 		this.fecha_registro = fecha_registro;
 	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 	
-	public Reservas(int id_persona, int id_elemento, Date fecha_registro, String descripcion, Date fecha_inicio,
+	
+	public Reservas(int id_persona, int id_elemento, Date fecha_registro, Date fecha_inicio,
 			Date fecha_fin, String detalle, String estado) {
 		super();
 		this.id_persona = id_persona;
 		this.id_elemento = id_elemento;
 		this.fecha_registro = fecha_registro;
-		this.descripcion = descripcion;
 		this.fecha_inicio = fecha_inicio;
 		this.fecha_fin = fecha_fin;
 		this.detalle = detalle;

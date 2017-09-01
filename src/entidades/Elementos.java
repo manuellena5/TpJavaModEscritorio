@@ -7,6 +7,15 @@ public class Elementos {
 	private int stock;
 	private String descripcion;
 	private String autor;
+	private String genero;
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
 	private int id_tipoelemento;
 	
 	

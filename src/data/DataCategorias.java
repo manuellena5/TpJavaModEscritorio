@@ -7,26 +7,25 @@ import util.AppDataException;
 import javax.swing.JOptionPane;
 import java.security.KeyStore.ProtectionParameter;
 
-public class DataTipo_Elementos {
+public class DataCategorias {
 	
 	
-	public ArrayList<Tipo_Elementos> getAll() throws Exception{
+	public ArrayList<Categorias> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Tipo_Elementos> tipoElementos = new ArrayList<Tipo_Elementos>();
+				ArrayList<Categorias> categorias = new ArrayList<Categorias>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from tipo_elementos");
+					  rs = stmt.executeQuery("select * from categorias");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Tipo_Elementos te = new Tipo_Elementos();
-								te.setId_tipoelemento(rs.getInt("id_tipoelemento"));
-								te.setNombre(rs.getString("nombre"));
-								te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
+								Categorias cat = new Categorias();
+								cat.setId_categoria(rs.getInt("id_categoria"));
+								cat.setDescripcion(rs.getString("descripcion"));
 								
-								tipoElementos.add(te);
+								categorias.add(cat);
 										}
 					}
 				
@@ -47,31 +46,30 @@ public class DataTipo_Elementos {
 					e.printStackTrace();
 				}
 				
-					return tipoElementos;
+					return categorias;
 					
 					
 				}
  
 	
-	public Tipo_Elementos getByNombre(Tipo_Elementos tipoElementos) throws Exception{
+	public Categorias getByDescripcion(Categorias categorias) throws Exception{
 	
-			Tipo_Elementos te = null;
+			Categorias cat = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
 			try {
 				 /*al poner el signo de pregunta el driver se da cuenta que en ese lugar va a ir un parametro*/
 				stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-						"select id_tipoelemento, nombre, cantMaxReservasPend from tipo_elementos where nombre=?");
+						"select id_categoria, descripcion from categorias where descripcion=?");
 						
-				stmt.setString(1, tipoElementos.getNombre());
+				stmt.setString(1, categorias.getDescripcion());
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					te = new Tipo_Elementos();
-					te.setId_tipoelemento(rs.getInt("id_tipoelemento"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
-					te.setNombre(rs.getString("nombre"));
-					te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
+					cat = new Categorias();
+					cat.setId_categoria(rs.getInt("id_categoria"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
+					cat.setDescripcion(rs.getString("descripcion"));
 				
 				}
 				
@@ -91,28 +89,28 @@ public class DataTipo_Elementos {
 					e.printStackTrace();
 				}
 			
-			return te;
+			return cat;
 		}
 	
 	
 		
-		public void add(Tipo_Elementos te) throws Exception{
+		public void add(Categorias cat) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into tipo_elementos(id_tipoelemento, nombre,cantMaxReservasPend) values (?,?,?)",
+						"insert into categorias(id_categoria, descripcion) values (?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				
-				stmt.setString(1, te.getNombre());
-				stmt.setInt(2, te.getCantMaxReservasPend());
+				stmt.setString(1, cat.getDescripcion());
 				
 				stmt.executeUpdate();
+				
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
-					te.setId_tipoelemento(keyResultSet.getInt(1));
+					cat.setId_categoria(keyResultSet.getInt(1));
 				}
 			} catch (SQLException | AppDataException e) {
 				throw e;
@@ -126,15 +124,14 @@ public class DataTipo_Elementos {
 			}
 		}
 		
-		public void update(Tipo_Elementos te) throws Exception{
+		public void update(Categorias cat) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"update tipo_elementos set nombre=?, cantMaxReservasPend=? where id_tipoelemento=?");
+						"update categorias set descripcion=? where id_categoria=?");
 				
-				stmt.setString(1, te.getNombre());
-				stmt.setInt(2, te.getCantMaxReservasPend());
+				stmt.setString(1, cat.getDescripcion());
 			
 				stmt.execute();
 				
@@ -151,14 +148,14 @@ public class DataTipo_Elementos {
 			}
 		} 
 		
-		public void delete(Tipo_Elementos te) throws Exception{
+		public void delete(Categorias cat) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"delete from tipo_elementos where id_tipoelemento=?");
+						"delete from categorias where id_categoria=?");
 				
-				stmt.setInt(1, te.getId_tipoelemento());
+				stmt.setInt(1, cat.getId_categoria());
 				stmt.execute();
 				
 				
