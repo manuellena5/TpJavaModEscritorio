@@ -6,9 +6,16 @@ import javax.swing.JInternalFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import entidades.Categoria;
+import entidades.Persona;
+import entidades.Tipo_Elemento;
+import negocio.Tipo_ElementosLogic;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,9 +23,12 @@ public class AbmTipoElementos extends JInternalFrame {
 	private JTextField txtid;
 	private JTextField txtnombre;
 	private JTextField txtcantmaxpend;
+	
+	Tipo_ElementosLogic tel = new Tipo_ElementosLogic();
 
 
 	public AbmTipoElementos() {
+		setClosable(true);
 		setTitle("Tipos de elementos");
 		setBounds(100, 100, 450, 300);
 		
@@ -43,6 +53,7 @@ public class AbmTipoElementos extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				btnAceptarClick();
+				LimpiarControles();
 			}
 
 			
@@ -115,12 +126,50 @@ public class AbmTipoElementos extends JInternalFrame {
 
 	}
 	private void btnAceptarClick() {
-		// TODO Auto-generated method stub
+		
+		Tipo_Elemento te = this.MapearDesdeform();
+		try{
+			tel.add(te);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		this.txtid.setText(String.valueOf(te.getId_tipoelemento()));
 		
 	}
 	
 	private void btnSalirClick() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void MapearAform(Tipo_Elemento te){
+		
+		this.txtnombre.setText(te.getNombre());
+		this.txtcantmaxpend.setText(String.valueOf(te.getCantMaxReservasPend()));
+		this.txtid.setText(String.valueOf(te.getId_tipoelemento()));
+		
+
+	}
+	
+	protected Tipo_Elemento MapearDesdeform(){
+		
+		Tipo_Elemento te = new Tipo_Elemento();
+		
+		if(!this.txtid.getText().isEmpty()){
+			te.setId_tipoelemento(Integer.parseInt(this.txtid.getText()));
+		}
+		te.setNombre(this.txtnombre.getText());
+		te.setCantMaxReservasPend(Integer.parseInt(this.txtcantmaxpend.getText()));
+		
+		
+		return te;
+		
+	}
+	
+	private void LimpiarControles(){
+		this.txtid.setText("");
+		this.txtnombre.setText("");
+		this.txtcantmaxpend.setText("");
 		
 	}
 	

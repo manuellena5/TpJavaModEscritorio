@@ -2,7 +2,7 @@ package entidades;
 
 public class Persona {
 
-	private int id_usuario;
+	private int id_persona;
 	private String nombre;
 	private String apellido;
 	private String dni;
@@ -36,12 +36,12 @@ public class Persona {
 		this.password = password;
 	}
 
-	public int getId_usuario(){
-		return id_usuario;
+	public int getId_persona(){
+		return id_persona;
 	}
 	
-	public void setId_usuario(int id){
-		this.id_usuario=id;
+	public void setId_persona(int id){
+		this.id_persona=id;
 	}
 	
 	public String getNombre() {

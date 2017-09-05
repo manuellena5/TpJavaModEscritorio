@@ -23,7 +23,7 @@ public class DataPersona {
 						while (rs.next()) {
 								Persona p = new Persona();
 								p.setCategoria(new Categoria());
-								p.setId_usuario(rs.getInt("id_persona"));
+								p.setId_persona(rs.getInt("id_persona"));
 								p.setNombre(rs.getString("nombre"));
 								p.setApellido(rs.getString("apellido"));
 								p.setDni(rs.getString("dni"));
@@ -78,7 +78,7 @@ public class DataPersona {
 				if (rs!=null && rs.next()) {
 					p = new Persona();
 					p.setCategoria(new Categoria());
-					p.setId_usuario(rs.getInt("id_persona"));  
+					p.setId_persona(rs.getInt("id_persona"));  
 					p.setNombre(rs.getString("nombre"));
 					p.setApellido(rs.getString("apellido"));
 					p.setDni(rs.getString("dni"));
@@ -131,7 +131,7 @@ public class DataPersona {
 				stmt.executeUpdate();
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
-					p.setId_usuario(keyResultSet.getInt(1));
+					p.setId_persona(keyResultSet.getInt(1));
 				}
 			} catch (SQLException | AppDataException e) {
 				throw e;
@@ -158,7 +158,6 @@ public class DataPersona {
 				stmt.setString(4, p.getUsuario());
 				stmt.setString(5, p.getPassword());
 				stmt.setBoolean(6, p.isHabilitado());
-				stmt.setInt(7, p.getId_usuario());
 				stmt.setInt(8, p.getCategoria().getId_Categoria());
 				stmt.execute();
 				
@@ -182,7 +181,7 @@ public class DataPersona {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
 						"delete from personas where id_persona=?");
 				
-				stmt.setInt(1, p.getId_usuario());
+				stmt.setInt(1, p.getId_persona());
 				stmt.execute();
 				
 				

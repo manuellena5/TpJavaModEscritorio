@@ -139,13 +139,13 @@ public class PrincipalEscritorio extends JFrame {
 		menuBar.add(mnTiposElementos);
 		
 		JMenuItem mntmAbmTiposElementos = new JMenuItem("ABM Tipos Elementos");
-		/*mntmAbmTiposElementos.addActionListener(new ActionListener() {
+		mntmAbmTiposElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmTiposElementos();
+				ShowAbmTipoElementos();
 			}
-
-			
-		});*/
+		});
+		
+		
 		mnTiposElementos.add(mntmAbmTiposElementos);
 		
 		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos Elementos");
@@ -163,13 +163,13 @@ public class PrincipalEscritorio extends JFrame {
 		menuBar.add(mnElementos);
 		
 		JMenuItem mntmAbmElementos = new JMenuItem("ABM Elementos");
-		/*mntmAbmElementos.addActionListener(new ActionListener() {
+		mntmAbmElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowAbmElementos();
 			}
 
 			
-		});*/
+		});
 		mnElementos.add(mntmAbmElementos);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
@@ -195,6 +195,13 @@ public class PrincipalEscritorio extends JFrame {
 		ListadoPersonas lp = new ListadoPersonas();
 		desktopPane.add(lp);
 		lp.setVisible(true);
+		
+	}
+	
+	private void ShowAbmTipoElementos() {
+		AbmTipoElementos abm = new AbmTipoElementos();
+		desktopPane.add(abm);
+		abm.setVisible(true);
 		
 	}
 	
@@ -231,14 +238,9 @@ public class PrincipalEscritorio extends JFrame {
 	
 	
 	//para tipos elementos
-	/* private void ShowAbmTiposElementos(){
-			
-			AbmTiposElementos frm3 = new AbmTiposElementos();
-			desktopPane.add(frm3);
-			frm3.setVisible(true);
-		} 
+	
 		
-		private void ShowListadoTiposElementos() {
+		/*private void ShowListadoTiposElementos() {
 			ListadoTiposElementos lte = new ListadoTiposElementos();
 			desktopPane.add(lte);
 			lte.setVisible(true);
@@ -248,13 +250,14 @@ public class PrincipalEscritorio extends JFrame {
 		
 		//para elementos
 		
-		/*private void ShowAbmElementos(){
+		private void ShowAbmElementos(){
 					
 		AbmElementos frm4 = new AbmElementos();
 		desktopPane.add(frm4);
 		frm4.setVisible(true);
 		} 
-				
+		
+		/*
 		private void ShowListadoElementos() {
 		ListadoElementos le = new ListadoElementos();
 		desktopPane.add(le);

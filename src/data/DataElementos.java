@@ -17,18 +17,24 @@ public class DataElementos {
 				ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from elementos");
+					  rs = stmt.executeQuery("select e.id_elemento,e.nombre,e.stock,e.autor,e.genero,e.descripcion,te.id_tipoelemento,te.cantMaxReservPend,te.nombre nombreIdTipoElemento from elementos e inner join tipo_elementos te on te.id_tipoelemento = e.tipo_elemento");
 					  
 				if (rs != null) {
 						while (rs.next()) {
 								Elemento el = new Elemento();
+								el.setTipo_Elemento(new Tipo_Elemento());
 								el.setId_elemento(rs.getInt("id_elemento"));
 								el.setNombre(rs.getString("nombre"));
 								el.setStock(rs.getInt("stock"));
 								el.setAutor(rs.getString("autor"));
 								el.setGenero(rs.getString("genero"));
 								el.setDescripcion(rs.getString("descripcion"));
-								el.setId_tipoelemento(rs.getInt("id_tipoelemento"));
+								
+								el.getTipo_Elemento().setId_tipoelemento(rs.getInt("id_tipoelemento"));
+								el.getTipo_Elemento().setCantMaxReservasPend(rs.getInt("cantMaxReservPend"));
+								el.getTipo_Elemento().setNombre((rs.getString("nombreIdTipoElemento")));
+								
+								
 								
 								elementos.add(el);
 										}
@@ -80,7 +86,7 @@ public class DataElementos {
 					el.setAutor(rs.getString("autor"));
 					el.setGenero(rs.getString("genero"));
 					el.setDescripcion(rs.getString("descripcion"));
-					el.setId_tipoelemento(rs.getInt("id_tipoelemento"));
+					//el.setId_tipoelemento(rs.getInt("id_tipoelemento"));
 				
 				}
 				
@@ -111,7 +117,7 @@ public class DataElementos {
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into elementos(id_elemento, nombre, stock, autor, genero, descripcion, id_tipoelemento) values (?,?,?,?,?,?,?)",
+						"insert into elementos(nombre, stock, autor, genero, descripcion, id_tipoelemento) values (?,?,?,?,?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				
@@ -120,7 +126,7 @@ public class DataElementos {
 				stmt.setString(3, el.getAutor());
 				stmt.setString(4, el.getGenero());
 				stmt.setString(5, el.getDescripcion());
-				stmt.setInt(6, el.getId_tipoelemento());
+				stmt.setInt(6, el.getTipo_Elemento().getId_tipoelemento());
 				
 				stmt.executeUpdate();
 				
@@ -152,7 +158,7 @@ public class DataElementos {
 				stmt.setString(3, el.getAutor());
 				stmt.setString(4, el.getGenero());
 				stmt.setString(5, el.getDescripcion());
-				stmt.setInt(6, el.getId_tipoelemento());
+				stmt.setInt(6, el.getTipo_Elemento().getId_tipoelemento());
 			
 				stmt.execute();
 				

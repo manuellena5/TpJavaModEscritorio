@@ -3,13 +3,16 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataElementos;
+import data.DataTipo_Elementos;
 import entidades.Elemento;
+import entidades.Tipo_Elemento;
 
 public class ElementosLogic {
 
 	
 	private Elemento elementos;
 	private DataElementos elementosD;
+	private DataTipo_Elementos ted;
 	ArrayList<Elemento> lista = new ArrayList<Elemento>();
 	
 	
@@ -17,6 +20,7 @@ public class ElementosLogic {
 	
 		elementos = new Elemento(); 
 		elementosD = new DataElementos();
+		ted = new DataTipo_Elementos();
 		
 	}
 
@@ -105,6 +109,11 @@ public class ElementosLogic {
 			
 			this.EliminarElemento(el);
 			this.add(el);
+			
+		}
+		
+		public ArrayList<Tipo_Elemento> getTipo_Elementos() throws Exception{
+			return ted.getAll();
 			
 		}
 	

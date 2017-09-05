@@ -271,7 +271,7 @@ public class AbmPersonas extends JInternalFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		this.txtid.setText(String.valueOf(p.getId_usuario()));
+		this.txtid.setText(String.valueOf(p.getId_persona()));
 		
 		
 	}
@@ -308,7 +308,7 @@ public class AbmPersonas extends JInternalFrame {
 		this.txtusuario.setText(per.getUsuario());
 		this.txtpassword.setText(per.getPassword());
 		this.cboCategoria.setSelectedItem(per.getCategoria().getDescripcion());
-		this.txtid.setText(String.valueOf(per.getId_usuario()));
+		this.txtid.setText(String.valueOf(per.getId_persona()));
 		
 
 	}
@@ -318,7 +318,7 @@ public class AbmPersonas extends JInternalFrame {
 		Persona per = new Persona();
 		
 		if(!this.txtid.getText().isEmpty()){
-			per.setId_usuario(Integer.parseInt(this.txtid.getText()));
+			per.setId_persona(Integer.parseInt(this.txtid.getText()));
 		}
 		per.setNombre(this.txtNombre.getText());
 		per.setApellido(this.txtApellido.getText());

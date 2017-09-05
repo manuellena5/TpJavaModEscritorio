@@ -8,6 +8,8 @@ public class Elemento {
 	private String descripcion;
 	private String autor;
 	private String genero;
+	private Tipo_Elemento Tipo_Elemento;
+	
 	public String getGenero() {
 		return genero;
 	}
@@ -16,7 +18,7 @@ public class Elemento {
 		this.genero = genero;
 	}
 
-	private int id_tipoelemento;
+	
 	
 	
 	public int getStock() {
@@ -38,12 +40,7 @@ public class Elemento {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
-	public int getId_tipoelemento() {
-		return id_tipoelemento;
-	}
-	public void setId_tipoelemento(int id_tipoelemento) {
-		this.id_tipoelemento = id_tipoelemento;
-	}
+	
 	
 	
 	public int getId_elemento() {
@@ -60,20 +57,32 @@ public class Elemento {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public Tipo_Elemento getTipo_Elemento() {
+		return Tipo_Elemento;
+	}
 
-	public Elemento(int id_elemento, String nombre, int stock, String descripcion, String autor, int id_tipoelemento) {
+	public void setTipo_Elemento(Tipo_Elemento tipo_Elemento) {
+		Tipo_Elemento = tipo_Elemento;
+	}
+	
+	
+
+	public Elemento(int id_elemento, String nombre, int stock, String descripcion, String autor) {
 		super();
 		this.id_elemento = id_elemento;
 		this.nombre = nombre;
 		this.stock = stock;
 		this.descripcion = descripcion;
 		this.autor = autor;
-		this.id_tipoelemento = id_tipoelemento;
+		
 	}
 	
 	public Elemento(){
 		
 	}
+
+	
 	
 	
 

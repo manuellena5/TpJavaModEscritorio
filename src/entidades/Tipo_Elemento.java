@@ -36,4 +36,19 @@ public class Tipo_Elemento {
 		
 	}
 	
+	@Override
+	public String toString(){
+		return this.getNombre();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		return (o instanceof Tipo_Elemento && ((Tipo_Elemento)o).getId_tipoelemento()==this.getId_tipoelemento());
+	}
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId_tipoelemento()).hashCode();
+	}
+	
 }

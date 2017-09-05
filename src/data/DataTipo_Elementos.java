@@ -102,7 +102,7 @@ public class DataTipo_Elementos {
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into tipo_elementos(id_tipoelemento, nombre,cantMaxReservasPend) values (?,?,?)",
+						"insert into tipo_elementos(nombre,cantMaxReservasPend) values (?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				

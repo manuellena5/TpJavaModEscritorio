@@ -3,13 +3,16 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataCategorias;
+import data.DataTipo_Elementos;
 import entidades.Categoria;
+import entidades.Tipo_Elemento;
 
 public class CategoriasLogic {
 
 	
 	private Categoria categorias;
 	private DataCategorias categoriasD;
+	
 	ArrayList<Categoria> lista = new ArrayList<Categoria>();
 	
 	
@@ -107,5 +110,7 @@ public class CategoriasLogic {
 			this.add(cat);
 			
 		}
+		
+		
 	
 }
