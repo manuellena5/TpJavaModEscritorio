@@ -8,7 +8,10 @@ public class Elemento {
 	private String descripcion;
 	private String autor;
 	private String genero;
+
 	private Tipo_Elemento Tipo_Elemento;
+
+
 	
 	public String getGenero() {
 		return genero;
@@ -18,8 +21,6 @@ public class Elemento {
 		this.genero = genero;
 	}
 
-	
-	
 	
 	public int getStock() {
 		return stock;

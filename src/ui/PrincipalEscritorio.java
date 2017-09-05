@@ -141,8 +141,11 @@ public class PrincipalEscritorio extends JFrame {
 		JMenuItem mntmAbmTiposElementos = new JMenuItem("ABM Tipos Elementos");
 		mntmAbmTiposElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmTipoElementos();
+
+				ShowTipo_Elementos();
+
 			}
+
 		});
 		
 		
@@ -165,7 +168,7 @@ public class PrincipalEscritorio extends JFrame {
 		JMenuItem mntmAbmElementos = new JMenuItem("ABM Elementos");
 		mntmAbmElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmElementos();
+				ShowElementos();
 			}
 
 			
@@ -237,10 +240,16 @@ public class PrincipalEscritorio extends JFrame {
 	}*/
 	
 	
-	//para tipos elementos
-	
-		
-		/*private void ShowListadoTiposElementos() {
+
+	private void ShowTipo_Elementos(){
+			
+			Tipo_Elementos frm3 = new Tipo_Elementos();
+			desktopPane.add(frm3);
+			frm3.setVisible(true);
+		} 
+
+	/*	private void ShowListadoTiposElementos() {
+>>>>>>> branch 'master' of https://github.com/manuellena5/proyectojava.git
 			ListadoTiposElementos lte = new ListadoTiposElementos();
 			desktopPane.add(lte);
 			lte.setVisible(true);
@@ -250,15 +259,21 @@ public class PrincipalEscritorio extends JFrame {
 		
 		//para elementos
 		
-		private void ShowAbmElementos(){
-					
-		AbmElementos frm4 = new AbmElementos();
+
+		private void ShowElementos(){
+				
+		Elementos frm4 = new Elementos();
 		desktopPane.add(frm4);
 		frm4.setVisible(true);
 		} 
+
 		
 		/*
 		private void ShowListadoElementos() {
+=======
+				
+		/* private void ShowListadoElementos() {
+>>>>>>> branch 'master' of https://github.com/manuellena5/proyectojava.git
 		ListadoElementos le = new ListadoElementos();
 		desktopPane.add(le);
 		le.setVisible(true);

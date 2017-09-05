@@ -45,9 +45,6 @@ public class ListadoPersonas extends JInternalFrame {
 	private TableRowSorter trsFiltro;
 	
 	
-
-	
-	
 	public ListadoPersonas() {
 		
 		setTitle("Listado de personas");
