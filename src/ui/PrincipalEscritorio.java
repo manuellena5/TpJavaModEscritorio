@@ -139,13 +139,13 @@ public class PrincipalEscritorio extends JFrame {
 		menuBar.add(mnTiposElementos);
 		
 		JMenuItem mntmAbmTiposElementos = new JMenuItem("ABM Tipos Elementos");
-		/*mntmAbmTiposElementos.addActionListener(new ActionListener() {
+		mntmAbmTiposElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmTiposElementos();
+				ShowTipo_Elementos();
 			}
 
 			
-		});*/
+		});
 		mnTiposElementos.add(mntmAbmTiposElementos);
 		
 		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos Elementos");
@@ -163,13 +163,13 @@ public class PrincipalEscritorio extends JFrame {
 		menuBar.add(mnElementos);
 		
 		JMenuItem mntmAbmElementos = new JMenuItem("ABM Elementos");
-		/*mntmAbmElementos.addActionListener(new ActionListener() {
+		mntmAbmElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmElementos();
+				ShowElementos();
 			}
 
 			
-		});*/
+		});
 		mnElementos.add(mntmAbmElementos);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
@@ -231,14 +231,14 @@ public class PrincipalEscritorio extends JFrame {
 	
 	
 	//para tipos elementos
-	/* private void ShowAbmTiposElementos(){
+	private void ShowTipo_Elementos(){
 			
-			AbmTiposElementos frm3 = new AbmTiposElementos();
+			Tipo_Elementos frm3 = new Tipo_Elementos();
 			desktopPane.add(frm3);
 			frm3.setVisible(true);
 		} 
 		
-		private void ShowListadoTiposElementos() {
+	/*	private void ShowListadoTiposElementos() {
 			ListadoTiposElementos lte = new ListadoTiposElementos();
 			desktopPane.add(lte);
 			lte.setVisible(true);
@@ -248,14 +248,14 @@ public class PrincipalEscritorio extends JFrame {
 		
 		//para elementos
 		
-		/*private void ShowAbmElementos(){
+		private void ShowElementos(){
 					
-		AbmElementos frm4 = new AbmElementos();
+		Elementos frm4 = new Elementos();
 		desktopPane.add(frm4);
 		frm4.setVisible(true);
 		} 
 				
-		private void ShowListadoElementos() {
+		/* private void ShowListadoElementos() {
 		ListadoElementos le = new ListadoElementos();
 		desktopPane.add(le);
 		le.setVisible(true);

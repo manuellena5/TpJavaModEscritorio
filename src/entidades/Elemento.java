@@ -8,6 +8,8 @@ public class Elemento {
 	private String descripcion;
 	private String autor;
 	private String genero;
+	private int id_tipoelemento;
+	
 	public String getGenero() {
 		return genero;
 	}
@@ -15,9 +17,6 @@ public class Elemento {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-
-	private int id_tipoelemento;
-	
 	
 	public int getStock() {
 		return stock;
