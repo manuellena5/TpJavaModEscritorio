@@ -3,7 +3,7 @@ package entidades;
 import java.sql.Date;
 import java.sql.Time;
 
-public class Reservas{
+public class Reserva{
 
 	private int id_persona;
 	private int id_elemento;
@@ -57,7 +57,7 @@ public class Reservas{
 	}
 	
 	
-	public Reservas(int id_persona, int id_elemento, Date fecha_registro, Date fecha_inicio,
+	public Reserva(int id_persona, int id_elemento, Date fecha_registro, Date fecha_inicio,
 			Date fecha_fin, String detalle, String estado) {
 		super();
 		this.id_persona = id_persona;
@@ -69,7 +69,7 @@ public class Reservas{
 		this.estado = estado;
 	}
 	
-	public Reservas(){
+	public Reserva(){
 		
 	}
 	

@@ -10,18 +10,18 @@ import java.security.KeyStore.ProtectionParameter;
 public class DataReservas {
 	
 	
-	public ArrayList<Reservas> getAll() throws Exception{
+	public ArrayList<Reserva> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Reservas> reservas = new ArrayList<Reservas>();
+				ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
 					  rs = stmt.executeQuery("select * from reservas");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Reservas res = new Reservas();
+								Reserva res = new Reserva();
 								res.setId_persona(rs.getInt("id_persona"));
 								res.setId_elemento(rs.getInt("id_elemento"));
 								res.setFecha_registro(rs.getDate("fecha_registro"));
@@ -57,9 +57,9 @@ public class DataReservas {
 				}
  
 	
-	public Reservas getByIdPersona(Reservas reservas) throws Exception{
+	public Reserva getByIdPersona(Reserva reservas) throws Exception{
 	
-			Reservas res = null;
+			Reserva res = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
@@ -73,7 +73,7 @@ public class DataReservas {
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					res = new Reservas();
+					res = new Reserva();
 					res.setId_elemento(rs.getInt("id_persona"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
 					res.setId_elemento(rs.getInt("id_elemento"));
 					res.setFecha_registro(rs.getDate("fecha_registro"));
@@ -105,7 +105,7 @@ public class DataReservas {
 	
 	
 		
-		public void add(Reservas res) throws Exception{
+		public void add(Reserva res) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
@@ -140,7 +140,7 @@ public class DataReservas {
 			}
 		}
 		
-		public void update(Reservas res) throws Exception{
+		public void update(Reserva res) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
@@ -168,7 +168,7 @@ public class DataReservas {
 			}
 		} 
 		
-		public void delete(Reservas res) throws Exception{
+		public void delete(Reserva res) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {

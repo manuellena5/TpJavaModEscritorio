@@ -104,13 +104,13 @@ public class PrincipalEscritorio extends JFrame {
 		menuBar.add(mnReservas);
 		
 		JMenuItem mntmABMReservas = new JMenuItem("ABM Reservas");
-		/*mntmABMReservas.addActionListener(new ActionListener() {
+		mntmABMReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmReservas();
+				ShowReservas();
 			}
 
 			
-		});*/
+		});
 		mnReservas.add(mntmABMReservas);
 		
 		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
@@ -218,14 +218,14 @@ public class PrincipalEscritorio extends JFrame {
 	
 	
 	//para reservas
-	/*private void ShowAbmReservas(){
+	private void ShowReservas(){
 		
-		AbmReservas frm2 = new AbmReservas();
+		Reservas frm2 = new Reservas();
 		desktopPane.add(frm2);
 		frm2.setVisible(true);
 	}
 	
-	private void ShowListadoReservas() {
+	/*private void ShowListadoReservas() {
 		ListadoReservas lr = new ListadoReservas();
 		desktopPane.add(lr);
 		lr.setVisible(true);
