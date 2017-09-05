@@ -2,7 +2,9 @@ package negocio;
 
 import java.util.ArrayList;
 
+import data.DataCategorias;
 import data.DataPersona;
+import entidades.Categoria;
 import entidades.Persona;
 
 public class PersonaLogic {
@@ -10,6 +12,7 @@ public class PersonaLogic {
 	
 	private Persona per;
 	private DataPersona perD;
+	private DataCategorias perC;
 	ArrayList<Persona> lista = new ArrayList<Persona>();
 	
 	
@@ -17,6 +20,7 @@ public class PersonaLogic {
 	
 		per = new Persona(); 
 		perD = new DataPersona();
+		perC = new DataCategorias();
 		
 	}
 
@@ -106,6 +110,10 @@ public class PersonaLogic {
 			this.EliminarPersona(p);
 			this.add(p);
 			
+		}
+		
+		public ArrayList<Categoria> getCategorias() throws Exception{
+			return perC.getAll();
 		}
 	
 }

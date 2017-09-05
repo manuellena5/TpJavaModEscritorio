@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import entidades.Persona;
+import entidades.Categoria;
 import negocio.PersonaLogic;
 
 import javax.swing.GroupLayout;
@@ -25,47 +26,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-public class AbmEscritorio extends JInternalFrame {
+public class AbmPersonas extends JInternalFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
 	private JTextField txtDni;
-	private PersonaLogic perlog;
 	private JCheckBox chkHabilitado;
 	private JTextField txtusuario;
 	private JPasswordField txtpassword;
 	private JTextField txtid;
 	private JComboBox cboCategoria;
 
-	public PersonaLogic getPerlog() {
-		return perlog;
-	}
+	PersonaLogic perl = new PersonaLogic();
 
-	public void setPerlog(PersonaLogic perlog) {
-		this.perlog = perlog;
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AbmEscritorio frame = new AbmEscritorio();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public AbmEscritorio() {
+	
+	public AbmPersonas() {
 		setTitle("ABM personas");
 		setMaximizable(true);
 		setClosable(true);
@@ -75,7 +51,6 @@ public class AbmEscritorio extends JInternalFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		perlog = new PersonaLogic();
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		
@@ -171,7 +146,7 @@ public class AbmEscritorio extends JInternalFrame {
 		txtid.setColumns(10);
 		
 		cboCategoria = new JComboBox();
-		cboCategoria.setModel(new DefaultComboBoxModel(new String[] {"Usuario", "Administrador", "Encargado"}));
+		
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		
@@ -266,12 +241,22 @@ public class AbmEscritorio extends JInternalFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+		cargarListas();
+	}
+	
+	private void cargarListas() {
+		try {
+			this.cboCategoria.setModel(new DefaultComboBoxModel(perl.getCategorias().toArray()));
+			this.cboCategoria.setSelectedIndex(-1);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
 	}
 	
 	protected void BuscarPersona() throws Exception{
 		
 		try {
-			this.MapearAform(perlog.GetByDni(this.MapearDesdeform()));
+			this.MapearAform(perl.GetByDni(this.MapearDesdeform()));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -282,7 +267,7 @@ public class AbmEscritorio extends JInternalFrame {
 		
 		Persona p = this.MapearDesdeform();
 		try{
-			perlog.add(p);
+			perl.add(p);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -295,7 +280,7 @@ public class AbmEscritorio extends JInternalFrame {
 		 
 		 
 		 try{
-				perlog.delete(this.MapearDesdeform());
+				perl.delete(this.MapearDesdeform());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
 			}
@@ -306,7 +291,7 @@ public class AbmEscritorio extends JInternalFrame {
 	protected void EditarPersona() throws Exception{
 		
 		try{
-			perlog.update(this.MapearDesdeform());
+			perl.update(this.MapearDesdeform());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -322,7 +307,7 @@ public class AbmEscritorio extends JInternalFrame {
 		this.chkHabilitado.setSelected(per.isHabilitado());
 		this.txtusuario.setText(per.getUsuario());
 		this.txtpassword.setText(per.getPassword());
-		/*this.cboCategoria.setSelectedItem(per.getCategoria()); */
+		this.cboCategoria.setSelectedItem(per.getCategoria().getDescripcion());
 		this.txtid.setText(String.valueOf(per.getId_usuario()));
 		
 
@@ -341,9 +326,9 @@ public class AbmEscritorio extends JInternalFrame {
 		per.setHabilitado(this.chkHabilitado.isSelected());
 		per.setUsuario(this.txtusuario.getText());
 		per.setPassword(this.txtpassword.getText());
-		/*if (cboCategoria.getSelectedIndex() != -1){
+		if (cboCategoria.getSelectedIndex() != -1){
 			per.setCategoria((Categoria)this.cboCategoria.getSelectedItem());
-		}*/
+		}
 		
 		return per;
 		

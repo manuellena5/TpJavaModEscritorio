@@ -1,6 +1,6 @@
 package entidades;
 
-public class Tipo_Elementos {
+public class Tipo_Elemento {
 
 	private int id_tipoelemento;
 	private String nombre;
@@ -24,14 +24,14 @@ public class Tipo_Elementos {
 	public void setCantMaxReservasPend(int cantMaxReservasPend) {
 		this.cantMaxReservasPend = cantMaxReservasPend;
 	}
-	public Tipo_Elementos(int id_tipoelemento, String nombre, int cantMaxReservasPend) {
+	public Tipo_Elemento(int id_tipoelemento, String nombre, int cantMaxReservasPend) {
 		super();
 		this.id_tipoelemento = id_tipoelemento;
 		this.nombre = nombre;
 		this.cantMaxReservasPend = cantMaxReservasPend;
 	}
 	
-	public Tipo_Elementos()
+	public Tipo_Elemento()
 	{
 		
 	}

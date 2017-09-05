@@ -17,11 +17,12 @@ public class DataPersona {
 				ArrayList<Persona> pers = new ArrayList<Persona>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from personas");
+					  rs = stmt.executeQuery("select * from personas p left join categorias c on c.id_categoria = p.id_categoria ");
 					  
 				if (rs != null) {
 						while (rs.next()) {
 								Persona p = new Persona();
+								p.setCategoria(new Categoria());
 								p.setId_usuario(rs.getInt("id_persona"));
 								p.setNombre(rs.getString("nombre"));
 								p.setApellido(rs.getString("apellido"));
@@ -29,6 +30,9 @@ public class DataPersona {
 								p.setHabilitado(rs.getBoolean("estado"));
 								p.setUsuario(rs.getString("usuario"));
 								p.setPassword(rs.getString("password"));
+								
+								p.getCategoria().setId_Categoria(rs.getInt("id_categoria"));
+								p.getCategoria().setDescripcion(rs.getString("descripcion"));
 								
 								pers.add(p);
 										}
@@ -66,20 +70,23 @@ public class DataPersona {
 			try {
 				 /*al poner el signo de pregunta el driver se da cuenta que en ese lugar va a ir un parametro*/
 				stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-						"select id_persona, nombre, apellido, dni, estado,usuario,password from personas where dni=?");
+						"select id_persona, nombre, apellido, dni, estado,usuario,password,id_categoria,descripcion from personas p left join categorias c on c.id_categoria=p.id_categoria where dni=?");
 						
 				stmt.setString(1, per.getDni());
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
 					p = new Persona();
-					p.setId_usuario(rs.getInt("id_persona"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
+					p.setCategoria(new Categoria());
+					p.setId_usuario(rs.getInt("id_persona"));  
 					p.setNombre(rs.getString("nombre"));
 					p.setApellido(rs.getString("apellido"));
 					p.setDni(rs.getString("dni"));
 					p.setHabilitado(rs.getBoolean("estado"));
 					p.setUsuario(rs.getString("usuario"));
 					p.setPassword(rs.getString("password"));
+					p.getCategoria().setId_Categoria(rs.getInt("id_categoria"));
+					p.getCategoria().setDescripcion(rs.getString("descripcion"));
 				
 				}
 				
@@ -110,7 +117,7 @@ public class DataPersona {
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into personas(nombre, apellido,dni,usuario,password, estado) values (?,?,?,?,?,?)",
+						"insert into personas(nombre, apellido,dni,usuario,password, estado,id_categoria) values (?,?,?,?,?,?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				
@@ -120,6 +127,7 @@ public class DataPersona {
 				stmt.setString(4, p.getUsuario());
 				stmt.setString(5, p.getPassword());
 				stmt.setBoolean(6, p.isHabilitado());
+				stmt.setInt(7, p.getCategoria().getId_Categoria());
 				stmt.executeUpdate();
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
@@ -142,7 +150,7 @@ public class DataPersona {
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"update personas set nombre=?, apellido=?,dni=?,usuario=?,password=?,estado=? where id_persona=?");
+						"update personas set nombre=?, apellido=?,dni=?,usuario=?,password=?,estado=?,id_categoria=? where id_persona=?");
 				
 				stmt.setString(1, p.getNombre());
 				stmt.setString(2, p.getApellido());
@@ -151,6 +159,7 @@ public class DataPersona {
 				stmt.setString(5, p.getPassword());
 				stmt.setBoolean(6, p.isHabilitado());
 				stmt.setInt(7, p.getId_usuario());
+				stmt.setInt(8, p.getCategoria().getId_Categoria());
 				stmt.execute();
 				
 				

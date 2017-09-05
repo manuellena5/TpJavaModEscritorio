@@ -7,9 +7,17 @@ public class Persona {
 	private String apellido;
 	private String dni;
 	private boolean habilitado;
-	private int id_categoria;
 	private String usuario;
 	private String password;
+	private Categoria categoria;
+	
+	public Categoria getCategoria(){
+		return categoria;
+	}
+	
+	public void setCategoria(Categoria categoria){
+		this.categoria=categoria;
+	}
 	
 
 	public String getUsuario() {
@@ -61,26 +69,20 @@ public class Persona {
 		this.habilitado = habilitado;
 	}
 	
-	public int getId_categoria() {
-		return id_categoria;
-	}
-
-	public void setId_categoria(int id_categoria) {
-		this.id_categoria = id_categoria;
-	}
+	
 	
 	public Persona(){
 		
 	}
 	
 	
-	public Persona(String nombre, String apellido, String dni, boolean habilitado, int id_categoria, String usuario, String password) {
+	public Persona(String nombre, String apellido, String dni, boolean habilitado, String usuario, String password) {
 		super();
 		this.setNombre(nombre);
 		this.setApellido(apellido);
 		this.setDni(dni);
 		this.setHabilitado(habilitado);
-		this.setId_categoria(id_categoria);
+		
 		this.setPassword(password);
 		this.setUsuario(usuario);
 		}

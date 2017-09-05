@@ -10,19 +10,19 @@ import java.security.KeyStore.ProtectionParameter;
 public class DataCategorias {
 	
 	
-	public ArrayList<Categorias> getAll() throws Exception{
+	public ArrayList<Categoria> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Categorias> categorias = new ArrayList<Categorias>();
+				ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
 					  rs = stmt.executeQuery("select * from categorias");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Categorias cat = new Categorias();
-								cat.setId_categoria(rs.getInt("id_categoria"));
+								Categoria cat = new Categoria();
+								cat.setId_Categoria(rs.getInt("id_categoria"));
 								cat.setDescripcion(rs.getString("descripcion"));
 								
 								categorias.add(cat);
@@ -52,9 +52,9 @@ public class DataCategorias {
 				}
  
 	
-	public Categorias getByDescripcion(Categorias categorias) throws Exception{
+	public Categoria getByDescripcion(Categoria categorias) throws Exception{
 	
-			Categorias cat = null;
+			Categoria cat = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
@@ -67,8 +67,8 @@ public class DataCategorias {
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					cat = new Categorias();
-					cat.setId_categoria(rs.getInt("id_categoria"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
+					cat = new Categoria();
+					cat.setId_Categoria(rs.getInt("id_categoria"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
 					cat.setDescripcion(rs.getString("descripcion"));
 				
 				}
@@ -94,7 +94,7 @@ public class DataCategorias {
 	
 	
 		
-		public void add(Categorias cat) throws Exception{
+		public void add(Categoria cat) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
@@ -110,7 +110,7 @@ public class DataCategorias {
 				
 				keyResultSet=stmt.getGeneratedKeys();
 				if(keyResultSet!=null && keyResultSet.next()){
-					cat.setId_categoria(keyResultSet.getInt(1));
+					cat.setId_Categoria(keyResultSet.getInt(1));
 				}
 			} catch (SQLException | AppDataException e) {
 				throw e;
@@ -124,7 +124,7 @@ public class DataCategorias {
 			}
 		}
 		
-		public void update(Categorias cat) throws Exception{
+		public void update(Categoria cat) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
@@ -148,14 +148,14 @@ public class DataCategorias {
 			}
 		} 
 		
-		public void delete(Categorias cat) throws Exception{
+		public void delete(Categoria cat) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
 						"delete from categorias where id_categoria=?");
 				
-				stmt.setInt(1, cat.getId_categoria());
+				stmt.setInt(1, cat.getId_Categoria());
 				stmt.execute();
 				
 				

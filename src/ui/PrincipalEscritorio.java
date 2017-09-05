@@ -186,7 +186,7 @@ public class PrincipalEscritorio extends JFrame {
 	//para personas
 	private void ShowAbmPersonas(){
 		
-		AbmEscritorio frm = new AbmEscritorio();
+		AbmPersonas frm = new AbmPersonas();
 		desktopPane.add(frm);
 		frm.setVisible(true);
 	}

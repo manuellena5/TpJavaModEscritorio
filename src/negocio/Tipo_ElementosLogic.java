@@ -3,44 +3,44 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataTipo_Elementos;
-import entidades.Tipo_Elementos;
+import entidades.Tipo_Elemento;
 
 public class Tipo_ElementosLogic {
 
 	
-	private Tipo_Elementos tipoElementos;
+	private Tipo_Elemento tipoElementos;
 	private DataTipo_Elementos tipoElementosD;
-	ArrayList<Tipo_Elementos> lista = new ArrayList<Tipo_Elementos>();
+	ArrayList<Tipo_Elemento> lista = new ArrayList<Tipo_Elemento>();
 	
 	
 	public Tipo_ElementosLogic(){
 	
-		tipoElementos = new Tipo_Elementos(); 
+		tipoElementos = new Tipo_Elemento(); 
 		tipoElementosD = new DataTipo_Elementos();
 		
 	}
 
 
-	public void add(Tipo_Elementos te) throws Exception{
+	public void add(Tipo_Elemento te) throws Exception{
 	
 		
 		tipoElementosD.add(te);
 	
 	}
 	
-	public void delete(Tipo_Elementos te)throws Exception{
+	public void delete(Tipo_Elemento te)throws Exception{
 		//this.pers.remove(this.getByNombre(te));
 		this.tipoElementosD.delete(te);
 	}
 	
-	public void update(Tipo_Elementos te)throws Exception{
+	public void update(Tipo_Elemento te)throws Exception{
 		
 		this.tipoElementosD.update(te);
 	}
 
-	public Tipo_Elementos GetOne (String doc){
+	public Tipo_Elemento GetOne (String doc){
 	
-		for (Tipo_Elementos tipoElementos : lista) {
+		for (Tipo_Elemento tipoElementos : lista) {
 			if (tipoElementos.getNombre() == doc ) {
 				return tipoElementos;
 			}
@@ -50,7 +50,7 @@ public class Tipo_ElementosLogic {
 	}	
 
 	
-	public Tipo_Elementos GetByNombre(Tipo_Elementos te) throws Exception{
+	public Tipo_Elemento GetByNombre(Tipo_Elemento te) throws Exception{
 		
 		
 		return tipoElementosD.getByNombre(te);
@@ -65,9 +65,9 @@ public class Tipo_ElementosLogic {
 	}
 	
 	
-	public Tipo_Elementos GetByNombre (String nombre) throws Exception{
+	public Tipo_Elemento GetByNombre (String nombre) throws Exception{
 		
-		Tipo_Elementos te=new Tipo_Elementos();
+		Tipo_Elemento te=new Tipo_Elemento();
 		te.setNombre(nombre);
 		return GetByNombre(te);
 		
@@ -84,7 +84,7 @@ public class Tipo_ElementosLogic {
 	
 	
 	
-	public void EliminarTipoElemento(Tipo_Elementos te) throws Exception{
+	public void EliminarTipoElemento(Tipo_Elemento te) throws Exception{
 	
 	 lista.remove(this.GetByNombre(te));
 		
@@ -94,14 +94,14 @@ public class Tipo_ElementosLogic {
 
 
 
-		public ArrayList<Tipo_Elementos> GetAll() throws Exception{
+		public ArrayList<Tipo_Elemento> GetAll() throws Exception{
 	
 			return tipoElementosD.getAll();
 			
 		}
 
 
-		public void ModificarTipoElemento(Tipo_Elementos te) throws Exception {
+		public void ModificarTipoElemento(Tipo_Elemento te) throws Exception {
 			
 			this.EliminarTipoElemento(te);
 			this.add(te);

@@ -10,18 +10,18 @@ import java.security.KeyStore.ProtectionParameter;
 public class DataTipo_Elementos {
 	
 	
-	public ArrayList<Tipo_Elementos> getAll() throws Exception{
+	public ArrayList<Tipo_Elemento> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Tipo_Elementos> tipoElementos = new ArrayList<Tipo_Elementos>();
+				ArrayList<Tipo_Elemento> tipoElementos = new ArrayList<Tipo_Elemento>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
 					  rs = stmt.executeQuery("select * from tipo_elementos");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Tipo_Elementos te = new Tipo_Elementos();
+								Tipo_Elemento te = new Tipo_Elemento();
 								te.setId_tipoelemento(rs.getInt("id_tipoelemento"));
 								te.setNombre(rs.getString("nombre"));
 								te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
@@ -53,9 +53,9 @@ public class DataTipo_Elementos {
 				}
  
 	
-	public Tipo_Elementos getByNombre(Tipo_Elementos tipoElementos) throws Exception{
+	public Tipo_Elemento getByNombre(Tipo_Elemento tipoElementos) throws Exception{
 	
-			Tipo_Elementos te = null;
+			Tipo_Elemento te = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
@@ -68,7 +68,7 @@ public class DataTipo_Elementos {
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					te = new Tipo_Elementos();
+					te = new Tipo_Elemento();
 					te.setId_tipoelemento(rs.getInt("id_tipoelemento"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
 					te.setNombre(rs.getString("nombre"));
 					te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
@@ -96,7 +96,7 @@ public class DataTipo_Elementos {
 	
 	
 		
-		public void add(Tipo_Elementos te) throws Exception{
+		public void add(Tipo_Elemento te) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
@@ -126,7 +126,7 @@ public class DataTipo_Elementos {
 			}
 		}
 		
-		public void update(Tipo_Elementos te) throws Exception{
+		public void update(Tipo_Elemento te) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
@@ -151,7 +151,7 @@ public class DataTipo_Elementos {
 			}
 		} 
 		
-		public void delete(Tipo_Elementos te) throws Exception{
+		public void delete(Tipo_Elemento te) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {

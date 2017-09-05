@@ -1,6 +1,6 @@
 package entidades;
 
-public class Elementos {
+public class Elemento {
 	
 	private int id_elemento;
 	private String nombre;
@@ -61,7 +61,7 @@ public class Elementos {
 		this.nombre = nombre;
 	}
 
-	public Elementos(int id_elemento, String nombre, int stock, String descripcion, String autor, int id_tipoelemento) {
+	public Elemento(int id_elemento, String nombre, int stock, String descripcion, String autor, int id_tipoelemento) {
 		super();
 		this.id_elemento = id_elemento;
 		this.nombre = nombre;
@@ -71,7 +71,7 @@ public class Elementos {
 		this.id_tipoelemento = id_tipoelemento;
 	}
 	
-	public Elementos(){
+	public Elemento(){
 		
 	}
 	

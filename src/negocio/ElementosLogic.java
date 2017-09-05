@@ -3,44 +3,44 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataElementos;
-import entidades.Elementos;
+import entidades.Elemento;
 
 public class ElementosLogic {
 
 	
-	private Elementos elementos;
+	private Elemento elementos;
 	private DataElementos elementosD;
-	ArrayList<Elementos> lista = new ArrayList<Elementos>();
+	ArrayList<Elemento> lista = new ArrayList<Elemento>();
 	
 	
 	public ElementosLogic(){
 	
-		elementos = new Elementos(); 
+		elementos = new Elemento(); 
 		elementosD = new DataElementos();
 		
 	}
 
 
-	public void add(Elementos el) throws Exception{
+	public void add(Elemento el) throws Exception{
 	
 		
 		elementosD.add(el);
 	
 	}
 	
-	public void delete(Elementos el)throws Exception{
+	public void delete(Elemento el)throws Exception{
 		//this.pers.remove(this.getByDni(el));
 		this.elementosD.delete(el);
 	}
 	
-	public void update(Elementos el)throws Exception{
+	public void update(Elemento el)throws Exception{
 		
 		this.elementosD.update(el);
 	}
 
-	public Elementos GetOne (String doc){
+	public Elemento GetOne (String doc){
 	
-		for (Elementos elementos : lista) {
+		for (Elemento elementos : lista) {
 			if (elementos.getNombre() == doc ) {
 				return elementos;
 			}
@@ -50,7 +50,7 @@ public class ElementosLogic {
 	}	
 
 	
-	public Elementos GetByNombre(Elementos el) throws Exception{
+	public Elemento GetByNombre(Elemento el) throws Exception{
 		
 		
 		return elementosD.getByNombre(el);
@@ -65,9 +65,9 @@ public class ElementosLogic {
 	}
 	
 	
-	public Elementos GetByNombre (String nombre) throws Exception{
+	public Elemento GetByNombre (String nombre) throws Exception{
 		
-		Elementos el=new Elementos();
+		Elemento el=new Elemento();
 		el.setNombre(nombre);
 		return GetByNombre(el);
 		
@@ -84,7 +84,7 @@ public class ElementosLogic {
 	
 	
 	
-	public void EliminarElemento(Elementos el) throws Exception{
+	public void EliminarElemento(Elemento el) throws Exception{
 	
 	 lista.remove(this.GetByNombre(el));
 		
@@ -94,14 +94,14 @@ public class ElementosLogic {
 
 
 
-		public ArrayList<Elementos> GetAll() throws Exception{
+		public ArrayList<Elemento> GetAll() throws Exception{
 	
 			return elementosD.getAll();
 			
 		}
 
 
-		public void ModificarElemento(Elementos el) throws Exception {
+		public void ModificarElemento(Elemento el) throws Exception {
 			
 			this.EliminarElemento(el);
 			this.add(el);

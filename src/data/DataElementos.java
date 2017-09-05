@@ -10,18 +10,18 @@ import java.security.KeyStore.ProtectionParameter;
 public class DataElementos {
 	
 	
-	public ArrayList<Elementos> getAll() throws Exception{
+	public ArrayList<Elemento> getAll() throws Exception{
 				
 				Statement stmt=null;
 				ResultSet rs=null;
-				ArrayList<Elementos> elementos = new ArrayList<Elementos>();
+				ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
 					  rs = stmt.executeQuery("select * from elementos");
 					  
 				if (rs != null) {
 						while (rs.next()) {
-								Elementos el = new Elementos();
+								Elemento el = new Elemento();
 								el.setId_elemento(rs.getInt("id_elemento"));
 								el.setNombre(rs.getString("nombre"));
 								el.setStock(rs.getInt("stock"));
@@ -57,9 +57,9 @@ public class DataElementos {
 				}
  
 	
-	public Elementos getByNombre(Elementos elementos) throws Exception{
+	public Elemento getByNombre(Elemento elementos) throws Exception{
 	
-			Elementos el = null;
+			Elemento el = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			
@@ -73,7 +73,7 @@ public class DataElementos {
 				rs = stmt.executeQuery();
 				
 				if (rs!=null && rs.next()) {
-					el = new Elementos();
+					el = new Elemento();
 					el.setId_elemento(rs.getInt("id_elemento"));   /* el dato que va como argumento tiene que ser igual al que esta en la base? */
 					el.setNombre(rs.getString("nombre"));
 					el.setStock(rs.getInt("stock"));
@@ -105,7 +105,7 @@ public class DataElementos {
 	
 	
 		
-		public void add(Elementos el) throws Exception{
+		public void add(Elemento el) throws Exception{
 			PreparedStatement stmt=null;
 			ResultSet keyResultSet=null;
 			try {
@@ -140,7 +140,7 @@ public class DataElementos {
 			}
 		}
 		
-		public void update(Elementos el) throws Exception{
+		public void update(Elemento el) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {
@@ -169,7 +169,7 @@ public class DataElementos {
 			}
 		} 
 		
-		public void delete(Elementos el) throws Exception{
+		public void delete(Elemento el) throws Exception{
 			PreparedStatement stmt=null;
 			
 			try {

@@ -3,44 +3,44 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataCategorias;
-import entidades.Categorias;
+import entidades.Categoria;
 
 public class CategoriasLogic {
 
 	
-	private Categorias categorias;
+	private Categoria categorias;
 	private DataCategorias categoriasD;
-	ArrayList<Categorias> lista = new ArrayList<Categorias>();
+	ArrayList<Categoria> lista = new ArrayList<Categoria>();
 	
 	
 	public CategoriasLogic(){
 	
-		categorias = new Categorias(); 
+		categorias = new Categoria(); 
 		categoriasD = new DataCategorias();
 		
 	}
 
 
-	public void add(Categorias cat) throws Exception{
+	public void add(Categoria cat) throws Exception{
 	
 		
 		categoriasD.add(cat);
 	
 	}
 	
-	public void delete(Categorias cat)throws Exception{
+	public void delete(Categoria cat)throws Exception{
 		//this.pers.remove(this.getByDescripcion(el));
 		this.categoriasD.delete(cat);
 	}
 	
-	public void update(Categorias cat)throws Exception{
+	public void update(Categoria cat)throws Exception{
 		
 		this.categoriasD.update(cat);
 	}
 
-	public Categorias GetOne (String doc){
+	public Categoria GetOne (String doc){
 	
-		for (Categorias categorias : lista) {
+		for (Categoria categorias : lista) {
 			if (categorias.getDescripcion() == doc ) {
 				return categorias;
 			}
@@ -50,7 +50,7 @@ public class CategoriasLogic {
 	}	
 
 	
-	public Categorias GetByDescripcion(Categorias cat) throws Exception{
+	public Categoria GetByDescripcion(Categoria cat) throws Exception{
 		
 		
 		return categoriasD.getByDescripcion(cat);
@@ -65,9 +65,9 @@ public class CategoriasLogic {
 	}
 	
 	
-	public Categorias GetByDescripcion (String descripcion) throws Exception{
+	public Categoria GetByDescripcion (String descripcion) throws Exception{
 		
-		Categorias cat=new Categorias();
+		Categoria cat=new Categoria();
 		cat.setDescripcion(descripcion);
 		return GetByDescripcion(cat);
 		
@@ -84,7 +84,7 @@ public class CategoriasLogic {
 	
 	
 	
-	public void EliminarCategoria(Categorias cat) throws Exception{
+	public void EliminarCategoria(Categoria cat) throws Exception{
 	
 	 lista.remove(this.GetByDescripcion(cat));
 		
@@ -94,14 +94,14 @@ public class CategoriasLogic {
 
 
 
-		public ArrayList<Categorias> GetAll() throws Exception{
+		public ArrayList<Categoria> GetAll() throws Exception{
 	
 			return categoriasD.getAll();
 			
 		}
 
 
-		public void ModificarCategoria(Categorias cat) throws Exception {
+		public void ModificarCategoria(Categoria cat) throws Exception {
 			
 			this.EliminarCategoria(cat);
 			this.add(cat);
