@@ -114,13 +114,13 @@ public class PrincipalEscritorio extends JFrame {
 		mnReservas.add(mntmABMReservas);
 		
 		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
-		/*mntmListadoReservas.addActionListener(new ActionListener() {
+		mntmListadoReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoReservas();
 			}
 
 			
-		});*/
+		});
 		mnReservas.add(mntmListadoReservas);
 		
 		JMenuItem mntmMisReservas = new JMenuItem("Mis Reservas");
@@ -152,12 +152,12 @@ public class PrincipalEscritorio extends JFrame {
 		mnTiposElementos.add(mntmAbmTiposElementos);
 		
 		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos Elementos");
-		/*mntmListadoTiposElementos.addActionListener(new ActionListener() {
+		mntmListadoTiposElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoTiposElementos();
 			}
 			
-		});*/
+		});
 		mnTiposElementos.add(mntmListadoTiposElementos);
 		
 		
@@ -176,12 +176,12 @@ public class PrincipalEscritorio extends JFrame {
 		mnElementos.add(mntmAbmElementos);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
-		/*mntmListadoElementos.addActionListener(new ActionListener() {
+		mntmListadoElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoElementos();
 			}
 			
-		});*/
+		});
 		mnElementos.add(mntmListadoElementos);
 		
 	}
@@ -225,14 +225,14 @@ public class PrincipalEscritorio extends JFrame {
 		frm2.setVisible(true);
 	}
 	
-	/*private void ShowListadoReservas() {
+	private void ShowListadoReservas() {
 		ListadoReservas lr = new ListadoReservas();
 		desktopPane.add(lr);
 		lr.setVisible(true);
 		
 	}
 	
-	private void ShowMisReservas() {
+	/*private void ShowMisReservas() {
 		MisReservas mr = new MisReservas();
 		desktopPane.add(mr);
 		mr.setVisible(true);
@@ -248,13 +248,12 @@ public class PrincipalEscritorio extends JFrame {
 			frm3.setVisible(true);
 		} 
 
-	/*	private void ShowListadoTiposElementos() {
->>>>>>> branch 'master' of https://github.com/manuellena5/proyectojava.git
+	private void ShowListadoTiposElementos() {
 			ListadoTiposElementos lte = new ListadoTiposElementos();
 			desktopPane.add(lte);
 			lte.setVisible(true);
 			
-		}*/
+		}
 		
 		
 		//para elementos
@@ -268,15 +267,10 @@ public class PrincipalEscritorio extends JFrame {
 		} 
 
 		
-		/*
 		private void ShowListadoElementos() {
-=======
-				
-		/* private void ShowListadoElementos() {
->>>>>>> branch 'master' of https://github.com/manuellena5/proyectojava.git
 		ListadoElementos le = new ListadoElementos();
 		desktopPane.add(le);
 		le.setVisible(true);
 					
-		}*/
+		}
 }

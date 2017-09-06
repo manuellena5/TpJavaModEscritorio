@@ -54,7 +54,6 @@ public class ListadoPersonas extends JInternalFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JLabel lblBuscarPorDni = new JLabel("Buscar por:");
-		lblBuscarPorDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtbuscar = new JTextField();
 		
@@ -75,16 +74,6 @@ public class ListadoPersonas extends JInternalFrame {
 		
 		txtbuscar.setColumns(10);
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				btnEditarClick();
-			}
-
-			
-		});
-		
 		comboFiltro = new JComboBox();
 		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "apellido", "dni", "usuario"}));
 		
@@ -100,40 +89,47 @@ public class ListadoPersonas extends JInternalFrame {
 				}
 			}
 		});
+		
+		JButton btnSalir = new JButton("Salir");
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblBuscarPorDni)
-							.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+							.addGap(40)
 							.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
 							.addGap(51)
 							.addComponent(btnActualizar)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnEditar)
-							.addGap(53))))
+							.addGap(124))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addGap(583)
+									.addComponent(btnSalir))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(20)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblBuscarPorDni)
+										.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 626, GroupLayout.PREFERRED_SIZE))))
+							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(21)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnEditar)
 						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBuscarPorDni)
+						.addComponent(btnActualizar)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnActualizar))
+						.addComponent(lblBuscarPorDni))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(36, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 341, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(btnSalir)
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		
 		table = new JTable();
@@ -152,17 +148,6 @@ public class ListadoPersonas extends JInternalFrame {
 		trsFiltro = new TableRowSorter(table.getModel());
         table.setRowSorter(trsFiltro);
 
-	}
-	
-	private void btnEditarClick() {
-		int indexPersona=table.convertRowIndexToModel(table.getSelectedRow());
-		
-		AbmPersonas abm= new AbmPersonas();
-		abm.showPersona(this.lista.get(indexPersona));
-		
-		this.getDesktopPane().add(abm);
-		abm.setVisible(true);
-		
 	}
 	
 	public void filtro() {
