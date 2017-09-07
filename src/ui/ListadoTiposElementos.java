@@ -10,12 +10,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -27,26 +21,27 @@ import org.jdesktop.swingbinding.SwingBindings;
 import entidades.Tipo_Elemento;
 import negocio.Tipo_ElementosLogic;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-import javax.swing.RowFilter;
-import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.JButton;
 
-public class Tipo_Elementos extends JInternalFrame {
+public class ListadoTiposElementos extends JInternalFrame {
 	private JTable table;
-	private JTextField txtbuscar;
+	private JTextField txtBuscar;
 	DefaultTableModel dm;
 	private TableRowSorter trsFiltro;
-
 	private ArrayList<Tipo_Elemento> lista; 
 	Tipo_ElementosLogic tipoElementoLogic = new Tipo_ElementosLogic();
 	private JComboBox comboFiltro;
-	
-	public Tipo_Elementos() {
-		
-		setTitle("Tipos de Elementos");
+
+
+	public ListadoTiposElementos() {
+		setTitle("Listado Tipos de Elementos");
 		setClosable(true);
 		setBounds(100, 100, 729, 483);
 		
@@ -54,76 +49,60 @@ public class Tipo_Elementos extends JInternalFrame {
 		
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		
-		txtbuscar = new JTextField();
+		comboFiltro = new JComboBox();
+		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "cantidad reservas pend"}));
 		
-		txtbuscar.addKeyListener(new KeyAdapter() {
-			
+		txtBuscar = new JTextField();
+
+		txtBuscar.addKeyListener(new KeyAdapter() {
+		
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				String cadena = (txtbuscar.getText());
-                txtbuscar.setText(cadena);
+				String cadena = (txtBuscar.getText());
+                txtBuscar.setText(cadena);
                 repaint();
                 filtro();
 			}
 		});
 		
-		txtbuscar.setColumns(10);
-		
-		comboFiltro = new JComboBox();
-		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "cantidad reservas pend"}));
+		txtBuscar.setColumns(10);
 		
 		JButton btnSalir = new JButton("Salir");
-		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(127)
-					.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-					.addGap(34)
-					.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(258, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(27, Short.MAX_VALUE)
+					.addGap(29)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSalir)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblBuscarPor))))
-					.addGap(22))
+							.addComponent(lblBuscarPor)
+							.addGap(38)
+							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+							.addGap(76)
+							.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addComponent(btnSalir)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 650, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(34, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(26, Short.MAX_VALUE)
+					.addGap(29)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBuscarPor)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBuscarPor))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(btnSalir)
-					.addGap(25))
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		getContentPane().setLayout(groupLayout);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JButton btnAlta = new JButton("Alta");
-		menuBar.add(btnAlta);
-		
-		JButton btnEditar = new JButton("Editar");
-		menuBar.add(btnEditar);
-		
-		JButton btnBaja = new JButton("Baja");
-		menuBar.add(btnBaja);
 		
 		try{
 			this.lista = tipoElementoLogic.GetAll();
@@ -149,7 +128,7 @@ public class Tipo_Elementos extends JInternalFrame {
             columnaABuscar = 2;
         }
        
-        trsFiltro.setRowFilter(RowFilter.regexFilter(txtbuscar.getText(), columnaABuscar));
+        trsFiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), columnaABuscar));
     }
 	
 	protected void initDataBindings() {
@@ -167,4 +146,5 @@ public class Tipo_Elementos extends JInternalFrame {
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
 	}
+
 }

@@ -3,44 +3,44 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataReservas;
-import entidades.Reservas;
+import entidades.Reserva;
 
 public class ReservasLogic {
 
 	
-	private Reservas reservas;
+	private Reserva reservas;
 	private DataReservas reservasD;
-	ArrayList<Reservas> lista = new ArrayList<Reservas>();
+	ArrayList<Reserva> lista = new ArrayList<Reserva>();
 	
 	
 	public ReservasLogic(){
 	
-		reservas = new Reservas(); 
+		reservas = new Reserva(); 
 		reservasD = new DataReservas();
 		
 	}
 
 
-	public void add(Reservas res) throws Exception{
+	public void add(Reserva res) throws Exception{
 	
 		
 		reservasD.add(res);
 	
 	}
 	
-	public void delete(Reservas res)throws Exception{
+	public void delete(Reserva res)throws Exception{
 		//this.pers.remove(this.getByDni(el));
 		this.reservasD.delete(res);
 	}
 	
-	public void update(Reservas res)throws Exception{
+	public void update(Reserva res)throws Exception{
 		
 		this.reservasD.update(res);
 	}
 
-	public Reservas GetOne (int id_persona, int id_elemento){
+	public Reserva GetOne (int id_persona, int id_elemento){
 	
-		for (Reservas reservas : lista) {
+		for (Reserva reservas : lista) {
 			if (reservas.getId_persona() == id_persona && reservas.getId_elemento() == id_elemento) {
 				return reservas;
 			}
@@ -50,7 +50,7 @@ public class ReservasLogic {
 	}	
 
 	
-	public Reservas GetByIdPersona(Reservas res) throws Exception{
+	public Reserva GetByIdPersona(Reserva res) throws Exception{
 		
 		
 		return reservasD.getByIdPersona(res);
@@ -65,9 +65,9 @@ public class ReservasLogic {
 	}
 	
 	
-	public Reservas GetByNombre (int id_persona, int id_elemento) throws Exception{
+	public Reserva GetByNombre (int id_persona, int id_elemento) throws Exception{
 		
-		Reservas res=new Reservas();
+		Reserva res=new Reserva();
 		res.setId_persona(id_persona);
 		res.setId_elemento(id_elemento);
 		return GetByIdPersona(res);
@@ -85,7 +85,7 @@ public class ReservasLogic {
 	
 	
 	
-	public void EliminarReservas(Reservas res) throws Exception{
+	public void EliminarReservas(Reserva res) throws Exception{
 	
 	 lista.remove(this.GetByIdPersona(res));
 		
@@ -95,14 +95,14 @@ public class ReservasLogic {
 
 
 
-		public ArrayList<Reservas> GetAll() throws Exception{
+		public ArrayList<Reserva> GetAll() throws Exception{
 	
 			return reservasD.getAll();
 			
 		}
 
 
-		public void ModificarReservas(Reservas res) throws Exception {
+		public void ModificarReservas(Reserva res) throws Exception {
 			
 			this.EliminarReservas(res);
 			this.add(res);
