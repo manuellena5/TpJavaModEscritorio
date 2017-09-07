@@ -158,7 +158,7 @@ public class ListadoPersonas extends JInternalFrame {
 		int indexPersona=table.convertRowIndexToModel(table.getSelectedRow());
 		
 		AbmPersonas abm= new AbmPersonas();
-		abm.showPersona(this.lista.get(indexPersona));
+		//abm.showAbmPersonas(this.lista.get(indexPersona));
 		
 		this.getDesktopPane().add(abm);
 		abm.setVisible(true);
@@ -186,13 +186,6 @@ public class ListadoPersonas extends JInternalFrame {
     }
 	
 	
-	/* Método filtro 2*/
-	private void filtro(String consulta, JTable jtableBuscar){
-	        /*dm = (DefaultTableModel)jtableBuscar.getModel();
-	        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
-	        jtableBuscar.setRowSorter(tr);
-	        tr.setRowFilter(RowFilter.regexFilter(consulta));*/
-	}
 	
 	
 	private void actualizarListado() throws Exception {

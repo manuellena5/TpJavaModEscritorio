@@ -1,4 +1,4 @@
-package ui;
+/*package ui;
 
 import java.util.Scanner;
 
@@ -75,3 +75,4 @@ public class PrincipalConsola {
 	
 
 }
+*/

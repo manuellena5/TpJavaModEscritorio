@@ -72,7 +72,7 @@ public class PrincipalEscritorio extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("ABM personas");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ShowAbmPersonas();
+				ShowPersonas();
 			}
 
 			
@@ -190,6 +190,13 @@ public class PrincipalEscritorio extends JFrame {
 	private void ShowAbmPersonas(){
 		
 		AbmPersonas frm = new AbmPersonas();
+		desktopPane.add(frm);
+		frm.setVisible(true);
+	}
+	
+	private void ShowPersonas(){
+		
+		Personas frm = new Personas();
 		desktopPane.add(frm);
 		frm.setVisible(true);
 	}

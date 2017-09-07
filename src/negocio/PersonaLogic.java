@@ -88,12 +88,12 @@ public class PersonaLogic {
 	
 	
 	
-	public void EliminarPersona(Persona p) throws Exception{
+	/*public void EliminarPersona(Persona p) throws Exception{
 	
 	 lista.remove(this.GetByDni(p));
 		
 	
-	}	
+	}	*/
 
 
 
@@ -105,12 +105,12 @@ public class PersonaLogic {
 		}
 
 
-		public void ModificarPersona(Persona p) throws Exception {
+		/*public void ModificarPersona(Persona p) throws Exception {
 			
 			this.EliminarPersona(p);
 			this.add(p);
 			
-		}
+		}*/
 		
 		public ArrayList<Categoria> getCategorias() throws Exception{
 			return perC.getAll();

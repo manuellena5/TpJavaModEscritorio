@@ -1,4 +1,4 @@
-package ui;
+/*package ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -75,7 +75,7 @@ public class AbmPersonaConsola {
 			per.setHabilitado(false);
 		}else{System.out.println("Dato ingresado incorrectamente"); }
 		
-		perlog.ModificarPersona(per);
+		//perlog.ModificarPersona(per);
 	
 		//s.close();
 	}
@@ -128,7 +128,7 @@ public class AbmPersonaConsola {
 		ListarPersonas();
 		System.out.println("Ingrese el dni de la persona a eliminar \n");
 		String doc = s.nextLine();
-		perlog.EliminarPersona(perlog.GetByDni(doc));
+		//perlog.EliminarPersona(perlog.GetByDni(doc));
 		
 		//s.close();
 	}
@@ -149,3 +149,4 @@ public class AbmPersonaConsola {
 		}
 	
 }
+*/

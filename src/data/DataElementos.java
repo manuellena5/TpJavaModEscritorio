@@ -17,7 +17,7 @@ public class DataElementos {
 				ArrayList<Elemento> elementos = new ArrayList<Elemento>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select e.id_elemento,e.nombre,e.stock,e.autor,e.genero,e.descripcion,te.id_tipoelemento,te.cantMaxReservPend,te.nombre nombreIdTipoElemento from elementos e inner join tipo_elementos te on te.id_tipoelemento = e.tipo_elemento");
+					  rs = stmt.executeQuery("select e.id_elemento,e.nombre,e.stock,e.autor,e.genero,e.descripcion,te.id_tipoelemento,te.cantMaxReservasPend,te.nombre nombreIdTipoElemento from elementos e inner join tipo_elementos te on te.id_tipoelemento = e.id_tipoelemento");
 					  
 				if (rs != null) {
 						while (rs.next()) {
@@ -31,7 +31,7 @@ public class DataElementos {
 								el.setDescripcion(rs.getString("descripcion"));
 								
 								el.getTipo_Elemento().setId_tipoelemento(rs.getInt("id_tipoelemento"));
-								el.getTipo_Elemento().setCantMaxReservasPend(rs.getInt("cantMaxReservPend"));
+								el.getTipo_Elemento().setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
 								el.getTipo_Elemento().setNombre((rs.getString("nombreIdTipoElemento")));
 								
 								
@@ -159,6 +159,7 @@ public class DataElementos {
 				stmt.setString(4, el.getGenero());
 				stmt.setString(5, el.getDescripcion());
 				stmt.setInt(6, el.getTipo_Elemento().getId_tipoelemento());
+				stmt.setInt(7, el.getId_elemento());
 			
 				stmt.execute();
 				

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import entidades.Persona;
 import entidades.Categoria;
+import entidades.Elemento;
 import negocio.PersonaLogic;
 
 import javax.swing.GroupLayout;
@@ -25,6 +26,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AbmPersonas extends JInternalFrame {
 
@@ -39,6 +42,7 @@ public class AbmPersonas extends JInternalFrame {
 	private JComboBox cboCategoria;
 
 	PersonaLogic perl = new PersonaLogic();
+	private JButton btnAceptar;
 
 	
 	public AbmPersonas() {
@@ -69,64 +73,26 @@ public class AbmPersonas extends JInternalFrame {
 		
 		chkHabilitado = new JCheckBox("Habilitado");
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addMouseListener(new MouseAdapter() {
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				try {
-					BuscarPersona();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		JButton btnNuevo = new JButton("Nuevo");
-		btnNuevo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				AgregarPersona();
+				btnAceptarClick();
 				LimpiarControles();
 			}
 		});
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					EditarPersona();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				LimpiarControles();
-			}
-		});
 		
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					EliminarPersona();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				LimpiarControles();
-			}
-		});
 		
-		JButton btnLimpiar = new JButton("Limpiar");
-		btnLimpiar.addMouseListener(new MouseAdapter() {
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				btnCancelarClick();
 				LimpiarControles();
 			}
+
+			
 		});
 		
 		
@@ -178,34 +144,22 @@ public class AbmPersonas extends JInternalFrame {
 								.addComponent(txtid, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(36)
-							.addComponent(btnNuevo)
+							.addComponent(btnAceptar)
 							.addGap(18)
-							.addComponent(btnEditar)
-							.addGap(18)
-							.addComponent(btnEliminar)))
+							.addComponent(btnSalir)))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnLimpiar)
-							.addContainerGap(76, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(cboCategoria, 0, 99, Short.MAX_VALUE)
-							.addGap(42))))
+					.addComponent(cboCategoria, 0, 99, Short.MAX_VALUE)
+					.addGap(42))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(chkHabilitado)
 					.addContainerGap(345, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(154)
-					.addComponent(btnBuscar)
-					.addContainerGap(205, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(21)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnBuscar)
 						.addComponent(txtid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblId))
 					.addGap(38)
@@ -230,18 +184,55 @@ public class AbmPersonas extends JInternalFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblContrasea)
 						.addComponent(txtpassword, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 					.addComponent(chkHabilitado)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNuevo)
-						.addComponent(btnEditar)
-						.addComponent(btnEliminar)
-						.addComponent(btnLimpiar))
+						.addComponent(btnAceptar)
+						.addComponent(btnSalir))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
+	}
+	
+	private void btnAceptarClick() {
+		Persona per = this.MapearDesdeform();
+		try{
+			if (btnAceptar.getText() == "Aceptar") {
+				try{
+					perl.add(per);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+			} else if (btnAceptar.getText() == "Editar") {
+				try{
+					perl.update(per);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+			} else{
+				try{
+					perl.delete(per);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		this.txtid.setText(String.valueOf(per.getId_persona()));
+		
+	}
+	
+	private void btnCancelarClick() {
+		Personas frm = new Personas();
+		this.getDesktopPane().add(frm);
+		frm.setVisible(true);
+		this.dispose();
+		
 	}
 	
 	private void cargarListas() {
@@ -253,51 +244,7 @@ public class AbmPersonas extends JInternalFrame {
 		}
 	}
 	
-	protected void BuscarPersona() throws Exception{
-		
-		try {
-			this.MapearAform(perl.GetByDni(this.MapearDesdeform()));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
 	
-	}
-	
-	protected void AgregarPersona(){
-		
-		Persona p = this.MapearDesdeform();
-		try{
-			perl.add(p);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
-		this.txtid.setText(String.valueOf(p.getId_persona()));
-		
-		
-	}
-	
-	 protected void EliminarPersona() throws Exception{
-		 
-		 
-		 try{
-				perl.delete(this.MapearDesdeform());
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this, e.getMessage());
-			}
-	 
-	 }
-	
-	
-	protected void EditarPersona() throws Exception{
-		
-		try{
-			perl.update(this.MapearDesdeform());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
-		
-		
-	}
 	
 	protected void MapearAform(Persona per){
 		
@@ -307,7 +254,7 @@ public class AbmPersonas extends JInternalFrame {
 		this.chkHabilitado.setSelected(per.isHabilitado());
 		this.txtusuario.setText(per.getUsuario());
 		this.txtpassword.setText(per.getPassword());
-		this.cboCategoria.setSelectedItem(per.getCategoria().getDescripcion());
+		this.cboCategoria.setSelectedItem(per.getCategoria());
 		this.txtid.setText(String.valueOf(per.getId_persona()));
 		
 
@@ -346,8 +293,29 @@ public class AbmPersonas extends JInternalFrame {
 		
 	}
 	
-	public void showPersona(Persona p){
-		this.MapearAform(p);
+	public void showAbmPersonas(Persona p,String modo){
+		if (modo == "Editar") {
+			this.MapearAform(p);
+			btnAceptar.setText("Editar");
+			HabilitarControles(true);
+			
+		}else {
+			this.MapearAform(p);
+			btnAceptar.setText("Eliminar");
+			HabilitarControles(false);
+		}
+		
+	}
+
+	private void HabilitarControles(boolean b) {
+		this.txtApellido.setEditable(b);;
+		this.txtDni.setEditable(b);;
+		this.txtNombre.setEditable(b);;
+		this.chkHabilitado.setEnabled(b);;
+		this.txtusuario.setEditable(b);;
+		this.txtpassword.setEditable(b);;
+		this.txtid.setEditable(b);;
+		this.cboCategoria.setEnabled(b);
 		
 	}
 }

@@ -90,7 +90,7 @@ public class ElementosLogic {
 	
 	public void EliminarElemento(Elemento el) throws Exception{
 	
-	 lista.remove(this.GetByNombre(el));
+	  elementosD.delete(el);
 		
 	
 	}	
@@ -107,8 +107,8 @@ public class ElementosLogic {
 
 		public void ModificarElemento(Elemento el) throws Exception {
 			
-			this.EliminarElemento(el);
-			this.add(el);
+
+			elementosD.update(el);
 			
 		}
 		

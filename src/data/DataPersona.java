@@ -158,7 +158,8 @@ public class DataPersona {
 				stmt.setString(4, p.getUsuario());
 				stmt.setString(5, p.getPassword());
 				stmt.setBoolean(6, p.isHabilitado());
-				stmt.setInt(8, p.getCategoria().getId_Categoria());
+				stmt.setInt(7, p.getCategoria().getId_Categoria());
+				stmt.setInt(8, p.getId_persona());
 				stmt.execute();
 				
 				

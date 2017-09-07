@@ -26,6 +26,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AbmElementos extends JInternalFrame {
 	private JTextField txtidelementos;
@@ -37,6 +39,7 @@ public class AbmElementos extends JInternalFrame {
 	private JComboBox cbotipoelementos;
 	private ElementosLogic el;
 	private JTextArea txtdescripcion;
+	private JButton btnAceptar;
 
 
 	public AbmElementos() {
@@ -84,7 +87,7 @@ public class AbmElementos extends JInternalFrame {
 		txtstock = new JTextField();
 		txtstock.setColumns(10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -95,14 +98,15 @@ public class AbmElementos extends JInternalFrame {
 			
 		});
 		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			btnSalirClick();}
+		JButton btnCancelar = new JButton("Salir");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			btnCancelarClick();
+			}
 
 			
 		});
+		
 		
 		cbotipoelementos = new JComboBox();
 		cbotipoelementos.addItemListener(new ItemListener() {
@@ -153,7 +157,7 @@ public class AbmElementos extends JInternalFrame {
 												.addGap(15)
 												.addComponent(btnAceptar)
 												.addGap(18)
-												.addComponent(btnSalir)))
+												.addComponent(btnCancelar)))
 										.addPreferredGap(ComponentPlacement.RELATED, 98, Short.MAX_VALUE))
 									.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 										.addPreferredGap(ComponentPlacement.RELATED)
@@ -206,7 +210,7 @@ public class AbmElementos extends JInternalFrame {
 								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnAceptar)
-										.addComponent(btnSalir))
+										.addComponent(btnCancelar))
 									.addGap(25))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(63)
@@ -236,7 +240,15 @@ public class AbmElementos extends JInternalFrame {
 	private void btnAceptarClick() {
 		Elemento ele = this.MapearDesdeform();
 		try{
-			el.add(ele);
+			if (btnAceptar.getText() == "Aceptar") {
+				el.add(ele);	
+			} else if (btnAceptar.getText() == "Editar") {
+				el.ModificarElemento(ele);
+			} else{
+				
+				el.delete(ele);
+			}
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -244,10 +256,7 @@ public class AbmElementos extends JInternalFrame {
 		
 	}
 	
-	private void btnSalirClick() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	protected void MapearAform(Elemento ele){
 		
@@ -256,7 +265,7 @@ public class AbmElementos extends JInternalFrame {
 		this.txtdescripcion.setText(ele.getDescripcion());
 		this.txtstock.setText(String.valueOf(ele.getStock()));
 		this.txtgenero.setText(ele.getGenero());
-		this.cbotipoelementos.setSelectedItem(ele.getTipo_Elemento().getNombre());
+		this.cbotipoelementos.setSelectedItem(ele.getTipo_Elemento());
 		this.txtcantmaxpend.setText(String.valueOf(ele.getTipo_Elemento().getCantMaxReservasPend()));
 		this.txtidelementos.setText(String.valueOf(ele.getId_elemento()));
 		
@@ -293,8 +302,53 @@ public class AbmElementos extends JInternalFrame {
 		this.txtidelementos.setText("");
 		this.txtnombre.setText("");
 		this.txtstock.setText("");
-		this.cbotipoelementos.setSelectedItem(-1);
+		this.cbotipoelementos.setSelectedIndex(-1);
 		
 		
 	}
+	
+	private void HabilitarControles(boolean val)
+	{
+		this.txtautor.setEditable(val);
+		this.txtdescripcion.setEditable(val);
+		this.txtgenero.setEditable(val);
+		this.txtidelementos.setEditable(val);
+		this.txtnombre.setEditable(val);
+		this.txtstock.setEditable(val);
+		this.cbotipoelementos.setEnabled(val);
+	}
+	
+	
+	public void showAbmElementos(Elemento ele,String modo){
+		if (modo == "Editar") {
+			this.MapearAform(ele);
+			btnAceptar.setText("Editar");
+			HabilitarControles(true);
+			
+		}else {
+			this.MapearAform(ele);
+			btnAceptar.setText("Eliminar");
+			HabilitarControles(false);
+		}
+			
+		
+		
+	}
+	
+	private void btnCancelarClick() {
+		
+		
+		Elementos frm = new Elementos();
+		this.getDesktopPane().add(frm);
+		frm.setVisible(true);
+		this.dispose();
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 }
