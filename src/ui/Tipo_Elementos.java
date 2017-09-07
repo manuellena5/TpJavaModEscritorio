@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -73,6 +75,24 @@ public class Tipo_Elementos extends JInternalFrame {
 		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "cantidad reservas pend"}));
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnSalirClick();	
+			}
+		});
+		
+		
+		JButton btnActualizar = new JButton("Actualizar listado");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					actualizarListado();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -89,9 +109,13 @@ public class Tipo_Elementos extends JInternalFrame {
 						.addComponent(btnSalir)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblBuscarPor))))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblBuscarPor)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnActualizar)
+									.addGap(96)))))
 					.addGap(22))
 		);
 		groupLayout.setVerticalGroup(
@@ -101,7 +125,8 @@ public class Tipo_Elementos extends JInternalFrame {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBuscarPor))
+						.addComponent(lblBuscarPor)
+						.addComponent(btnActualizar))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -117,12 +142,30 @@ public class Tipo_Elementos extends JInternalFrame {
 		setJMenuBar(menuBar);
 		
 		JButton btnAlta = new JButton("Alta");
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String modo = "Alta";
+				ShowAbmTipoElementos(modo);
+			}
+		});
 		menuBar.add(btnAlta);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String modo = "Editar";
+				ShowAbmTipoElementos(modo);
+			}
+		});
 		menuBar.add(btnEditar);
 		
 		JButton btnBaja = new JButton("Baja");
+		btnBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String modo = "Eliminar";
+				ShowAbmTipoElementos(modo);
+			}
+		});
 		menuBar.add(btnBaja);
 		
 		try{
@@ -166,5 +209,39 @@ public class Tipo_Elementos extends JInternalFrame {
 		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
+	}
+	
+	private void ShowAbmTipoElementos(String modo) {
+		
+		AbmTipoElementos abm = new AbmTipoElementos();
+		if (modo != "Alta") {
+			
+			int index = table.convertRowIndexToModel(table.getSelectedRow());
+			abm.showAbmTipoElementos(this.lista.get(index),modo);
+						
+			
+		}
+		this.getDesktopPane().add(abm);
+		abm.setVisible(true);
+		this.dispose();
+		
+		
+		
+	}
+	
+	private void actualizarListado() throws Exception {
+		try{
+			this.lista = tipoElementoLogic.GetAll();
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+	
+		}
+		initDataBindings();
+	}
+	
+	
+	private void btnSalirClick() {
+		dispose();
+		
 	}
 }

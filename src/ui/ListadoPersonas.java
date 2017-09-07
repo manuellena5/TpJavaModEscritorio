@@ -190,7 +190,7 @@ public class ListadoPersonas extends JInternalFrame {
 	protected void initDataBindings() {
 		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//
-		BeanProperty<Persona, Integer> personaBeanProperty = BeanProperty.create("id_usuario");
+		BeanProperty<Persona, Integer> personaBeanProperty = BeanProperty.create("id_persona");
 		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("ID").setEditable(false);
 		//
 		BeanProperty<Persona, String> personaBeanProperty_1 = BeanProperty.create("nombre");
