@@ -139,7 +139,7 @@ public class AbmTipoElementos extends JInternalFrame {
 			if (btnAceptar.getText() == "Aceptar") {
 				tel.add(te);	
 			} else if (btnAceptar.getText() == "Editar") {
-				tel.ModificarTipoElemento(te);
+				tel.update(te);
 			} else{
 				
 				tel.delete(te);

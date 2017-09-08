@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 
 import entidades.Persona;
 import entidades.Categoria;
-import entidades.Elemento;
 import negocio.PersonaLogic;
 
 import javax.swing.GroupLayout;
@@ -26,8 +25,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 
 public class AbmPersonas extends JInternalFrame {
 

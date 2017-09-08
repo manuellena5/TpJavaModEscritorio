@@ -135,6 +135,7 @@ public class DataTipo_Elementos {
 				
 				stmt.setString(1, te.getNombre());
 				stmt.setInt(2, te.getCantMaxReservasPend());
+				stmt.setInt(3, te.getId_tipoelemento());
 			
 				stmt.execute();
 				

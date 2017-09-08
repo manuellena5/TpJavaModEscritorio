@@ -188,7 +188,7 @@ public class Tipo_Elementos extends JInternalFrame {
         if (comboFiltro.getSelectedItem().toString() == "nombre") {
             columnaABuscar = 1;
         }
-        if (comboFiltro.getSelectedItem() == "cantMaxReservasPend") {
+        if (comboFiltro.getSelectedItem() == "cantidad reservas pend") {
             columnaABuscar = 2;
         }
        

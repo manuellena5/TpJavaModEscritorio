@@ -84,14 +84,14 @@ public class Tipo_ElementosLogic {
 	
 	
 	
-	public void EliminarTipoElemento(Tipo_Elemento te) throws Exception{
+	/*public void EliminarTipoElemento(Tipo_Elemento te) throws Exception{
 	
 	 lista.remove(this.GetByNombre(te));
 		
 	
 	}	
 
-
+*/
 
 
 		public ArrayList<Tipo_Elemento> GetAll() throws Exception{
@@ -101,11 +101,11 @@ public class Tipo_ElementosLogic {
 		}
 
 
-		public void ModificarTipoElemento(Tipo_Elemento te) throws Exception {
+		/*public void ModificarTipoElemento(Tipo_Elemento te) throws Exception {
 			
 			this.EliminarTipoElemento(te);
 			this.add(te);
 			
-		}
+		}*/
 	
 }

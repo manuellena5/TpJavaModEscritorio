@@ -35,7 +35,6 @@ import com.toedter.calendar.JDateChooser;
 import entidades.Elemento;
 import entidades.Persona;
 import entidades.Reserva;
-import entidades.Tipo_Elemento;
 import negocio.ReservasLogic;
 
 import javax.swing.JComboBox;
@@ -387,6 +386,9 @@ public class AbmReservas extends JInternalFrame {
 			this.MapearAform(res);
 			btnAceptar.setText("Editar");
 			HabilitarControles(true);
+			this.btnBuscarElemento.setVisible(false);
+			this.btnBuscarPersona.setVisible(false);
+			
 			
 		}else {
 			this.MapearAform(res);
@@ -405,8 +407,8 @@ public class AbmReservas extends JInternalFrame {
 		this.cfecharegistro.setEnabled(val);
 		this.txtdetalle.setEnabled(val);
 		this.comboestado.setEnabled(val);
-		this.btnBuscarPersona.setEnabled(val);
-		this.btnBuscarElemento.setEnabled(val);
+		this.btnBuscarPersona.setVisible(val);
+		this.btnBuscarElemento.setVisible(val);
 		
 		
 	}
@@ -528,9 +530,13 @@ public class AbmReservas extends JInternalFrame {
 	
 	
 	private void showListadoPersonas() {
+		
 		ListadoPersonas frm = new ListadoPersonas();
 		getDesktopPane().add(frm);
+		
+		frm.btnPersonaSeleccionada.setVisible(true);
 		frm.setVisible(true);
+		
 		
 		
 		
@@ -539,9 +545,12 @@ public class AbmReservas extends JInternalFrame {
 	private void showListadoElementos() {
 		ListadoElementos frm = new ListadoElementos();
 		getDesktopPane().add(frm);
+		
+		
+		frm.btnElementoSeleccionado.setVisible(true);
 		frm.setVisible(true);
 		
-		
+				
 	}
 	
 	public void showPersona(Persona per){

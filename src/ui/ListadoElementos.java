@@ -40,7 +40,7 @@ public class ListadoElementos extends JInternalFrame {
 	private TableRowSorter trsFiltro;
 	private ArrayList<Elemento> lista; 
 	ElementosLogic elementoLogic = new ElementosLogic();
-	private JButton btnElementoSeleccionado;
+	public JButton btnElementoSeleccionado;
 	
 	public ListadoElementos() {
 		setTitle("Listado Elementos");
@@ -71,6 +71,7 @@ public class ListadoElementos extends JInternalFrame {
 		JButton btnSalir = new JButton("Salir");
 		
 		btnElementoSeleccionado = new JButton("Elemento seleccionado");
+		btnElementoSeleccionado.setVisible(false);
 		btnElementoSeleccionado.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -184,7 +185,7 @@ public class ListadoElementos extends JInternalFrame {
 		
 		frm.showElemento(this.lista.get(indexElemento));
 		
-		
+		this.btnElementoSeleccionado.setVisible(false);
 		
 		this.getDesktopPane().add(frm);
 		frm.setVisible(true);

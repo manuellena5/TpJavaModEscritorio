@@ -88,13 +88,13 @@ public class ElementosLogic {
 	
 	
 	
-	public void EliminarElemento(Elemento el) throws Exception{
+	/*public void EliminarElemento(Elemento el) throws Exception{
 	
 	  elementosD.delete(el);
 		
 	
 	}	
-
+*/
 
 
 
@@ -105,12 +105,12 @@ public class ElementosLogic {
 		}
 
 
-		public void ModificarElemento(Elemento el) throws Exception {
+		/*public void ModificarElemento(Elemento el) throws Exception {
 			
 
 			elementosD.update(el);
 			
-		}
+		}*/
 		
 		public ArrayList<Tipo_Elemento> getTipo_Elementos() throws Exception{
 			return ted.getAll();

@@ -43,7 +43,7 @@ public class ListadoPersonas extends JInternalFrame {
 	DefaultTableModel dm;
 	private JComboBox comboFiltro;
 	private TableRowSorter trsFiltro;
-	private JButton btnPersonaSeleccionada;
+	public JButton btnPersonaSeleccionada;
 	
 	
 	
@@ -91,6 +91,7 @@ public class ListadoPersonas extends JInternalFrame {
 		JButton btnSalir = new JButton("Salir");
 		
 		btnPersonaSeleccionada = new JButton("Persona seleccionada");
+		btnPersonaSeleccionada.setVisible(false);
 		btnPersonaSeleccionada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -194,6 +195,7 @@ public class ListadoPersonas extends JInternalFrame {
 		}
 		initDataBindings();
 	}
+	
 	protected void initDataBindings() {
 		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//
@@ -225,6 +227,7 @@ public class ListadoPersonas extends JInternalFrame {
 		
 		frm.showPersona(this.lista.get(indexPersona));
 		this.getDesktopPane().add(frm);
+		this.btnPersonaSeleccionada.setVisible(false);
 		frm.setVisible(true);
 		this.dispose();
 		

@@ -243,7 +243,7 @@ public class AbmElementos extends JInternalFrame {
 			if (btnAceptar.getText() == "Aceptar") {
 				el.add(ele);	
 			} else if (btnAceptar.getText() == "Editar") {
-				el.ModificarElemento(ele);
+				el.update(ele);
 			} else{
 				
 				el.delete(ele);
