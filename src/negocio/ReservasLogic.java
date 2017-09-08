@@ -41,7 +41,7 @@ public class ReservasLogic {
 	public Reserva GetOne (int id_persona, int id_elemento){
 	
 		for (Reserva reservas : lista) {
-			if (reservas.getId_persona() == id_persona && reservas.getId_elemento() == id_elemento) {
+			if (reservas.getPersona().getId_persona() == id_persona && reservas.getElemento().getId_elemento() == id_elemento) {
 				return reservas;
 			}
 			
@@ -68,8 +68,8 @@ public class ReservasLogic {
 	public Reserva GetByNombre (int id_persona, int id_elemento) throws Exception{
 		
 		Reserva res=new Reserva();
-		res.setId_persona(id_persona);
-		res.setId_elemento(id_elemento);
+		res.getPersona().setId_persona(id_persona);
+		res.getElemento().setId_elemento(id_elemento);
 		return GetByIdPersona(res);
 		
 		/*for (int i = 0; i < lista.size(); i++) {
@@ -85,12 +85,12 @@ public class ReservasLogic {
 	
 	
 	
-	public void EliminarReservas(Reserva res) throws Exception{
+	/*public void EliminarReservas(Reserva res) throws Exception{
 	
 	 lista.remove(this.GetByIdPersona(res));
 		
 	
-	}	
+	}	*/
 
 
 
@@ -102,11 +102,11 @@ public class ReservasLogic {
 		}
 
 
-		public void ModificarReservas(Reserva res) throws Exception {
+		/*public void ModificarReservas(Reserva res) throws Exception {
 			
 			this.EliminarReservas(res);
 			this.add(res);
 			
-		}
+		}*/
 	
 }

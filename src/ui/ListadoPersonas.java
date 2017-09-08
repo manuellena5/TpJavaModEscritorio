@@ -43,13 +43,15 @@ public class ListadoPersonas extends JInternalFrame {
 	DefaultTableModel dm;
 	private JComboBox comboFiltro;
 	private TableRowSorter trsFiltro;
+	private JButton btnPersonaSeleccionada;
+	
 	
 	
 	public ListadoPersonas() {
 		
 		setTitle("Listado de personas");
 		setClosable(true);
-		setBounds(100, 100, 683, 481);
+		setBounds(100, 100, 821, 481);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -58,11 +60,7 @@ public class ListadoPersonas extends JInternalFrame {
 		txtbuscar = new JTextField();
 		
 		txtbuscar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-//				filtro(txtbuscar.getText(), table);
-			}
-			
+						
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				String cadena = (txtbuscar.getText());
@@ -91,40 +89,49 @@ public class ListadoPersonas extends JInternalFrame {
 		});
 		
 		JButton btnSalir = new JButton("Salir");
+		
+		btnPersonaSeleccionada = new JButton("Persona seleccionada");
+		btnPersonaSeleccionada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				showPersona();
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-							.addGap(40)
-							.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-							.addGap(51)
-							.addComponent(btnActualizar)
-							.addGap(124))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-									.addGap(583)
-									.addComponent(btnSalir))
+							.addGap(583)
+							.addComponent(btnSalir))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(20)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 736, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(20)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblBuscarPorDni)
-										.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 626, GroupLayout.PREFERRED_SIZE))))
-							.addContainerGap())))
+									.addComponent(lblBuscarPorDni)
+									.addGap(31)
+									.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+									.addGap(44)
+									.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
+									.addGap(78)
+									.addComponent(btnActualizar)
+									.addGap(47)
+									.addComponent(btnPersonaSeleccionada)))))
+					.addContainerGap(49, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(21)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblBuscarPorDni)
+						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnActualizar)
-						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBuscarPorDni))
+						.addComponent(btnPersonaSeleccionada))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 341, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
@@ -133,6 +140,7 @@ public class ListadoPersonas extends JInternalFrame {
 		);
 		
 		table = new JTable();
+		
 		
 		table.setBackground(Color.WHITE);
 		scrollPane.setViewportView(table);
@@ -186,11 +194,10 @@ public class ListadoPersonas extends JInternalFrame {
 		}
 		initDataBindings();
 	}
-	
 	protected void initDataBindings() {
 		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//
-		BeanProperty<Persona, Integer> personaBeanProperty = BeanProperty.create("id_usuario");
+		BeanProperty<Persona, Integer> personaBeanProperty = BeanProperty.create("id_persona");
 		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("ID").setEditable(false);
 		//
 		BeanProperty<Persona, String> personaBeanProperty_1 = BeanProperty.create("nombre");
@@ -205,7 +212,24 @@ public class ListadoPersonas extends JInternalFrame {
 		BeanProperty<Persona, String> personaBeanProperty_4 = BeanProperty.create("usuario");
 		jTableBinding.addColumnBinding(personaBeanProperty_4).setColumnName("Usuario").setEditable(false);
 		//
+		BeanProperty<Persona, String> personaBeanProperty_5 = BeanProperty.create("categoria.descripcion");
+		jTableBinding.addColumnBinding(personaBeanProperty_5).setColumnName("Categoria").setEditable(false);
+		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
 	}
+	
+	private void showPersona() {
+		int indexPersona= table.convertRowIndexToModel(table.getSelectedRow());
+		AbmReservas frm = new AbmReservas();
+		
+		frm.showPersona(this.lista.get(indexPersona));
+		this.getDesktopPane().add(frm);
+		frm.setVisible(true);
+		this.dispose();
+		
+		
+	}
+	
+	
 }

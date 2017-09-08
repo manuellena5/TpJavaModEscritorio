@@ -69,19 +69,36 @@ public class Elemento {
 	
 	
 
-	public Elemento(int id_elemento, String nombre, int stock, String descripcion, String autor) {
+	public Elemento(int id_elemento, String nombre, int stock, String descripcion, String autor,String genero) {
 		super();
 		this.id_elemento = id_elemento;
 		this.nombre = nombre;
 		this.stock = stock;
 		this.descripcion = descripcion;
 		this.autor = autor;
-		
+		this.genero = genero;
 	}
 	
 	public Elemento(){
 		
 	}
+	
+	/*@Override
+	public String toString(){
+		return this.getNombre();
+	}
+	
+	
+	
+	@Override
+	public boolean equals(Object o){
+		return (o instanceof Elemento && ((Elemento)o).getId_elemento()==this.getId_elemento());
+	}
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId_elemento()).hashCode();
+	}*/
 
 	
 	

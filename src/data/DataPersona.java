@@ -34,6 +34,7 @@ public class DataPersona {
 								p.getCategoria().setId_Categoria(rs.getInt("id_categoria"));
 								p.getCategoria().setDescripcion(rs.getString("descripcion"));
 								
+								
 								pers.add(p);
 										}
 					}

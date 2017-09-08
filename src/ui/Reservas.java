@@ -31,6 +31,9 @@ import javax.swing.RowFilter;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
 
 public class Reservas extends JInternalFrame {
 	private JTable table;
@@ -39,12 +42,13 @@ public class Reservas extends JInternalFrame {
 	private TableRowSorter trsFiltro;
 	private ArrayList<Reserva> lista; 
 	ReservasLogic reservaLogic = new ReservasLogic();
+	private String modo;
 	
 	public Reservas() {
 		
 		setTitle("Reservas");
 		setClosable(true);
-		setBounds(100, 100, 729, 483);
+		setBounds(100, 100, 988, 483);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -76,24 +80,29 @@ public class Reservas extends JInternalFrame {
 					.addGap(26)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(78)
 							.addComponent(lblBuscarPor)
-							.addGap(49)
-							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnSalir)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 658, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)
+							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
+							.addGap(27)
+							.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 923, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addContainerGap(29, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(849, Short.MAX_VALUE)
+					.addComponent(btnSalir)
+					.addGap(70))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(33)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBuscarPor)
+						.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtBuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblBuscarPor))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -109,12 +118,36 @@ public class Reservas extends JInternalFrame {
 		setJMenuBar(menuBar);
 		
 		JButton btnAlta = new JButton("Alta");
+		btnAlta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				modo = "Alta";
+				ShowAbmReservas(modo);
+				
+			}
+
+			
+		});
 		menuBar.add(btnAlta);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				modo = "Editar";
+				ShowAbmReservas(modo);
+			}
+		});
 		menuBar.add(btnEditar);
 		
 		JButton btnBaja = new JButton("Baja");
+		btnBaja.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				modo = "Eliminar";
+				ShowAbmReservas(modo);
+			}
+		});
 		menuBar.add(btnBaja);
 		
 		try{
@@ -127,6 +160,22 @@ public class Reservas extends JInternalFrame {
 		trsFiltro = new TableRowSorter(table.getModel());
         table.setRowSorter(trsFiltro);
 
+	}
+	
+	private void ShowAbmReservas(String modo) {
+		
+		AbmReservas abm = new AbmReservas();
+		if (modo != "Alta") {
+			
+			int index = table.convertRowIndexToModel(table.getSelectedRow());
+			abm.showAbmReservas(this.lista.get(index),modo);
+						
+			
+		}
+		this.getDesktopPane().add(abm);
+		abm.setVisible(true);
+		this.dispose();
+		
 	}
 	
 	public void filtro() {
@@ -154,32 +203,50 @@ public class Reservas extends JInternalFrame {
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), columnaABuscar));
     }
-	
 	protected void initDataBindings() {
 		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty = BeanProperty.create("id_persona");
-		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("ID Persona").setEditable(false);
+		BeanProperty<Reserva, Integer> reservaBeanProperty = BeanProperty.create("elemento.id_elemento");
+		jTableBinding.addColumnBinding(reservaBeanProperty).setColumnName("ID Elemento").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_1 = BeanProperty.create("id_elemento");
-		jTableBinding.addColumnBinding(personaBeanProperty_1).setColumnName("ID Elemento").setEditable(false);
+		BeanProperty<Reserva, Integer> reservaBeanProperty_1 = BeanProperty.create("persona.id_persona");
+		jTableBinding.addColumnBinding(reservaBeanProperty_1).setColumnName("ID Persona").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_2 = BeanProperty.create("fecha_registro");
-		jTableBinding.addColumnBinding(personaBeanProperty_2).setColumnName("Fecha Registro").setEditable(false);
+		BeanProperty<Reserva, Date> reservaBeanProperty_2 = BeanProperty.create("fecha_inicio");
+		jTableBinding.addColumnBinding(reservaBeanProperty_2).setColumnName("Fecha Inicio").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_3 = BeanProperty.create("fecha_inicio");
-		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Fecha Inicio").setEditable(false);
+		BeanProperty<Reserva, Date> reservaBeanProperty_3 = BeanProperty.create("fecha_fin");
+		jTableBinding.addColumnBinding(reservaBeanProperty_3).setColumnName("Fecha Fin").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_4 = BeanProperty.create("fecha_fin");
-		jTableBinding.addColumnBinding(personaBeanProperty_4).setColumnName("Fecha Fin").setEditable(false);
+		BeanProperty<Reserva, Date> reservaBeanProperty_4 = BeanProperty.create("fecha_registro");
+		jTableBinding.addColumnBinding(reservaBeanProperty_4).setColumnName("Fecha Registro").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_5 = BeanProperty.create("detalle");
-		jTableBinding.addColumnBinding(personaBeanProperty_5).setColumnName("Detalle").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_5 = BeanProperty.create("estado");
+		jTableBinding.addColumnBinding(reservaBeanProperty_5).setColumnName("Estado").setEditable(false);
 		//
-		BeanProperty<Reserva, String> personaBeanProperty_6 = BeanProperty.create("estado");
-		jTableBinding.addColumnBinding(personaBeanProperty_6).setColumnName("Estado").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_6 = BeanProperty.create("detalle");
+		jTableBinding.addColumnBinding(reservaBeanProperty_6).setColumnName("Detalle").setEditable(false);
 		//
-		jTableBinding.setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_7 = BeanProperty.create("persona.apellido");
+		jTableBinding.addColumnBinding(reservaBeanProperty_7).setColumnName("Apellido").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_8 = BeanProperty.create("persona.nombre");
+		jTableBinding.addColumnBinding(reservaBeanProperty_8).setColumnName("Nombre P.").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_9 = BeanProperty.create("persona.dni");
+		jTableBinding.addColumnBinding(reservaBeanProperty_9).setColumnName("Dni").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_10 = BeanProperty.create("elemento.nombre");
+		jTableBinding.addColumnBinding(reservaBeanProperty_10).setColumnName("Elemento").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_11 = BeanProperty.create("elemento.autor");
+		jTableBinding.addColumnBinding(reservaBeanProperty_11).setColumnName("Autor").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_12 = BeanProperty.create("elemento.genero");
+		jTableBinding.addColumnBinding(reservaBeanProperty_12).setColumnName("Genero").setEditable(false);
+		//
 		jTableBinding.bind();
 	}
+	
+	
 }
