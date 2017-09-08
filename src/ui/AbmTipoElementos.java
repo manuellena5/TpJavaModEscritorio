@@ -3,6 +3,7 @@ package ui;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -12,8 +13,10 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import entidades.Categoria;
+import entidades.Elemento;
 import entidades.Persona;
 import entidades.Tipo_Elemento;
+import negocio.ElementosLogic;
 import negocio.Tipo_ElementosLogic;
 
 import java.awt.event.MouseAdapter;
@@ -23,11 +26,13 @@ public class AbmTipoElementos extends JInternalFrame {
 	private JTextField txtid;
 	private JTextField txtnombre;
 	private JTextField txtcantmaxpend;
-	
-	Tipo_ElementosLogic tel = new Tipo_ElementosLogic();
-
+	private Tipo_ElementosLogic tel;
+	private JButton btnAceptar;
 
 	public AbmTipoElementos() {
+		
+		tel = new Tipo_ElementosLogic();
+		
 		setClosable(true);
 		setTitle("Tipos de elementos");
 		setBounds(100, 100, 450, 300);
@@ -48,7 +53,7 @@ public class AbmTipoElementos extends JInternalFrame {
 		txtcantmaxpend = new JTextField();
 		txtcantmaxpend.setColumns(10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -123,13 +128,23 @@ public class AbmTipoElementos extends JInternalFrame {
 					.addGap(28))
 		);
 		getContentPane().setLayout(groupLayout);
-
+		
 	}
+	
+	
 	private void btnAceptarClick() {
 		
 		Tipo_Elemento te = this.MapearDesdeform();
 		try{
-			tel.add(te);
+			if (btnAceptar.getText() == "Aceptar") {
+				tel.add(te);	
+			} else if (btnAceptar.getText() == "Editar") {
+				tel.ModificarTipoElemento(te);
+			} else{
+				
+				tel.delete(te);
+			}
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -137,17 +152,12 @@ public class AbmTipoElementos extends JInternalFrame {
 		
 	}
 	
-	private void btnSalirClick() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	protected void MapearAform(Tipo_Elemento te){
 		
 		this.txtnombre.setText(te.getNombre());
 		this.txtcantmaxpend.setText(String.valueOf(te.getCantMaxReservasPend()));
 		this.txtid.setText(String.valueOf(te.getId_tipoelemento()));
-		
 
 	}
 	
@@ -170,6 +180,34 @@ public class AbmTipoElementos extends JInternalFrame {
 		this.txtid.setText("");
 		this.txtnombre.setText("");
 		this.txtcantmaxpend.setText("");
+		
+	}
+	
+	private void HabilitarControles(boolean val)
+	{
+		this.txtnombre.setEditable(val);
+		this.txtcantmaxpend.setEditable(val);
+	}
+	
+	public void showAbmTipoElementos(Tipo_Elemento tipoele,String modo){
+		if (modo == "Editar") {
+			this.MapearAform(tipoele);
+			btnAceptar.setText("Editar");
+			HabilitarControles(true);
+			
+		}else {
+			this.MapearAform(tipoele);
+			btnAceptar.setText("Eliminar");
+			HabilitarControles(false);
+		}
+		
+	}
+	
+	private void btnSalirClick() {
+		Tipo_Elementos frm = new Tipo_Elementos();
+		this.getDesktopPane().add(frm);
+		frm.setVisible(true);
+		this.dispose();
 		
 	}
 	
