@@ -28,7 +28,7 @@ public class FactoryConexion {
 			Class.forName(driver);
 			
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();  ESTA PARTE TIRA ERROR Y ABRE LA CONSOLA
 			
 			
 		}

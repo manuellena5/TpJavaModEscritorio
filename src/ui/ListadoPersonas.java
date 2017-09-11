@@ -45,7 +45,7 @@ public class ListadoPersonas extends JInternalFrame {
 	private TableRowSorter trsFiltro;
 	public JButton btnPersonaSeleccionada;
 	
-	
+	public Persona persona;
 	
 	public ListadoPersonas() {
 		
@@ -222,14 +222,13 @@ public class ListadoPersonas extends JInternalFrame {
 	}
 	
 	private void showPersona() {
-		int indexPersona= table.convertRowIndexToModel(table.getSelectedRow());
-		AbmReservas frm = new AbmReservas();
-		
-		frm.showPersona(this.lista.get(indexPersona));
-		this.getDesktopPane().add(frm);
-		this.btnPersonaSeleccionada.setVisible(false);
-		frm.setVisible(true);
-		this.dispose();
+		if (table.getSelectedRow() != -1) {
+			int indexElemento = table.convertRowIndexToModel(table.getSelectedRow());
+			persona = this.lista.get(indexElemento);
+			this.btnPersonaSeleccionada.setVisible(false);
+		}else{
+			JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento");
+		}
 		
 		
 	}

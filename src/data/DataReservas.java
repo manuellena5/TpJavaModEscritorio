@@ -9,6 +9,7 @@ import java.security.KeyStore.ProtectionParameter;
 
 public class DataReservas {
 	
+
 	
 	public ArrayList<Reserva> getAll() throws Exception{
 				
@@ -146,23 +147,21 @@ public class DataReservas {
 			try {
 				stmt=FactoryConexion.getInstancia().getConn()
 						.prepareStatement(
-						"insert into reservas(fecha_registro, fecha_inicio, fecha_fin, detalle, estado) values (?,?,?,?,?)",
+						"insert into reservas(id_elemento,id_persona,fecha_registro, fecha_inicio, fecha_fin, detalle, estado) values (?,?,?,?,?,?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS
 						);
 				
-				stmt.setDate(1, res.getFecha_registro());
-				stmt.setDate(2, res.getFecha_inicio());
-				stmt.setDate(3, res.getFecha_fin());
-				stmt.setString(4, res.getDetalle());
-				stmt.setString(5, res.getEstado());
+				stmt.setInt(1,res.getElemento().getId_elemento());
+				stmt.setInt(2, res.getPersona().getId_persona());
+				stmt.setDate(3,(Date) res.getFecha_registro());
+				stmt.setDate(4,(Date)res.getFecha_inicio());
+				stmt.setDate(5,(Date) res.getFecha_fin());
+				stmt.setString(6, res.getDetalle());
+				stmt.setString(7, res.getEstado());
 				
 				stmt.executeUpdate();
 				
-				keyResultSet=stmt.getGeneratedKeys();
-				if(keyResultSet!=null && keyResultSet.next()){
-					res.getPersona().setId_persona(keyResultSet.getInt(1));
-					res.getElemento().setId_elemento(keyResultSet.getInt(2));
-				}
+				
 			} catch (SQLException | AppDataException e) {
 				throw e;
 			}
@@ -180,15 +179,16 @@ public class DataReservas {
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"update reservas set fecha_registro=?, fecha_inicio=?, fecha_fin=?, detalle=?, estado=? where id_persona=? and id_elemento=?");
+						"update reservas set fecha_inicio=?, fecha_fin=?, detalle=?, estado=? where id_persona=? and id_elemento=? and fecha_registro=?");
 				
-				stmt.setDate(1, res.getFecha_registro());
-				stmt.setDate(2, res.getFecha_inicio());
-				stmt.setDate(3, res.getFecha_fin());
-				stmt.setString(4, res.getDetalle());
-				stmt.setString(5, res.getEstado());
-				stmt.setInt(6, res.getPersona().getId_persona());
-				stmt.setInt(7, res.getElemento().getId_elemento());
+				
+				stmt.setDate(1,(Date) res.getFecha_inicio());
+				stmt.setDate(2,(Date) res.getFecha_fin());
+				stmt.setString(3, res.getDetalle());
+				stmt.setString(4, res.getEstado());
+				stmt.setInt(5, res.getPersona().getId_persona());
+				stmt.setInt(6, res.getElemento().getId_elemento());
+				stmt.setDate(7,(Date) res.getFecha_registro());
 			
 				stmt.execute();
 				
@@ -210,10 +210,11 @@ public class DataReservas {
 			
 			try {
 				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
-						"delete from reservas where id_persona=? and id_elemento=?");
+						"delete from reservas where id_persona=? and id_elemento=? and fecha_registro=?");
 				
 				stmt.setInt(1, res.getPersona().getId_persona());
-				stmt.setInt(1, res.getElemento().getId_elemento());
+				stmt.setInt(2, res.getElemento().getId_elemento());
+				stmt.setDate(3, (Date) res.getFecha_registro());
 				stmt.execute();
 				
 				

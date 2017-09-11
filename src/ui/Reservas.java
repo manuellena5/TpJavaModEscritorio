@@ -34,6 +34,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
+import java.text.ParseException;
 
 public class Reservas extends JInternalFrame {
 	private JTable table;
@@ -122,7 +123,12 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				modo = "Alta";
-				ShowAbmReservas(modo);
+				try {
+					ShowAbmReservas(modo);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 
@@ -135,7 +141,12 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				modo = "Editar";
-				ShowAbmReservas(modo);
+				try {
+					ShowAbmReservas(modo);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		menuBar.add(btnEditar);
@@ -145,7 +156,12 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				modo = "Eliminar";
-				ShowAbmReservas(modo);
+				try {
+					ShowAbmReservas(modo);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		menuBar.add(btnBaja);
@@ -162,7 +178,7 @@ public class Reservas extends JInternalFrame {
 
 	}
 	
-	private void ShowAbmReservas(String modo) {
+	private void ShowAbmReservas(String modo) throws ParseException {
 		
 		AbmReservas abm = new AbmReservas();
 		if (modo != "Alta") {
@@ -171,9 +187,11 @@ public class Reservas extends JInternalFrame {
 			abm.showAbmReservas(this.lista.get(index),modo);
 						
 			
+			
 		}
 		this.getDesktopPane().add(abm);
 		abm.setVisible(true);
+
 		this.dispose();
 		
 	}

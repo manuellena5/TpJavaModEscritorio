@@ -90,18 +90,18 @@ CREATE TABLE `personas` (
 DROP TABLE IF EXISTS `reservas`;
 
 CREATE TABLE `reservas` (
-  `id_persona` int(11) NOT NULL auto_increment,
   `id_elemento` int(11) NOT NULL,
-  `fecha_registro` date default NULL,
+  `id_persona` int(11) NOT NULL,
+  `fecha_registro` date NOT NULL,
   `fecha_inicio` date default NULL,
   `fecha_fin` date default NULL,
   `detalle` varchar(50) default NULL,
   `estado` varchar(50) default NULL,
-  PRIMARY KEY  (`id_persona`,`id_elemento`),
-  UNIQUE KEY `id_persona` (`id_persona`),
-  UNIQUE KEY `id_elemento` (`id_elemento`),
-  CONSTRAINT `reservas_elemento_fk1` FOREIGN KEY (`id_elemento`) REFERENCES `elementos` (`id_elemento`),
-  CONSTRAINT `reservas_fk` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`)
+  PRIMARY KEY  (`id_elemento`,`id_persona`,`fecha_registro`),
+  KEY `id_elemento` (`id_elemento`),
+  KEY `id_persona` (`id_persona`),
+  CONSTRAINT `reservas_persona_fk` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`),
+  CONSTRAINT `reservas_elemento_fk` FOREIGN KEY (`id_elemento`) REFERENCES `elementos` (`id_elemento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -154,8 +154,11 @@ COMMIT;
 # Data for the `reservas` table  (LIMIT 0,500)
 #
 
-INSERT INTO `reservas` (`id_persona`, `id_elemento`, `fecha_registro`, `fecha_inicio`, `fecha_fin`, `detalle`, `estado`) VALUES 
-  (1,1,'2017-09-07','2017-09-07','2017-09-10','sin detalle','Activa');
+INSERT INTO `reservas` (`id_elemento`, `id_persona`, `fecha_registro`, `fecha_inicio`, `fecha_fin`, `detalle`, `estado`) VALUES 
+  (1,1,'2017-09-11','2017-09-11','2017-10-20','Sin detalle','Activa'),
+  (1,1,'2017-09-12','2017-09-12','2017-11-15','Sin detalle','Activa'),
+  (7,3,'2017-09-11','2017-09-11','2017-09-17','Sin detalle','Activa'),
+  (7,3,'2017-10-11','2017-10-11','2017-12-23','Sin detalle','Activa');
 
 COMMIT;
 

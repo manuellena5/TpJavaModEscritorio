@@ -40,9 +40,11 @@ public class PrincipalEscritorio extends JFrame {
 	 * Create the frame.
 	 */
 	public PrincipalEscritorio() {
+
 		setTitle("Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 795, 550);
+		setExtendedState(MAXIMIZED_BOTH); /* Para La ventana ocupe toda la pantalla */
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -230,6 +232,8 @@ public class PrincipalEscritorio extends JFrame {
 		Reservas frm2 = new Reservas();
 		desktopPane.add(frm2);
 		frm2.setVisible(true);
+		
+		
 	}
 	
 	private void ShowListadoReservas() {

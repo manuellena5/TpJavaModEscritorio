@@ -22,8 +22,11 @@ import javax.swing.JOptionPane;
 
 import java.awt.SystemColor;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -42,6 +45,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 
 public class AbmReservas extends JInternalFrame {
 	private JTextField txtnombrepersona;
@@ -62,7 +66,10 @@ public class AbmReservas extends JInternalFrame {
 	private JTextArea txtdetalle;
 	private JButton btnBuscarPersona;
 	private JButton btnBuscarElemento;
-	 ReservasLogic reservaslogic = new ReservasLogic();
+	private Reservas frmreservas;
+	 private ReservasLogic reservaslogic;
+	 
+	 
 	
 	
 	
@@ -71,6 +78,9 @@ public class AbmReservas extends JInternalFrame {
 	
 	
 	public AbmReservas() {
+		
+		
+		
 		setClosable(true);
 		setTitle("Reservas");
 		getContentPane().setBackground(SystemColor.menu);
@@ -86,7 +96,7 @@ public class AbmReservas extends JInternalFrame {
 		
 		JLabel lblUsuario = new JLabel("Usuario");
 		
-		
+		reservaslogic = new ReservasLogic();
 		
 		txtnombrepersona = new JTextField();
 		txtnombrepersona.setEditable(false);
@@ -168,20 +178,32 @@ public class AbmReservas extends JInternalFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				btnAceptarClick();
 				LimpiarControles();
+				
 			}
 
 			
 		});
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnSalirClick();
+			}
+		});
 		
 		cfechainicio = new JDateChooser();
+		cfechainicio.setDateFormatString("yyyy-MM-dd");
 		
 		cfechafin = new JDateChooser();
+		cfechafin.setDateFormatString("yyyy-MM-dd");
+
 		
 		JLabel lblFechaDeRegistro = new JLabel("Fecha de registro de la reserva");
 		
 		cfecharegistro = new JDateChooser();
+		cfecharegistro.setDateFormatString("yyyy-MM-dd");
+		
 		
 		JLabel lblId = new JLabel("ID");
 		
@@ -381,7 +403,7 @@ public class AbmReservas extends JInternalFrame {
 	}
 	
 	
-	public void showAbmReservas(Reserva res,String modo){
+	public void showAbmReservas(Reserva res,String modo) throws ParseException{
 		if (modo == "Editar") {
 			this.MapearAform(res);
 			btnAceptar.setText("Editar");
@@ -421,6 +443,17 @@ public class AbmReservas extends JInternalFrame {
 		this.cfecharegistro.setDefaultLocale(getLocale());
 		this.txtdetalle.setText("");
 		this.comboestado.setSelectedIndex(-1);
+		this.txtapellido.setText("");
+		this.txtautor.setText("");
+		this.txtdetalle.setText("");
+		this.txtdni.setText("");
+		this.txtgenero.setText("");
+		this.txtidelemento.setText("");
+		this.txtidpersona.setText("");
+		this.txtnombreelemento.setText("");
+		this.txtnombrepersona.setText("");
+		this.txtusuario.setText("");
+		this.txttipoelemento.setText("");
 		
 		
 		
@@ -441,9 +474,9 @@ public class AbmReservas extends JInternalFrame {
 		this.txtdni.setText(res.getPersona().getDni());
 		this.txtusuario.setText(res.getPersona().getUsuario());
 		
-		this.cfechafin.setDate((Date) res.getFecha_fin());
-		this.cfechainicio.setDate((Date) res.getFecha_inicio());
-		this.cfecharegistro.setDate((Date) res.getFecha_registro());
+		this.cfechafin.setDate(res.getFecha_fin());
+		this.cfechainicio.setDate(res.getFecha_inicio());
+		this.cfecharegistro.setDate(res.getFecha_registro());
 		this.txtdetalle.setText(res.getDetalle());
 		this.comboestado.setSelectedItem(res.getEstado());
 
@@ -458,11 +491,18 @@ public class AbmReservas extends JInternalFrame {
 		Elemento el = new Elemento();
 		Persona per = new Persona();
 		
+		java.util.Date date = this.cfechainicio.getDate(); /*Esto se hace porque habia no dejaba guardar un tipo java.util.data en un java.sql.data, de esta forma se corrige */
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
+		res.setFecha_inicio(sqlDate);
 		
+		date = this.cfechafin.getDate();
+		sqlDate = new java.sql.Date(date.getTime());
+		res.setFecha_fin(sqlDate);
 		
-		res.setFecha_inicio((Date)this.cfechainicio.getDate());
-		res.setFecha_fin((Date)this.cfechafin.getDate());
-		res.setFecha_registro((Date) this.cfecharegistro.getDate());
+		date=this.cfecharegistro.getDate();
+		sqlDate = new java.sql.Date(date.getTime());
+		res.setFecha_registro(sqlDate);
+		
 		res.setEstado(this.comboestado.getSelectedItem().toString());
 		res.setDetalle(this.txtdetalle.getText());
 		
@@ -487,22 +527,32 @@ public class AbmReservas extends JInternalFrame {
 	
 	private void btnAceptarClick() {
 		Reserva res = this.MapearDesdeform();
+		
+		frmreservas = new Reservas();
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
 				try{
 					reservaslogic.add(res);
+					
+					
+					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
 			} else if (btnAceptar.getText() == "Editar") {
 				try{
 					reservaslogic.update(res);
+					
+					
+					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
 			} else{
 				try{
 					reservaslogic.delete(res);
+					
+					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
@@ -517,12 +567,12 @@ public class AbmReservas extends JInternalFrame {
 		
 	}
 	
-	private void btnCancelarClick() {
+	private void btnSalirClick() {
 		
 		
-		Reservas frm = new Reservas();
-		this.getDesktopPane().add(frm);
-		frm.setVisible(true);
+		frmreservas = new Reservas();
+		this.getDesktopPane().add(frmreservas);
+		frmreservas.setVisible(true);
 		this.dispose();
 		
 		
@@ -532,28 +582,41 @@ public class AbmReservas extends JInternalFrame {
 	private void showListadoPersonas() {
 		
 		ListadoPersonas frm = new ListadoPersonas();
-		getDesktopPane().add(frm);
-		
+		JDialog dialog = new JDialog();
 		frm.btnPersonaSeleccionada.setVisible(true);
-		frm.setVisible(true);
+		dialog.setContentPane(frm.getContentPane());
+		dialog.setAlwaysOnTop(true);
+		//dialog.setLocationRelativeTo(null);
+		dialog.pack(); /* Le da un tamaño a la ventana */
+		dialog.setModal(true);
+		dialog.setVisible(true);
 		
-		
+		showPersona(frm.persona);
 		
 		
 	}
 	
 	private void showListadoElementos() {
 		ListadoElementos frm = new ListadoElementos();
-		getDesktopPane().add(frm);
-		
-		
+		JDialog dialog = new JDialog();
 		frm.btnElementoSeleccionado.setVisible(true);
-		frm.setVisible(true);
+		dialog.setContentPane(frm.getContentPane());
+		dialog.setAlwaysOnTop( true );
+		dialog.pack(); /* Le da un tamaño a la ventana */
+		dialog.setModal(true);
+		dialog.setVisible(true);
 		
-				
+
+		
+		showElemento(frm.el);
+		
+		
+		
+		
 	}
 	
 	public void showPersona(Persona per){
+		
 		Reserva res = new Reserva();
 		res.setPersona(per);
 		

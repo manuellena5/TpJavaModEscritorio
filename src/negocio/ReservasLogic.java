@@ -3,6 +3,7 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataReservas;
+import entidades.Elemento;
 import entidades.Reserva;
 
 public class ReservasLogic {
@@ -12,7 +13,8 @@ public class ReservasLogic {
 	private DataReservas reservasD;
 	ArrayList<Reserva> lista = new ArrayList<Reserva>();
 	
-	
+
+
 	public ReservasLogic(){
 	
 		reservas = new Reserva(); 

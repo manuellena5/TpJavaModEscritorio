@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,6 +31,8 @@ import org.jdesktop.swingbinding.SwingBindings;
 
 import entidades.Elemento;
 import negocio.ElementosLogic;
+import negocio.ReservasLogic;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -39,8 +43,12 @@ public class ListadoElementos extends JInternalFrame {
 	private JComboBox comboFiltro;
 	private TableRowSorter trsFiltro;
 	private ArrayList<Elemento> lista; 
+	ReservasLogic reservaslogic;
 	ElementosLogic elementoLogic = new ElementosLogic();
 	public JButton btnElementoSeleccionado;
+
+	public Elemento el;
+
 	
 	public ListadoElementos() {
 		setTitle("Listado Elementos");
@@ -75,7 +83,10 @@ public class ListadoElementos extends JInternalFrame {
 		btnElementoSeleccionado.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				showElemento();
+				
+					showElemento();
+				
+				
 			}
 
 			
@@ -116,6 +127,7 @@ public class ListadoElementos extends JInternalFrame {
 		);
 		
 		table = new JTable();
+		
 		scrollPane.setViewportView(table);
 		getContentPane().setLayout(groupLayout);
 		
@@ -179,19 +191,27 @@ public class ListadoElementos extends JInternalFrame {
 	}
 	
 	private void showElemento() {
-		int indexElemento = table.convertRowIndexToModel(table.getSelectedRow());
 		
-		AbmReservas frm= new AbmReservas();
+		if (table.getSelectedRow() != -1) {
+			int indexElemento = table.convertRowIndexToModel(table.getSelectedRow());
+			el= this.lista.get(indexElemento);
+			this.btnElementoSeleccionado.setVisible(false);
+			this.setVisible(false);
+		}else{
+			JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento");
+		}
 		
-		frm.showElemento(this.lista.get(indexElemento));
+			
+			
+			
 		
-		this.btnElementoSeleccionado.setVisible(false);
 		
-		this.getDesktopPane().add(frm);
-		frm.setVisible(true);
-		this.dispose();
 		
 	}
+	
+	
+	
+	
 	
 	
 }
