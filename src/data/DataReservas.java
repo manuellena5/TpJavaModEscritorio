@@ -230,5 +230,43 @@ public class DataReservas {
 			}
 		} 
 		 
+		public int getReservasPendientes(Reserva res) throws Exception{
+			
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			int cantReservasPendientesPersona=0;
+		
+			try {
+				stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select count(*) cantReservasPendientesPersona from reservas r inner join personas p on p.`id_persona` = r.`id_persona`" 
+				  		+ "inner join elementos e on e.`id_elemento` = r.`id_elemento`"
+						+ "where p.id_persona=? and e.id_tipoelemento=? and r.estado='Activa'");
+				  stmt.setInt(1, res.getPersona().getId_persona());
+				  stmt.setInt(2, res.getElemento().getId_tipoelemento());
+				  /*stmt.setString(3, res.getEstado());*/
+				  rs = stmt.executeQuery();  
+				  
+			
+			cantReservasPendientesPersona = rs.getInt("cantReservasPendientesPersona");
+				
+			
+			}catch (SQLException e) {
+				
+				throw e;
+			}
+			catch (AppDataException ade){
+				throw ade;
+			}
+			
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+				return cantReservasPendientesPersona;
+		}
 }
 

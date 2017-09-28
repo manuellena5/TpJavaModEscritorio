@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import data.DataReservas;
 import entidades.Elemento;
 import entidades.Reserva;
+import entidades.Persona;
+import entidades.Tipo_Elemento;
 
 public class ReservasLogic {
 
@@ -111,4 +113,17 @@ public class ReservasLogic {
 			
 		}*/
 	
+		
+		
+		public boolean ValidarCantidadReservasPendientes(Reserva res) throws Exception{
+			
+			
+			int cantReservasPendPersona = reservasD.getReservasPendientes(res);
+			if(cantReservasPendPersona < res.getElemento().getTipo_Elemento().getCantMaxReservasPend())
+			{return true;}
+			else
+			{return false;}
+		
+		
+		}
 }

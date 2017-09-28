@@ -525,47 +525,7 @@ public class AbmReservas extends JInternalFrame {
 		
 	}
 	
-	private void btnAceptarClick() {
-		Reserva res = this.MapearDesdeform();
-		
-		frmreservas = new Reservas();
-		try{
-			if (btnAceptar.getText() == "Aceptar") {
-				try{
-					reservaslogic.add(res);
-					
-					
-					this.dispose();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				}
-			} else if (btnAceptar.getText() == "Editar") {
-				try{
-					reservaslogic.update(res);
-					
-					
-					this.dispose();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				}
-			} else{
-				try{
-					reservaslogic.delete(res);
-					
-					this.dispose();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				}
-				
-			}
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
-		this.txtidelemento.setText(String.valueOf(res.getElemento().getId_elemento()));
-		this.txtidpersona.setText(String.valueOf(res.getPersona().getId_persona()));
-		
-	}
+	
 	
 	private void btnSalirClick() {
 		
@@ -637,6 +597,60 @@ public class AbmReservas extends JInternalFrame {
 		this.txtnombreelemento.setText(res.getElemento().getNombre());
 		this.txtautor.setText(res.getElemento().getAutor());
 		this.txtgenero.setText(res.getElemento().getGenero());
+		
+	}
+	
+	
+	private void btnAceptarClick() {
+		Reserva res = this.MapearDesdeform();
+		
+		frmreservas = new Reservas();
+		try{
+			
+			if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==true) {
+				try{
+					reservaslogic.add(res);
+					
+					
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+				
+			}	else if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==false) {
+					
+				try{
+					JOptionPane.showMessageDialog(null, "Ha superado la cantidad de reservas pendientes de ese tipo");
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+				
+			}	else if (btnAceptar.getText() == "Editar") {
+				try{
+					reservaslogic.update(res);
+					
+					
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+			} else{
+				try{
+					reservaslogic.delete(res);
+					
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		this.txtidelemento.setText(String.valueOf(res.getElemento().getId_elemento()));
+		this.txtidpersona.setText(String.valueOf(res.getPersona().getId_persona()));
 		
 	}
 }
