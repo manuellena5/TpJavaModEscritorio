@@ -617,8 +617,11 @@ public class AbmReservas extends JInternalFrame {
 	
 	
 	private void btnAceptarClick() {
-		Reserva res = this.MapearDesdeform();
 		
+		boolean validaCampos = this.validarVacios();
+		if(validaCampos==false){
+			
+		Reserva res = this.MapearDesdeform();
 		
 		try{
 			
@@ -679,5 +682,28 @@ public class AbmReservas extends JInternalFrame {
 		this.txtidelemento.setText(String.valueOf(res.getElemento().getId_elemento()));
 		this.txtidpersona.setText(String.valueOf(res.getPersona().getId_persona()));
 		
+	
+	} else {
+		JOptionPane.showMessageDialog(this, "Hay campos obligatorios que no han sido completados");
+		Reservas frmreservas = new Reservas();
+		this.getDesktopPane().add(frmreservas);
+		frmreservas.setVisible(true);
+		this.dispose();
+	}
+}
+	private  boolean validarVacios(){
+	     boolean error=false;
+	      //validando que no esten vacios los campos
+	        if(this.txtidpersona.getText().isEmpty())
+	           error= true;
+	        if(this.txtidelemento.getText().isEmpty())
+	           error= true;
+	        if(this.cfechainicio.getDate()==null)
+		           error= true;
+	        if(this.cfechafin.getDate()==null)
+		           error= true;
+	        if(this.cfecharegistro.getDate()==null)
+		           error= true;
+	      return error;
 	}
 }
