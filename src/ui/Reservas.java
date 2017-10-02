@@ -56,7 +56,7 @@ public class Reservas extends JInternalFrame {
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		
 		comboFiltro = new JComboBox();
-		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id_persona", "id_elemento", "fecha_registro", "fecha_inicio", "fecha_fin", "detalle", "estado"}));
+		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"ID_Elemento","ID_Persona","Fecha_Registro","Fecha_Inicio","Fecha_Fin","Estado","Apellido","Nombre_Persona","Dni","Elemento","Autor","Genero","Detalle"}));
 		
 		txtBuscar = new JTextField();
 		
@@ -73,6 +73,12 @@ public class Reservas extends JInternalFrame {
 		txtBuscar.setColumns(10);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnSalirClick();
+			}
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -123,12 +129,9 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				modo = "Alta";
-				try {
+			
 					ShowAbmReservas(modo);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 				
 			}
 
@@ -141,12 +144,11 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				modo = "Editar";
-				try {
+					if (table.getSelectedRow() == -1) {
+						JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una reserva");}
+					else{
 					ShowAbmReservas(modo);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+					}
 			}
 		});
 		menuBar.add(btnEditar);
@@ -156,12 +158,12 @@ public class Reservas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				modo = "Eliminar";
-				try {
-					ShowAbmReservas(modo);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una reserva");}
+				else{
+				ShowAbmReservas(modo);
 				}
+		
 			}
 		});
 		menuBar.add(btnBaja);
@@ -178,7 +180,7 @@ public class Reservas extends JInternalFrame {
 
 	}
 	
-	private void ShowAbmReservas(String modo) throws ParseException {
+	private void ShowAbmReservas(String modo) {
 		
 		AbmReservas abm = new AbmReservas();
 		if (modo != "Alta") {
@@ -196,31 +198,52 @@ public class Reservas extends JInternalFrame {
 		
 	}
 	
+	
 	public void filtro() {
         int columnaABuscar = 0;
-        if (comboFiltro.getSelectedItem() == "id_persona") {
+        if (comboFiltro.getSelectedItem().toString() == "ID_Elemento") {
             columnaABuscar = 0;
         }
-        if (comboFiltro.getSelectedItem().toString() == "id_elemento") {
+        if (comboFiltro.getSelectedItem().toString() == "ID_Persona") {
             columnaABuscar = 1;
         }
-        if (comboFiltro.getSelectedItem().toString() == "fecha_registro") {
+        if (comboFiltro.getSelectedItem().toString() == "Fecha_Registro") {
             columnaABuscar = 2;
         }
-        if (comboFiltro.getSelectedItem() == "fecha_inicio") {
+        if (comboFiltro.getSelectedItem() == "Fecha_Inicio") {
             columnaABuscar = 3;
         }
-        if (comboFiltro.getSelectedItem() == "fecha_fin") {
+        if (comboFiltro.getSelectedItem() == "Fecha_Fin") {
             columnaABuscar = 4;
         }
-        if (comboFiltro.getSelectedItem() == "detalle") {
+        if (comboFiltro.getSelectedItem() == "Estado") {
             columnaABuscar = 5;
         }
-        if (comboFiltro.getSelectedItem() == "estado") {
+        if (comboFiltro.getSelectedItem() == "Apellido") {
             columnaABuscar = 6;
+        }
+        if (comboFiltro.getSelectedItem() == "Nombre_Persona") {
+            columnaABuscar = 7;
+        }
+        if (comboFiltro.getSelectedItem() == "Dni") {
+            columnaABuscar = 8;
+        }
+        if (comboFiltro.getSelectedItem() == "Elemento") {
+            columnaABuscar = 9;
+        }
+        if (comboFiltro.getSelectedItem() == "Autor") {
+            columnaABuscar = 10;
+        }
+        if (comboFiltro.getSelectedItem() == "Genero") {
+            columnaABuscar = 11;
+        }
+        if (comboFiltro.getSelectedItem() == "Detalle") {
+            columnaABuscar = 12;
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), columnaABuscar));
     }
+	
+	
 	protected void initDataBindings() {
 		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//
@@ -230,20 +253,17 @@ public class Reservas extends JInternalFrame {
 		BeanProperty<Reserva, Integer> reservaBeanProperty_1 = BeanProperty.create("persona.id_persona");
 		jTableBinding.addColumnBinding(reservaBeanProperty_1).setColumnName("ID Persona").setEditable(false);
 		//
+		BeanProperty<Reserva, Date> reservaBeanProperty_4 = BeanProperty.create("fecha_registro");
+		jTableBinding.addColumnBinding(reservaBeanProperty_4).setColumnName("Fecha Registro").setEditable(false);
+		//
 		BeanProperty<Reserva, Date> reservaBeanProperty_2 = BeanProperty.create("fecha_inicio");
 		jTableBinding.addColumnBinding(reservaBeanProperty_2).setColumnName("Fecha Inicio").setEditable(false);
 		//
 		BeanProperty<Reserva, Date> reservaBeanProperty_3 = BeanProperty.create("fecha_fin");
 		jTableBinding.addColumnBinding(reservaBeanProperty_3).setColumnName("Fecha Fin").setEditable(false);
 		//
-		BeanProperty<Reserva, Date> reservaBeanProperty_4 = BeanProperty.create("fecha_registro");
-		jTableBinding.addColumnBinding(reservaBeanProperty_4).setColumnName("Fecha Registro").setEditable(false);
-		//
 		BeanProperty<Reserva, String> reservaBeanProperty_5 = BeanProperty.create("estado");
 		jTableBinding.addColumnBinding(reservaBeanProperty_5).setColumnName("Estado").setEditable(false);
-		//
-		BeanProperty<Reserva, String> reservaBeanProperty_6 = BeanProperty.create("detalle");
-		jTableBinding.addColumnBinding(reservaBeanProperty_6).setColumnName("Detalle").setEditable(false);
 		//
 		BeanProperty<Reserva, String> reservaBeanProperty_7 = BeanProperty.create("persona.apellido");
 		jTableBinding.addColumnBinding(reservaBeanProperty_7).setColumnName("Apellido").setEditable(false);
@@ -263,8 +283,15 @@ public class Reservas extends JInternalFrame {
 		BeanProperty<Reserva, String> reservaBeanProperty_12 = BeanProperty.create("elemento.genero");
 		jTableBinding.addColumnBinding(reservaBeanProperty_12).setColumnName("Genero").setEditable(false);
 		//
+		BeanProperty<Reserva, String> reservaBeanProperty_6 = BeanProperty.create("detalle");
+		jTableBinding.addColumnBinding(reservaBeanProperty_6).setColumnName("Detalle").setEditable(false);
+		//
 		jTableBinding.bind();
 	}
 	
-	
+	public void btnSalirClick(){
+		this.dispose();
+		
+		
+	}
 }

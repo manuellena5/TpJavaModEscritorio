@@ -42,6 +42,9 @@ public class Elementos extends JInternalFrame {
 	private ArrayList<Elemento> lista; 
 	ElementosLogic elementoLogic = new ElementosLogic();
 	private JComboBox comboFiltro;
+	private JButton btnAlta;
+	private JButton btnEditar;
+	private JButton btnBaja;
 
 	public Elementos() {
 		
@@ -54,7 +57,8 @@ public class Elementos extends JInternalFrame {
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		
 		comboFiltro = new JComboBox();
-		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "descripcion", "autor", "genero"}));
+		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"Id", "Elemento", "Descripcion", "Autor", "Genero","Stock","Tipo_elemento"}));
+		
 		
 		txtbuscar = new JTextField();
 		
@@ -79,19 +83,6 @@ public class Elementos extends JInternalFrame {
 
 			
 		});
-		
-		JButton btnActualizar = new JButton("Actualizar listado");
-		btnActualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					actualizarListado();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -104,24 +95,21 @@ public class Elementos extends JInternalFrame {
 							.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 							.addGap(47)
 							.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-							.addGap(75)
-							.addComponent(btnActualizar)
-							.addGap(105))
+							.addGap(293))
 						.addComponent(btnSalir)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 736, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addContainerGap(107, Short.MAX_VALUE))
+					.addContainerGap(27, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(25, Short.MAX_VALUE)
+					.addContainerGap(22, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBuscarPor)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnActualizar))
+						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -136,7 +124,7 @@ public class Elementos extends JInternalFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JButton btnAlta = new JButton("Alta");
+		btnAlta = new JButton("Alta");
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String modo = "Alta";
@@ -147,20 +135,29 @@ public class Elementos extends JInternalFrame {
 		});
 		menuBar.add(btnAlta);
 		
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String modo = "Editar";
-				ShowAbmElementos(modo);
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar un elemento");}
+				else{
+					ShowAbmElementos(modo);
+				}
+				
 			}
 		});
 		menuBar.add(btnEditar);
 		
-		JButton btnBaja = new JButton("Baja");
+		btnBaja = new JButton("Baja");
 		btnBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String modo = "Eliminar";
-				ShowAbmElementos(modo);
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar un elemento");}
+				else{
+					ShowAbmElementos(modo);
+				}
 			}
 		});
 		menuBar.add(btnBaja);
@@ -181,20 +178,26 @@ public class Elementos extends JInternalFrame {
 	
 	public void filtro() {
         int columnaABuscar = 0;
-        if (comboFiltro.getSelectedItem() == "id") {
+        if (comboFiltro.getSelectedItem().toString() == "Id") {
             columnaABuscar = 0;
         }
-        if (comboFiltro.getSelectedItem().toString() == "nombre") {
+        if (comboFiltro.getSelectedItem() == "Elemento") {
             columnaABuscar = 1;
         }
-        if (comboFiltro.getSelectedItem().toString() == "descripcion") {
+        if (comboFiltro.getSelectedItem() == "Descripcion") {
             columnaABuscar = 2;
         }
-        if (comboFiltro.getSelectedItem() == "autor") {
+        if (comboFiltro.getSelectedItem() == "Autor") {
             columnaABuscar = 3;
         }
-        if (comboFiltro.getSelectedItem() == "genero") {
+        if (comboFiltro.getSelectedItem() == "Genero") {
             columnaABuscar = 4;
+        }
+        if (comboFiltro.getSelectedItem().toString() == "Stock") {
+            columnaABuscar = 5;
+        }
+        if (comboFiltro.getSelectedItem() == "Tipo_elemento") {
+            columnaABuscar = 6;
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtbuscar.getText(), columnaABuscar));
     }
@@ -231,6 +234,7 @@ public class Elementos extends JInternalFrame {
 	private void ShowAbmElementos(String modo) {
 		
 		AbmElementos abm = new AbmElementos();
+		
 		if (modo != "Alta") {
 			
 			int index = table.convertRowIndexToModel(table.getSelectedRow());
@@ -244,16 +248,6 @@ public class Elementos extends JInternalFrame {
 		
 		
 		
-	}
-	
-	private void actualizarListado() throws Exception {
-		try{
-			this.lista = elementoLogic.GetAll();
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-	
-		}
-		initDataBindings();
 	}
 	
 	

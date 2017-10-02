@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -43,13 +45,13 @@ public class ListadoPersonas extends JInternalFrame {
 	DefaultTableModel dm;
 	private JComboBox comboFiltro;
 	private TableRowSorter trsFiltro;
-	public JButton btnPersonaSeleccionada;
 	
 	public Persona persona;
 	
 	public ListadoPersonas() {
 		
 		setTitle("Listado de personas");
+		this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		setClosable(true);
 		setBounds(100, 100, 821, 481);
 		
@@ -75,27 +77,11 @@ public class ListadoPersonas extends JInternalFrame {
 		comboFiltro = new JComboBox();
 		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "apellido", "dni", "usuario"}));
 		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.addMouseListener(new MouseAdapter() {
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				try {
-					actualizarListado();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		JButton btnSalir = new JButton("Salir");
-		
-		btnPersonaSeleccionada = new JButton("Persona seleccionada");
-		btnPersonaSeleccionada.setVisible(false);
-		btnPersonaSeleccionada.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				showPersona();
+				btnSalirClick();
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -116,11 +102,7 @@ public class ListadoPersonas extends JInternalFrame {
 									.addGap(31)
 									.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 									.addGap(44)
-									.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-									.addGap(78)
-									.addComponent(btnActualizar)
-									.addGap(47)
-									.addComponent(btnPersonaSeleccionada)))))
+									.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(49, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -130,9 +112,7 @@ public class ListadoPersonas extends JInternalFrame {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBuscarPorDni)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnActualizar)
-						.addComponent(btnPersonaSeleccionada))
+						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 341, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
@@ -141,6 +121,18 @@ public class ListadoPersonas extends JInternalFrame {
 		);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			
+				if (e.getClickCount() == 2){
+					showPersona();
+					disposeForm();
+					
+				}
+				
+			}
+		});
 		
 		
 		table.setBackground(Color.WHITE);
@@ -161,7 +153,11 @@ public class ListadoPersonas extends JInternalFrame {
 	}
 	
 
-	
+	private void disposeForm(){
+		
+		//this.dispose();
+		
+	}
 	
 	public void filtro() {
         int columnaABuscar = 0;
@@ -186,7 +182,7 @@ public class ListadoPersonas extends JInternalFrame {
 	
 	
 	
-	private void actualizarListado() throws Exception {
+	/*private void actualizarListado() throws Exception {
 		try{
 			this.lista = perl.GetAll();
 		} catch (Exception e){
@@ -194,7 +190,7 @@ public class ListadoPersonas extends JInternalFrame {
 	
 		}
 		initDataBindings();
-	}
+	}*/
 	
 	protected void initDataBindings() {
 		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
@@ -222,16 +218,14 @@ public class ListadoPersonas extends JInternalFrame {
 	}
 	
 	private void showPersona() {
-		if (table.getSelectedRow() != -1) {
+
 			int indexElemento = table.convertRowIndexToModel(table.getSelectedRow());
 			persona = this.lista.get(indexElemento);
-			this.btnPersonaSeleccionada.setVisible(false);
-		}else{
-			JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento");
-		}
-		
-		
+			//JOptionPane.showMessageDialog(getContentPane(), "Usted a seleccionado a: " + "\n" + persona.getApellido() + " " + persona.getNombre());
+			
 	}
 	
-	
+	public void btnSalirClick(){
+		this.dispose();
+	}
 }

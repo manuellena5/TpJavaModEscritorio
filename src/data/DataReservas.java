@@ -19,10 +19,11 @@ public class DataReservas {
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
 					  rs = stmt.executeQuery("select r.`id_persona`,r.`id_elemento`, r.`fecha_inicio`,r.`fecha_fin`,r.`detalle`,r.`estado`,"
-					  		+ "r.`fecha_registro`,p.`nombre` nombrePersona,p.`apellido`,p.`dni`,p.`usuario`,e.`nombre` nombreElemento,"
-							+ "e.`autor`,e.`genero`, te.nombre tipoelemento from reservas r inner join personas p on p.`id_persona` = r.`id_persona`" 
-					  		+ "inner join elementos e on e.`id_elemento` = r.`id_elemento`"
-							+ "inner join tipo_elementos te on te.`id_tipoelemento` = e.`id_tipoelemento`");
+					  		+ " r.`fecha_registro`,p.`nombre` nombrePersona,p.`apellido`,p.`dni`,p.`usuario`,e.`nombre` nombreElemento,"
+							+ " e.`autor`,e.`genero`, te.nombre tipoelemento, te.id_tipoelemento, te.cantMaxReservasPend from reservas r inner join personas p on p.`id_persona` = r.`id_persona`" 
+					  		+ " inner join elementos e on e.`id_elemento` = r.`id_elemento`"
+							+ " inner join tipo_elementos te on te.`id_tipoelemento` = e.`id_tipoelemento`"
+					  		+ " order by r.fecha_registro");
 					  
 					  
 					  
@@ -30,9 +31,15 @@ public class DataReservas {
 				if (rs != null) {
 						while (rs.next()) {
 								Reserva res = new Reserva();
+								Tipo_Elemento te = new Tipo_Elemento();
 								res.setElemento(new Elemento());
 								res.setPersona(new Persona());
 																
+								te.setId_tipoelemento(rs.getInt("id_tipoelemento"));
+								te.setNombre(rs.getString("tipoelemento"));
+								te.setCantMaxReservasPend(rs.getInt("cantMaxReservasPend"));
+								
+								
 								res.setFecha_registro(rs.getDate("fecha_registro"));
 								res.setFecha_inicio(rs.getDate("fecha_inicio"));
 								res.setFecha_fin(rs.getDate("fecha_fin"));
@@ -45,6 +52,7 @@ public class DataReservas {
 								res.getElemento().setNombre(rs.getString("nombreElemento"));
 								res.getElemento().setAutor(rs.getString("autor"));
 								res.getElemento().setGenero(rs.getString("genero"));
+								res.getElemento().setTipo_Elemento(te);
 								/*res.getElemento().getTipo_Elemento().setNombre(rs.getString("tipoelemento")); Como hacer para traer el tipo de elemento*/ 
 								
 								res.getPersona().setId_persona(rs.getInt("id_persona"));
@@ -237,17 +245,22 @@ public class DataReservas {
 			int cantReservasPendientesPersona=0;
 		
 			try {
-				stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select count(*) cantReservasPendientesPersona from reservas r inner join personas p on p.`id_persona` = r.`id_persona`" 
-				  		+ "inner join elementos e on e.`id_elemento` = r.`id_elemento`"
-						+ "where p.id_persona=? and e.id_tipoelemento=? and r.estado='Activa'");
+				stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select count(*) cantReservasPendientesPersona from reservas r" 
+				  		+ " inner join elementos e on e.`id_elemento` = r.`id_elemento`"
+						+ " inner join `tipo_elementos` te on te.id_tipoelemento = e.id_tipoelemento"
+						+ " where r.id_persona=? and e.id_tipoelemento=? and r.estado='Activa' ");
 				  stmt.setInt(1, res.getPersona().getId_persona());
-				  stmt.setInt(2, res.getElemento().getId_tipoelemento());
-				  /*stmt.setString(3, res.getEstado());*/
-				  rs = stmt.executeQuery();  
+				  stmt.setInt(2, res.getElemento().getTipo_Elemento().getId_tipoelemento());
+				  
 				  
 			
-			cantReservasPendientesPersona = rs.getInt("cantReservasPendientesPersona");
+			
+			rs = stmt.executeQuery();  
+			if(rs!=null && rs.next()) {
 				
+				cantReservasPendientesPersona = rs.getInt("cantReservasPendientesPersona");
+			}
+			
 			
 			}catch (SQLException e) {
 				

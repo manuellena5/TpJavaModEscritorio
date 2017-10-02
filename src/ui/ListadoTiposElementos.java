@@ -29,6 +29,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListadoTiposElementos extends JInternalFrame {
 	private JTable table;
@@ -50,7 +52,7 @@ public class ListadoTiposElementos extends JInternalFrame {
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		
 		comboFiltro = new JComboBox();
-		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "cantidad reservas pend"}));
+		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"id", "nombre", "cantMaxReservasPend"}));
 		
 		txtBuscar = new JTextField();
 
@@ -68,6 +70,12 @@ public class ListadoTiposElementos extends JInternalFrame {
 		txtBuscar.setColumns(10);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnSalirClick();
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -121,10 +129,10 @@ public class ListadoTiposElementos extends JInternalFrame {
         if (comboFiltro.getSelectedItem() == "id") {
             columnaABuscar = 0;
         }
-        if (comboFiltro.getSelectedItem().toString() == "nombre") {
+        if (comboFiltro.getSelectedItem() == "nombre") {
             columnaABuscar = 1;
         }
-        if (comboFiltro.getSelectedItem() == "cantMaxReservasPend") {
+        if (comboFiltro.getSelectedItem().toString() == "cantMaxReservasPend") {
             columnaABuscar = 2;
         }
        
@@ -146,5 +154,9 @@ public class ListadoTiposElementos extends JInternalFrame {
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
 	}
-
+	
+	
+	public void btnSalirClick(){
+	this.dispose();
+	}
 }

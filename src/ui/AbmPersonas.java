@@ -48,7 +48,7 @@ public class AbmPersonas extends JInternalFrame {
 		setMaximizable(true);
 		setClosable(true);
 		setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 450, 395);
+		setBounds(100, 100, 465, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -146,8 +146,8 @@ public class AbmPersonas extends JInternalFrame {
 							.addGap(18)
 							.addComponent(btnSalir)))
 					.addGap(18)
-					.addComponent(cboCategoria, 0, 99, Short.MAX_VALUE)
-					.addGap(42))
+					.addComponent(cboCategoria, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(42, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(chkHabilitado)
@@ -182,7 +182,7 @@ public class AbmPersonas extends JInternalFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblContrasea)
 						.addComponent(txtpassword, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addComponent(chkHabilitado)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -196,22 +196,35 @@ public class AbmPersonas extends JInternalFrame {
 	
 	private void btnAceptarClick() {
 		Persona per = this.MapearDesdeform();
+		
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
 				try{
 					perl.add(per);
+					JOptionPane.showMessageDialog(this, "Se ha registrado con exito");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
 			} else if (btnAceptar.getText() == "Editar") {
 				try{
 					perl.update(per);
-				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Se ha modificado con exito");
+					Personas frmPersonas = new Personas();
+					this.getDesktopPane().add(frmPersonas);
+					frmPersonas.setVisible(true);
+					this.dispose();
+					} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
 			} else{
 				try{
 					perl.delete(per);
+					JOptionPane.showMessageDialog(this, "Se ha eliminado con exito");
+					Personas frmPersonas = new Personas();
+					this.getDesktopPane().add(frmPersonas);
+					frmPersonas.setVisible(true);
+					this.dispose();
+					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
 				}
@@ -312,7 +325,6 @@ public class AbmPersonas extends JInternalFrame {
 		this.chkHabilitado.setEnabled(b);;
 		this.txtusuario.setEditable(b);;
 		this.txtpassword.setEditable(b);;
-		this.txtid.setEditable(b);;
 		this.cboCategoria.setEnabled(b);
 		
 	}

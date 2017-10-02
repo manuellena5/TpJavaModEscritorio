@@ -9,16 +9,9 @@ public class Elemento {
 	private String autor;
 	private String genero;
 	private int id_tipoelemento;
-
-	public int getId_tipoelemento() {
-		return id_tipoelemento;
-	}
-
-	public void setId_tipoelemento(int id_tipoelemento) {
-		this.id_tipoelemento = id_tipoelemento;
-	}
-
 	private Tipo_Elemento Tipo_Elemento;
+
+		
 
 
 	

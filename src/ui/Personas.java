@@ -45,6 +45,7 @@ public class Personas extends JInternalFrame {
 
 	
 	public Personas() {
+		setClosable(true);
 		setTitle("Personas");
 		setBounds(100, 100, 729, 483);
 		
@@ -131,7 +132,11 @@ public class Personas extends JInternalFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modo = "Editar";
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una persona");}
+				else{
 				ShowAbmPersonas(modo);
+				}
 			}
 		});
 		menuBar.add(btnEditar);
@@ -140,7 +145,11 @@ public class Personas extends JInternalFrame {
 		btnBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modo = "Eliminar";
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnBaja, "Debe seleccionar una persona");}
+				else{
 				ShowAbmPersonas(modo);
+				}
 			}
 		});
 		menuBar.add(btnBaja);
@@ -185,9 +194,10 @@ public class Personas extends JInternalFrame {
 		AbmPersonas abm = new AbmPersonas();
 		if (modo2 != "Alta") {
 			
+			
 			int index = table.convertRowIndexToModel(table.getSelectedRow());
 			abm.showAbmPersonas(this.lista.get(index), modo2);
-					
+			
 		}
 		this.getDesktopPane().add(abm);
 		abm.setVisible(true);

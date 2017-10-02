@@ -45,6 +45,9 @@ public class Tipo_Elementos extends JInternalFrame {
 	private ArrayList<Tipo_Elemento> lista; 
 	Tipo_ElementosLogic tipoElementoLogic = new Tipo_ElementosLogic();
 	private JComboBox comboFiltro;
+	private JButton btnAlta;
+	private JButton btnEditar;
+	private JButton btnBaja;
 	
 	public Tipo_Elementos() {
 		
@@ -81,19 +84,6 @@ public class Tipo_Elementos extends JInternalFrame {
 			}
 		});
 		
-		
-		JButton btnActualizar = new JButton("Actualizar listado");
-		btnActualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					actualizarListado();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -106,32 +96,27 @@ public class Tipo_Elementos extends JInternalFrame {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(27, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSalir)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblBuscarPor)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnActualizar)
-									.addGap(96)))))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBuscarPor))
 					.addGap(22))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(598, Short.MAX_VALUE)
+					.addComponent(btnSalir)
+					.addGap(62))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(26, Short.MAX_VALUE)
+					.addContainerGap(23, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtbuscar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBuscarPor)
-						.addComponent(btnActualizar))
+						.addComponent(lblBuscarPor))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnSalir)
-					.addGap(25))
+					.addGap(30))
 		);
 		
 		table = new JTable();
@@ -141,29 +126,41 @@ public class Tipo_Elementos extends JInternalFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JButton btnAlta = new JButton("Alta");
+		btnAlta = new JButton("Alta");
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String modo = "Alta";
-				ShowAbmTipoElementos(modo);
+			
+					ShowAbmTipoElementos(modo);
+				
+				
 			}
 		});
 		menuBar.add(btnAlta);
 		
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String modo = "Editar";
-				ShowAbmTipoElementos(modo);
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar un tipo de elemento");}
+				else{
+					ShowAbmTipoElementos(modo);
+				}
+				
 			}
 		});
 		menuBar.add(btnEditar);
 		
-		JButton btnBaja = new JButton("Baja");
+		btnBaja = new JButton("Baja");
 		btnBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String modo = "Eliminar";
-				ShowAbmTipoElementos(modo);
+				if (table.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar un tipo de elemento");}
+				else{
+					ShowAbmTipoElementos(modo);
+				}
 			}
 		});
 		menuBar.add(btnBaja);

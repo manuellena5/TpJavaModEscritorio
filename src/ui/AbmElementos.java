@@ -28,6 +28,7 @@ import java.awt.event.ItemEvent;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class AbmElementos extends JInternalFrame {
 	private JTextField txtidelementos;
@@ -109,6 +110,7 @@ public class AbmElementos extends JInternalFrame {
 		
 		
 		cbotipoelementos = new JComboBox();
+		cbotipoelementos.setBackground(Color.WHITE);
 		cbotipoelementos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
 				Elemento ele = new Elemento();
@@ -241,12 +243,24 @@ public class AbmElementos extends JInternalFrame {
 		Elemento ele = this.MapearDesdeform();
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
-				el.add(ele);	
+				el.add(ele);
+				JOptionPane.showMessageDialog(this, "Se ha registrado correctamente");
 			} else if (btnAceptar.getText() == "Editar") {
+				
 				el.update(ele);
+				JOptionPane.showMessageDialog(this, "Se ha editado correctamente");
+				Elementos frm = new Elementos();
+				this.getDesktopPane().add(frm);
+				frm.setVisible(true);
+				this.dispose();
 			} else{
 				
 				el.delete(ele);
+				JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente");
+				Elementos frm = new Elementos();
+				this.getDesktopPane().add(frm);
+				frm.setVisible(true);
+				this.dispose();
 			}
 			
 		} catch (Exception e) {
@@ -310,12 +324,12 @@ public class AbmElementos extends JInternalFrame {
 	private void HabilitarControles(boolean val)
 	{
 		this.txtautor.setEditable(val);
-		this.txtdescripcion.setEditable(val);
+		this.txtdescripcion.setEnabled(val);
 		this.txtgenero.setEditable(val);
-		this.txtidelementos.setEditable(val);
 		this.txtnombre.setEditable(val);
 		this.txtstock.setEditable(val);
-		this.cbotipoelementos.setEnabled(val);
+
+		
 	}
 	
 	
@@ -323,11 +337,13 @@ public class AbmElementos extends JInternalFrame {
 		if (modo == "Editar") {
 			this.MapearAform(ele);
 			btnAceptar.setText("Editar");
+			this.cbotipoelementos.setEnabled(false);
 			HabilitarControles(true);
 			
 		}else {
 			this.MapearAform(ele);
 			btnAceptar.setText("Eliminar");
+			this.cbotipoelementos.setEnabled(false);
 			HabilitarControles(false);
 		}
 			

@@ -38,6 +38,7 @@ import com.toedter.calendar.JDateChooser;
 import entidades.Elemento;
 import entidades.Persona;
 import entidades.Reserva;
+import entidades.Tipo_Elemento;
 import negocio.ReservasLogic;
 
 import javax.swing.JComboBox;
@@ -46,13 +47,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
+import javax.swing.UIManager;
 
 public class AbmReservas extends JInternalFrame {
 	private JTextField txtnombrepersona;
 	private JTextField txtapellido;
 	private JTextField txtdni;
 	private JTextField txtusuario;
-	private JTextField txtnombreelemento;
 	private JTextField txtautor;
 	private JTextField txtgenero;
 	private JTextField txttipoelemento;
@@ -68,6 +69,8 @@ public class AbmReservas extends JInternalFrame {
 	private JButton btnBuscarElemento;
 	private Reservas frmreservas;
 	 private ReservasLogic reservaslogic;
+	 private JTextField txtcantmaxreservaspend;
+	 private JTextField txtnombreelemento;
 	 
 	 
 	
@@ -134,10 +137,6 @@ public class AbmReservas extends JInternalFrame {
 		JLabel lblGenero = new JLabel("Genero");
 		
 		JLabel lblTipoDeElemento = new JLabel("Tipo de elemento");
-		
-		txtnombreelemento = new JTextField();
-		txtnombreelemento.setEditable(false);
-		txtnombreelemento.setColumns(10);
 		
 		txtautor = new JTextField();
 		txtautor.setEditable(false);
@@ -221,70 +220,22 @@ public class AbmReservas extends JInternalFrame {
 		
 		comboestado = new JComboBox();
 		comboestado.setModel(new DefaultComboBoxModel(new String[] {"Activa", "Cancelada", "Terminada", "Sin devolver"}));
+		
+		txtcantmaxreservaspend = new JTextField();
+		txtcantmaxreservaspend.setEnabled(false);
+		txtcantmaxreservaspend.setEditable(false);
+		txtcantmaxreservaspend.setColumns(10);
+		txtcantmaxreservaspend.setVisible(false);
+		
+		txtnombreelemento = new JTextField();
+		txtnombreelemento.setEditable(false);
+		txtnombreelemento.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblNombre)
-										.addComponent(lblId))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtidpersona, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtnombrepersona, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblApellido)
-										.addComponent(lblDni))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtdni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(txtapellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(btnBuscarPersona))))
-								.addComponent(lblDatosDeLa))
-							.addGap(42)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblGenero)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(txtgenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblNombre_1)
-												.addComponent(lblId_1)
-												.addComponent(lblAutor))
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(txtautor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(txtidelemento, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-												.addComponent(txtnombreelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-									.addPreferredGap(ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-									.addComponent(btnBuscarElemento)
-									.addGap(48))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblDatosDelElemento)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblTipoDeElemento)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(txttipoelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addContainerGap(232, Short.MAX_VALUE))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblUsuario)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(txtusuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblDatosDeLa_1)
-							.addContainerGap(550, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblFechaInicio)
@@ -301,8 +252,7 @@ public class AbmReservas extends JInternalFrame {
 									.addGap(101)
 									.addComponent(lblEstado)
 									.addGap(18)
-									.addComponent(comboestado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addGap(287))
+									.addComponent(comboestado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnAceptar)
 							.addGap(18)
@@ -310,35 +260,87 @@ public class AbmReservas extends JInternalFrame {
 							.addGap(103)
 							.addComponent(lblFechaDeRegistro)
 							.addGap(18)
-							.addComponent(cfecharegistro, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(cfecharegistro, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblUsuario)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(txtusuario))
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNombre)
+										.addComponent(lblId))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(txtnombrepersona, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtidpersona, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblApellido)
+										.addComponent(lblDni))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(txtdni)
+										.addComponent(txtapellido, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)))
+								.addComponent(lblDatosDeLa, Alignment.LEADING)
+								.addComponent(lblDatosDeLa_1, Alignment.LEADING))
+							.addGap(10)
+							.addComponent(btnBuscarPersona)
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(lblDatosDelElemento)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblTipoDeElemento)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(txttipoelemento, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+												.addComponent(txtcantmaxreservaspend, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+									.addGap(112))
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblGenero, Alignment.LEADING)
+									.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblNombre_1)
+											.addComponent(lblId_1)
+											.addComponent(lblAutor))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(txtidelemento, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+											.addComponent(txtnombreelemento, GroupLayout.PREFERRED_SIZE, 252, GroupLayout.PREFERRED_SIZE)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(txtgenero, Alignment.LEADING)
+													.addComponent(txtautor, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+												.addGap(18)
+												.addComponent(btnBuscarElemento))))))))
+					.addGap(58))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDatosDeLa)
+						.addComponent(lblDatosDelElemento))
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblId)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(txtidpersona, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblId_1)
+							.addComponent(txtidelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNombre)
+						.addComponent(txtnombrepersona, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNombre_1)
+						.addComponent(txtnombreelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(105)
-							.addComponent(btnBuscarElemento, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblDatosDeLa)
-								.addComponent(lblDatosDelElemento))
-							.addGap(13)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblId)
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(txtidpersona, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblId_1)
-									.addComponent(txtidelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNombre)
-								.addComponent(txtnombrepersona, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNombre_1)
-								.addComponent(txtnombreelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(16)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -352,7 +354,9 @@ public class AbmReservas extends JInternalFrame {
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblUsuario)
-										.addComponent(txtusuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(txtusuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
+									.addComponent(lblDatosDeLa_1))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblAutor)
@@ -364,9 +368,9 @@ public class AbmReservas extends JInternalFrame {
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblTipoDeElemento)
-										.addComponent(txttipoelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-							.addGap(18)
-							.addComponent(lblDatosDeLa_1)
+										.addComponent(txttipoelemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(txtcantmaxreservaspend, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -383,27 +387,30 @@ public class AbmReservas extends JInternalFrame {
 										.addComponent(lblDetalle)))
 								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 									.addComponent(lblEstado)
-									.addComponent(comboestado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnAceptar)
-							.addComponent(btnSalir))
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(cfecharegistro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblFechaDeRegistro)))
-					.addContainerGap(37, Short.MAX_VALUE))
+									.addComponent(comboestado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(btnAceptar)
+									.addComponent(btnSalir))
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(cfecharegistro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblFechaDeRegistro))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(btnBuscarElemento, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		
 		txtdetalle = new JTextArea();
 		scrollPane.setViewportView(txtdetalle);
 		getContentPane().setLayout(groupLayout);
-		setBounds(100, 100, 736, 493);
+		setBounds(100, 100, 800, 493);
 
 	}
 	
 	
-	public void showAbmReservas(Reserva res,String modo) throws ParseException{
+	public void showAbmReservas(Reserva res,String modo){
 		if (modo == "Editar") {
 			this.MapearAform(res);
 			btnAceptar.setText("Editar");
@@ -460,13 +467,14 @@ public class AbmReservas extends JInternalFrame {
 	}
 	
 	
-	
 	protected  void MapearAform(Reserva res){
 		
 		this.txtidelemento.setText(String.valueOf(res.getElemento().getId_elemento()));
 		this.txtnombreelemento.setText(res.getElemento().getNombre());
 		this.txtautor.setText(res.getElemento().getAutor());
 		this.txtgenero.setText(res.getElemento().getGenero());
+		this.txttipoelemento.setText(String.valueOf(res.getElemento().getTipo_Elemento().getId_tipoelemento()));
+		this.txtcantmaxreservaspend.setText(String.valueOf(res.getElemento().getTipo_Elemento().getCantMaxReservasPend()));
 		
 		this.txtidpersona.setText(String.valueOf(res.getPersona().getId_persona()));
 		this.txtnombrepersona.setText(res.getPersona().getNombre());
@@ -482,14 +490,13 @@ public class AbmReservas extends JInternalFrame {
 
 	}
 	
-	
-	
-	
+			
 	protected Reserva MapearDesdeform(){
 		
 		Reserva res = new Reserva();
 		Elemento el = new Elemento();
 		Persona per = new Persona();
+		Tipo_Elemento te = new Tipo_Elemento();
 		
 		java.util.Date date = this.cfechainicio.getDate(); /*Esto se hace porque habia no dejaba guardar un tipo java.util.data en un java.sql.data, de esta forma se corrige */
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
@@ -506,10 +513,15 @@ public class AbmReservas extends JInternalFrame {
 		res.setEstado(this.comboestado.getSelectedItem().toString());
 		res.setDetalle(this.txtdetalle.getText());
 		
+		te.setId_tipoelemento(Integer.parseInt(this.txttipoelemento.getText()));
+		te.setCantMaxReservasPend(Integer.parseInt(this.txtcantmaxreservaspend.getText()));
+		
 		el.setId_elemento(Integer.parseInt(this.txtidelemento.getText()));
 		el.setAutor(this.txtautor.getText());
 		el.setGenero(this.txtgenero.getText());
 		el.setNombre(this.txtnombreelemento.getText());
+		
+		el.setTipo_Elemento(te);
 		
 		per.setId_persona(Integer.parseInt(this.txtidpersona.getText()));
 		per.setNombre(this.txtnombrepersona.getText());
@@ -543,7 +555,6 @@ public class AbmReservas extends JInternalFrame {
 		
 		ListadoPersonas frm = new ListadoPersonas();
 		JDialog dialog = new JDialog();
-		frm.btnPersonaSeleccionada.setVisible(true);
 		dialog.setContentPane(frm.getContentPane());
 		dialog.setAlwaysOnTop(true);
 		//dialog.setLocationRelativeTo(null);
@@ -552,14 +563,15 @@ public class AbmReservas extends JInternalFrame {
 		dialog.setVisible(true);
 		
 		showPersona(frm.persona);
-		
+	
+		frm.dispose();
 		
 	}
+	
 	
 	private void showListadoElementos() {
 		ListadoElementos frm = new ListadoElementos();
 		JDialog dialog = new JDialog();
-		frm.btnElementoSeleccionado.setVisible(true);
 		dialog.setContentPane(frm.getContentPane());
 		dialog.setAlwaysOnTop( true );
 		dialog.pack(); /* Le da un tamaño a la ventana */
@@ -597,6 +609,9 @@ public class AbmReservas extends JInternalFrame {
 		this.txtnombreelemento.setText(res.getElemento().getNombre());
 		this.txtautor.setText(res.getElemento().getAutor());
 		this.txtgenero.setText(res.getElemento().getGenero());
+		this.txttipoelemento.setText(String.valueOf(el.getTipo_Elemento().getId_tipoelemento()));
+		this.txtcantmaxreservaspend.setText(String.valueOf(el.getTipo_Elemento().getCantMaxReservasPend()));
+		
 		
 	}
 	
@@ -604,14 +619,17 @@ public class AbmReservas extends JInternalFrame {
 	private void btnAceptarClick() {
 		Reserva res = this.MapearDesdeform();
 		
-		frmreservas = new Reservas();
+		
 		try{
 			
 			if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==true) {
 				try{
 					reservaslogic.add(res);
 					
-					
+					JOptionPane.showMessageDialog(this, "Se ha registrado la reserva correctamente");
+					frmreservas = new Reservas();
+					this.getDesktopPane().add(frmreservas);
+					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
@@ -620,7 +638,10 @@ public class AbmReservas extends JInternalFrame {
 			}	else if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==false) {
 					
 				try{
-					JOptionPane.showMessageDialog(null, "Ha superado la cantidad de reservas pendientes de ese tipo");
+					JOptionPane.showMessageDialog(this, "Ha superado la cantidad de reservas pendientes de ese tipo");
+					frmreservas = new Reservas();
+					this.getDesktopPane().add(frmreservas);
+					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
@@ -630,7 +651,10 @@ public class AbmReservas extends JInternalFrame {
 				try{
 					reservaslogic.update(res);
 					
-					
+					JOptionPane.showMessageDialog(this, "Se ha editado la reserva correctamente");
+					frmreservas = new Reservas();
+					this.getDesktopPane().add(frmreservas);
+					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());
@@ -638,7 +662,10 @@ public class AbmReservas extends JInternalFrame {
 			} else{
 				try{
 					reservaslogic.delete(res);
-					
+					frmreservas = new Reservas();
+					JOptionPane.showMessageDialog(this, "Se ha eliminado la reserva correctamente");
+					this.getDesktopPane().add(frmreservas);
+					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, e.getMessage());

@@ -137,12 +137,27 @@ public class AbmTipoElementos extends JInternalFrame {
 		Tipo_Elemento te = this.MapearDesdeform();
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
-				tel.add(te);	
+				tel.add(te);
+				JOptionPane.showMessageDialog(this, "Se ha registrado correctamente");
+				Tipo_Elementos frm = new Tipo_Elementos();
+				this.getDesktopPane().add(frm);
+				frm.setVisible(true);
+				this.dispose();
 			} else if (btnAceptar.getText() == "Editar") {
 				tel.update(te);
+				JOptionPane.showMessageDialog(this, "Se ha editado correctamente");
+				Tipo_Elementos frm = new Tipo_Elementos();
+				this.getDesktopPane().add(frm);
+				frm.setVisible(true);
+				this.dispose();
 			} else{
 				
 				tel.delete(te);
+				JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente");
+				Tipo_Elementos frm = new Tipo_Elementos();
+				this.getDesktopPane().add(frm);
+				frm.setVisible(true);
+				this.dispose();
 			}
 			
 		} catch (Exception e) {
