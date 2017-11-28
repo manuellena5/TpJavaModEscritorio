@@ -85,7 +85,7 @@ public class Elemento {
 		
 	}
 	
-	/*@Override
+	@Override
 	public String toString(){
 		return this.getNombre();
 	}
@@ -100,7 +100,7 @@ public class Elemento {
 	@Override
 	public int hashCode(){
 		return ((Integer)this.getId_elemento()).hashCode();
-	}*/
+	}
 
 	
 	

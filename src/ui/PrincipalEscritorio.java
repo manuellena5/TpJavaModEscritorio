@@ -135,6 +135,16 @@ public class PrincipalEscritorio extends JFrame {
 		});*/
 		mnReservas.add(mntmMisReservas);
 		
+		JMenuItem mntmNuevaReserva = new JMenuItem("Nueva reserva");
+		mntmNuevaReserva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShowReservasAbm();
+			}
+
+			
+		});
+		mnReservas.add(mntmNuevaReserva);
+		
 		
 		
 		JMenu mnTiposElementos = new JMenu("Tipos Elementos");
@@ -283,5 +293,12 @@ public class PrincipalEscritorio extends JFrame {
 		desktopPane.add(le);
 		le.setVisible(true);
 					
+		}
+		
+		private void ShowReservasAbm() {
+			ReservasAbm frm = new ReservasAbm();
+			desktopPane.add(frm);
+			frm.setVisible(true);
+			
 		}
 }

@@ -92,11 +92,24 @@ public class Persona {
 	@Override
 	public boolean equals(Object o){
 		return (o instanceof Persona) &&
-				(((Persona)o).getDni().equals(this.getDni()));
+				(((Persona)o).getId_persona() == this.getId_persona());
 		
 		 
 
 		
 	}
+	
+	@Override
+	public String toString(){
+		return this.getNombre() +" "+ this.getApellido();
+	}
+	
+	
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId_persona()).hashCode();
+	}
+	
 	
 }

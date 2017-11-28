@@ -17,7 +17,8 @@ public class DataPersona {
 				ArrayList<Persona> pers = new ArrayList<Persona>();
 				try {
 					  stmt = FactoryConexion.getInstancia().getConn().createStatement();
-					  rs = stmt.executeQuery("select * from personas p left join categorias c on c.id_categoria = p.id_categoria ");
+					  rs = stmt.executeQuery("select p.id_persona,p.nombre,p.apellido,p.dni,p.estado,p.usuario,p.password,c.id_categoria,c.descripcion "
+					  		+ " from personas p left join categorias c on c.id_categoria = p.id_categoria ");
 					  
 				if (rs != null) {
 						while (rs.next()) {
@@ -71,7 +72,8 @@ public class DataPersona {
 			try {
 				 /*al poner el signo de pregunta el driver se da cuenta que en ese lugar va a ir un parametro*/
 				stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-						"select id_persona, nombre, apellido, dni, estado,usuario,password,id_categoria,descripcion from personas p left join categorias c on c.id_categoria=p.id_categoria where dni=?");
+						"select p.id_persona, p.nombre, p.apellido, p.dni, p.estado,p.usuario,p.password,c.id_categoria,c.descripcion"
+						+ " from personas p left join categorias c on c.id_categoria=p.id_categoria where p.dni=?");
 						
 				stmt.setString(1, per.getDni());
 				rs = stmt.executeQuery();
@@ -161,7 +163,7 @@ public class DataPersona {
 				stmt.setBoolean(6, p.isHabilitado());
 				stmt.setInt(7, p.getCategoria().getId_Categoria());
 				stmt.setInt(8, p.getId_persona());
-				stmt.execute();
+				stmt.executeUpdate();
 				
 				
 			} catch (SQLException | AppDataException e) {
@@ -184,7 +186,7 @@ public class DataPersona {
 						"delete from personas where id_persona=?");
 				
 				stmt.setInt(1, p.getId_persona());
-				stmt.execute();
+				stmt.executeUpdate();
 				
 				
 			} catch (SQLException | AppDataException e) {

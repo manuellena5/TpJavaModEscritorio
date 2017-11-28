@@ -2,6 +2,9 @@ package negocio;
 
 import java.util.ArrayList;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import data.DataReservas;
 import entidades.Elemento;
 import entidades.Reserva;
@@ -33,7 +36,7 @@ public class ReservasLogic {
 	}
 	
 	public void delete(Reserva res)throws Exception{
-		//this.pers.remove(this.getByDni(el));
+		
 		this.reservasD.delete(res);
 	}
 	
@@ -42,29 +45,12 @@ public class ReservasLogic {
 		this.reservasD.update(res);
 	}
 
-	public Reserva GetOne (int id_persona, int id_elemento){
-	
-		for (Reserva reservas : lista) {
-			if (reservas.getPersona().getId_persona() == id_persona && reservas.getElemento().getId_elemento() == id_elemento) {
-				return reservas;
-			}
-			
-		}
-		return null;
-	}	
 
 	
 	public Reserva GetByIdPersona(Reserva res) throws Exception{
 		
 		
 		return reservasD.getByIdPersona(res);
-		
-		//return this.lista.get(this.lista.indexOf(el));
-		
-		/*if(reservas.Equals(el)){
-	  return this.GetByIdPersona(el.getId_Persona());
-		}
-		return null;*/
 	
 	}
 	
@@ -76,46 +62,43 @@ public class ReservasLogic {
 		res.getElemento().setId_elemento(id_elemento);
 		return GetByIdPersona(res);
 		
-		/*for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).getNombre() == nombre) {
-				return lista.get(i);
-			}
-			
-		}
-		return null;*/
+		
+		
+	}
+	
+	public Reserva GetOne(int id_persona,int id_elemento,Date fecharegistro) throws Exception{
+		
+		return reservasD.GetOne(id_persona,id_elemento,fecharegistro); 
+		
+	}
+	
+	public ArrayList<Reserva> getByUsuario(Persona per) throws Exception{
+		
+		return reservasD.getByUsuario(per);
 		
 	}
 	
 	
-	
-	
-	/*public void EliminarReservas(Reserva res) throws Exception{
-	
-	 lista.remove(this.GetByIdPersona(res));
-		
-	
-	}	*/
-
-
-
-
-		public ArrayList<Reserva> GetAll() throws Exception{
+	public ArrayList<Reserva> GetAll() throws Exception{
 	
 			return reservasD.getAll();
 			
-		}
+	}
 
-
-		/*public void ModificarReservas(Reserva res) throws Exception {
+	public boolean ValidarCantidadReservasPendientes(int idpersona,int idtipoelemento) throws Exception{
 			
-			this.EliminarReservas(res);
-			this.add(res);
+			Reserva res = new Reserva();
 			
-		}*/
-	
+			res.getPersona().setId_persona(idpersona);
+			res.getElemento().getTipo_Elemento().setId_tipoelemento(idtipoelemento);
+			
+			return ValidarCantidadReservasPendientes(res);
+			
+	}
 		
 		
-		public boolean ValidarCantidadReservasPendientes(Reserva res) throws Exception{
+		
+	public boolean ValidarCantidadReservasPendientes(Reserva res) throws Exception{
 			
 			
 			int cantReservasPendPersona = reservasD.getReservasPendientes(res);
@@ -125,5 +108,45 @@ public class ReservasLogic {
 			{return false;}
 		
 		
-		}
+	}
+
+
+	public ArrayList<Elemento> getElementosSinReserva(Date fechainicio,Date fechafin,Date fecharegistro,int idtipoelemento) throws Exception{
+			
+			return reservasD.getElementosSinReserva(fechainicio, fechafin,fecharegistro, idtipoelemento);
+			
+			
+			
+	}
+		
+		
+	public void actualizarEstadoReservas() throws Exception{
+			
+		    ArrayList<Reserva> listado = new ArrayList<>();
+		    listado = this.GetAll();
+		
+			java.util.Date FechaDelSistema = new java.util.Date(); /*Tomo la hora del sistema*/
+			java.sql.Date fechaActual = new java.sql.Date(FechaDelSistema.getTime()); /* A la hora del sistema la convierto en el formato que trae la base */
+
+			
+			
+			for (Reserva r : listado) {
+				
+				java.sql.Date fechafin = new java.sql.Date(r.getFecha_fin().getTime());
+				 
+				  if(fechafin.before(fechaActual) && r.getEstado().equals("Activa")){	
+						
+					  r.setEstado("Sin devolver");
+					  this.update(r);
+					}
+					
+				}
+			
+	}
+	
+	
+	
+
+
+
 }

@@ -130,7 +130,12 @@ public class Reservas extends JInternalFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				modo = "Alta";
 			
-					ShowAbmReservas(modo);
+					try {
+						ShowAbmReservas(modo);
+					} catch (Exception e) {
+						
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					}
 				
 				
 			}
@@ -147,7 +152,11 @@ public class Reservas extends JInternalFrame {
 					if (table.getSelectedRow() == -1) {
 						JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una reserva");}
 					else{
-					ShowAbmReservas(modo);
+					try {
+						ShowAbmReservas(modo);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+					}
 					}
 			}
 		});
@@ -161,7 +170,11 @@ public class Reservas extends JInternalFrame {
 				if (table.getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una reserva");}
 				else{
-				ShowAbmReservas(modo);
+				try {
+					ShowAbmReservas(modo);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+				}
 				}
 		
 			}
@@ -180,9 +193,9 @@ public class Reservas extends JInternalFrame {
 
 	}
 	
-	private void ShowAbmReservas(String modo) {
+	private void ShowAbmReservas(String modo) throws Exception {
 		
-		AbmReservas abm = new AbmReservas();
+		ReservasAbm abm = new ReservasAbm();
 		if (modo != "Alta") {
 			
 			int index = table.convertRowIndexToModel(table.getSelectedRow());

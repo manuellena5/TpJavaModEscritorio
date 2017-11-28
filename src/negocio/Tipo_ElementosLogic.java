@@ -3,6 +3,9 @@ package negocio;
 import java.util.ArrayList;
 
 import data.DataTipo_Elementos;
+import entidades.Elemento;
+import entidades.Persona;
+import entidades.Reserva;
 import entidades.Tipo_Elemento;
 
 public class Tipo_ElementosLogic {
@@ -29,24 +32,13 @@ public class Tipo_ElementosLogic {
 	}
 	
 	public void delete(Tipo_Elemento te)throws Exception{
-		//this.pers.remove(this.getByNombre(te));
+
 		this.tipoElementosD.delete(te);
 	}
 	
 	public void update(Tipo_Elemento te)throws Exception{
 		
 		this.tipoElementosD.update(te);
-	}
-
-	public Tipo_Elemento GetOne (String doc){
-	
-		for (Tipo_Elemento tipoElementos : lista) {
-			if (tipoElementos.getNombre() == doc ) {
-				return tipoElementos;
-			}
-			
-		}
-		return null;
 	}	
 
 	
@@ -55,13 +47,6 @@ public class Tipo_ElementosLogic {
 		
 		return tipoElementosD.getByNombre(te);
 		
-		//return this.lista.get(this.lista.indexOf(te));
-		
-		/*if(tipoElementos.Equals(te)){
-	  return this.GetByNombre(te.getNombre());
-		}
-		return null;*/
-	
 	}
 	
 	
@@ -71,41 +56,47 @@ public class Tipo_ElementosLogic {
 		te.setNombre(nombre);
 		return GetByNombre(te);
 		
-		/*for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).getNombre() == nombre) {
-				return lista.get(i);
-			}
-			
-		}
-		return null;*/
+		
 		
 	}
 	
-	
-	
-	
-	/*public void EliminarTipoElemento(Tipo_Elemento te) throws Exception{
-	
-	 lista.remove(this.GetByNombre(te));
+	public Tipo_Elemento GetById(Tipo_Elemento te) throws Exception{
+		
+		
+		return tipoElementosD.getById(te);
 		
 	
-	}	
-
-*/
-
-
-		public ArrayList<Tipo_Elemento> GetAll() throws Exception{
+	}
 	
+	public Tipo_Elemento GetById(int id) throws Exception{
+		
+		Tipo_Elemento te=new Tipo_Elemento();
+		te.setId_tipoelemento(id);
+		return GetById(te);
+				
+	}
+	
+
+	public ArrayList<Tipo_Elemento> GetAll() throws Exception{
+
 			return tipoElementosD.getAll();
 			
 		}
+	
+	
+	public boolean ValidarCantidadReservasPendientes(int idpersona,Tipo_Elemento tipoelemento) throws Exception{
+		
 
+		int cantReservasPendPersona = tipoElementosD.getcantidadreservaspendientes(idpersona, tipoelemento);
+		if(cantReservasPendPersona < tipoelemento.getCantMaxReservasPend())
+		{return true;}
+		else
+		{return false;}
+	
+	
+	}
+	
 
-		/*public void ModificarTipoElemento(Tipo_Elemento te) throws Exception {
-			
-			this.EliminarTipoElemento(te);
-			this.add(te);
-			
-		}*/
+		
 	
 }
