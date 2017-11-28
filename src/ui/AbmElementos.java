@@ -240,6 +240,10 @@ public class AbmElementos extends JInternalFrame {
 	}
 	
 	private void btnAceptarClick() {
+		
+		boolean validaCampos = this.validarVacios();
+		if(validaCampos==false){
+		
 		Elemento ele = this.MapearDesdeform();
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
@@ -267,7 +271,13 @@ public class AbmElementos extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		this.txtidelementos.setText(String.valueOf(ele.getId_elemento()));
-		
+		} else {
+			JOptionPane.showMessageDialog(this, "Hay campos obligatorios que no han sido completados");
+			Elementos frm = new Elementos();
+			this.getDesktopPane().add(frm);
+			frm.setVisible(true);
+			this.dispose();
+		}
 	}
 	
 	
@@ -364,7 +374,18 @@ public class AbmElementos extends JInternalFrame {
 	
 	
 	
-	
+	private  boolean validarVacios(){
+	     boolean error=false;
+	      //validando que no esten vacios los campos
+	        if(this.txtnombre.getText().isEmpty())
+	           error= true;
+	        if(this.cbotipoelementos.getSelectedIndex()==-1)
+		           error= true;
+	        if(this.txtstock.getText().isEmpty())
+	           error= true;
+	        
+	      return error;
+	}
 	
 	
 }

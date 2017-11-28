@@ -195,6 +195,10 @@ public class AbmPersonas extends JInternalFrame {
 	}
 	
 	private void btnAceptarClick() {
+		
+		boolean validaCampos = this.validarVacios();
+		if(validaCampos==false){
+			
 		Persona per = this.MapearDesdeform();
 		
 		try{
@@ -235,7 +239,13 @@ public class AbmPersonas extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		this.txtid.setText(String.valueOf(per.getId_persona()));
-		
+		} else {
+			JOptionPane.showMessageDialog(this, "Hay campos obligatorios que no han sido completados");
+			Personas frmPersonas = new Personas();
+			this.getDesktopPane().add(frmPersonas);
+			frmPersonas.setVisible(true);
+			this.dispose();
+		}
 	}
 	
 	private void btnCancelarClick() {
@@ -327,5 +337,24 @@ public class AbmPersonas extends JInternalFrame {
 		this.txtpassword.setEditable(b);;
 		this.cboCategoria.setEnabled(b);
 		
+	}
+	
+	private  boolean validarVacios(){
+	     boolean error=false;
+	      //validando que no esten vacios los campos
+	        if(this.txtNombre.getText().isEmpty())
+	           error= true;
+	        if(this.txtApellido.getText().isEmpty())
+	           error= true;
+	        if(this.txtApellido.getText().isEmpty())
+		           error= true;
+	        if(this.txtusuario.getText().isEmpty())
+		           error= true;
+	        if(this.txtpassword.getText().isEmpty())
+		           error= true;
+	        if(this.cboCategoria.getSelectedIndex()==-1)
+		           error= true;
+	        
+	      return error;
 	}
 }

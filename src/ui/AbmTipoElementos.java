@@ -134,22 +134,29 @@ public class AbmTipoElementos extends JInternalFrame {
 	
 	private void btnAceptarClick() {
 		
-		Tipo_Elemento te = this.MapearDesdeform();
+		boolean validaCampos = this.validarVacios();
+		if(validaCampos==false){
+			
+		Tipo_Elemento te = this.MapearDesdeform(); 
 		try{
 			if (btnAceptar.getText() == "Aceptar") {
+				
 				tel.add(te);
 				JOptionPane.showMessageDialog(this, "Se ha registrado correctamente");
 				Tipo_Elementos frm = new Tipo_Elementos();
 				this.getDesktopPane().add(frm);
 				frm.setVisible(true);
 				this.dispose();
+				
 			} else if (btnAceptar.getText() == "Editar") {
+
 				tel.update(te);
 				JOptionPane.showMessageDialog(this, "Se ha editado correctamente");
 				Tipo_Elementos frm = new Tipo_Elementos();
 				this.getDesktopPane().add(frm);
 				frm.setVisible(true);
 				this.dispose();
+			
 			} else{
 				
 				tel.delete(te);
@@ -164,7 +171,13 @@ public class AbmTipoElementos extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		this.txtid.setText(String.valueOf(te.getId_tipoelemento()));
-		
+		} else {
+			JOptionPane.showMessageDialog(this, "Hay campos obligatorios que no han sido completados");
+			Tipo_Elementos frm = new Tipo_Elementos();
+			this.getDesktopPane().add(frm);
+			frm.setVisible(true);
+			this.dispose();
+		}
 	}
 	
 	
@@ -226,5 +239,14 @@ public class AbmTipoElementos extends JInternalFrame {
 		
 	}
 	
-	
+	private  boolean validarVacios(){
+	     boolean error=false;
+	      //validando que no esten vacios los campos
+	        if(this.txtnombre.getText().isEmpty())
+	           error= true;
+	        if(this.txtcantmaxpend.getText().isEmpty())
+	           error= true;
+	        
+	      return error;
+	}
 }
