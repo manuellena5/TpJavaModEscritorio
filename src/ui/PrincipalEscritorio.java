@@ -2,14 +2,21 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Frame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import entidades.Persona;
+import negocio.PersonaLogic;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -19,23 +26,25 @@ public class PrincipalEscritorio extends JFrame {
 
 	private JPanel contentPane;
 	private JDesktopPane desktopPane;
+	private JMenuItem itemabmpersonas;
+	private JMenuItem itemlistadopersonas;
+	private JMenuItem itemdatospersonales;
+	private JMenuItem itemabmreservas;
+	private JMenuItem itemlistadoreservas;
+	private JMenuItem itemmisreservas;
+	private JMenuItem itemnuevareserva;
+	private JMenuItem itemabmtipoelementos;
+	private JMenuItem itemlistadotipoelementos;
+	private JMenuItem itemabmelementos;
+	private JMenuItem itemlistadoelementos;
+	private JMenu menupersonas;
+	private JMenu menureservas;
+	private JMenu menutipoelementos;
+	private JMenu menuelementos;
+	private Persona persona;
+	private PersonaLogic personalogic;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrincipalEscritorio frame = new PrincipalEscritorio();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -49,6 +58,8 @@ public class PrincipalEscritorio extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		personalogic = new PersonaLogic();
 		
 		desktopPane = new JDesktopPane();
 		contentPane.add(desktopPane, BorderLayout.CENTER);
@@ -68,30 +79,35 @@ public class PrincipalEscritorio extends JFrame {
 		});
 		mnNewMenu.add(mntmNewMenuItem);
 		
-		JMenu mnNewMenu_1 = new JMenu("Personas");
-		menuBar.add(mnNewMenu_1);
+		menupersonas = new JMenu("Personas");
+		menuBar.add(menupersonas);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("ABM personas");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		itemabmpersonas = new JMenuItem("ABM personas");
+		itemabmpersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowPersonas();
 			}
 
 			
 		});
-		mnNewMenu_1.add(mntmNewMenuItem_2);
+		menupersonas.add(itemabmpersonas);
 		
-		JMenuItem mntmListadoPersonas = new JMenuItem("Listado personas");
-		mntmListadoPersonas.addActionListener(new ActionListener() {
+		itemlistadopersonas = new JMenuItem("Listado personas");
+		itemlistadopersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoPersonas();
 			}
 
 			
 		});
-		mnNewMenu_1.add(mntmListadoPersonas);
+		menupersonas.add(itemlistadopersonas);
 		
-		JMenuItem mntmDatosPersonales = new JMenuItem("Datos Personales");
+		itemdatospersonales = new JMenuItem("Datos Personales");
+		itemdatospersonales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showdatospersonales();
+			}
+		});
 		/*mntmDatosPersonales.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowDatosPersonales();
@@ -99,33 +115,33 @@ public class PrincipalEscritorio extends JFrame {
 
 			
 		});*/
-		mnNewMenu_1.add(mntmDatosPersonales);
+		menupersonas.add(itemdatospersonales);
 		
 		
-		JMenu mnReservas = new JMenu("Reservas");
-		menuBar.add(mnReservas);
+		menureservas = new JMenu("Reservas");
+		menuBar.add(menureservas);
 		
-		JMenuItem mntmABMReservas = new JMenuItem("ABM Reservas");
-		mntmABMReservas.addActionListener(new ActionListener() {
+		itemabmreservas = new JMenuItem("ABM Reservas");
+		itemabmreservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowReservas();
 			}
 
 			
 		});
-		mnReservas.add(mntmABMReservas);
+		menureservas.add(itemabmreservas);
 		
-		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
-		mntmListadoReservas.addActionListener(new ActionListener() {
+		itemlistadoreservas = new JMenuItem("Listado Reservas");
+		itemlistadoreservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoReservas();
 			}
 
 			
 		});
-		mnReservas.add(mntmListadoReservas);
+		menureservas.add(itemlistadoreservas);
 		
-		JMenuItem mntmMisReservas = new JMenuItem("Mis Reservas");
+		itemmisreservas = new JMenuItem("Mis Reservas");
 		/*mntmMisReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowMisReservas();
@@ -133,25 +149,25 @@ public class PrincipalEscritorio extends JFrame {
 
 			
 		});*/
-		mnReservas.add(mntmMisReservas);
+		menureservas.add(itemmisreservas);
 		
-		JMenuItem mntmNuevaReserva = new JMenuItem("Nueva reserva");
-		mntmNuevaReserva.addActionListener(new ActionListener() {
+		itemnuevareserva = new JMenuItem("Nueva reserva");
+		itemnuevareserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowReservasAbm();
 			}
 
 			
 		});
-		mnReservas.add(mntmNuevaReserva);
+		menureservas.add(itemnuevareserva);
 		
 		
 		
-		JMenu mnTiposElementos = new JMenu("Tipos Elementos");
-		menuBar.add(mnTiposElementos);
+		menutipoelementos = new JMenu("Tipos Elementos");
+		menuBar.add(menutipoelementos);
 		
-		JMenuItem mntmAbmTiposElementos = new JMenuItem("ABM Tipos Elementos");
-		mntmAbmTiposElementos.addActionListener(new ActionListener() {
+		itemabmtipoelementos = new JMenuItem("ABM Tipos Elementos");
+		itemabmtipoelementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				ShowTipo_Elementos();
@@ -161,41 +177,43 @@ public class PrincipalEscritorio extends JFrame {
 		});
 		
 		
-		mnTiposElementos.add(mntmAbmTiposElementos);
+		menutipoelementos.add(itemabmtipoelementos);
 		
-		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos Elementos");
-		mntmListadoTiposElementos.addActionListener(new ActionListener() {
+		itemlistadotipoelementos = new JMenuItem("Listado Tipos Elementos");
+		itemlistadotipoelementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoTiposElementos();
 			}
 			
 		});
-		mnTiposElementos.add(mntmListadoTiposElementos);
+		menutipoelementos.add(itemlistadotipoelementos);
 		
 		
 		
-		JMenu mnElementos = new JMenu("Elementos");
-		menuBar.add(mnElementos);
+		menuelementos = new JMenu("Elementos");
+		menuBar.add(menuelementos);
 		
-		JMenuItem mntmAbmElementos = new JMenuItem("ABM Elementos");
-		mntmAbmElementos.addActionListener(new ActionListener() {
+		itemabmelementos = new JMenuItem("ABM Elementos");
+		itemabmelementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowElementos();
 			}
 
 			
 		});
-		mnElementos.add(mntmAbmElementos);
+		menuelementos.add(itemabmelementos);
 		
-		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
-		mntmListadoElementos.addActionListener(new ActionListener() {
+		itemlistadoelementos = new JMenuItem("Listado Elementos");
+		itemlistadoelementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowListadoElementos();
 			}
 			
 		});
-		mnElementos.add(mntmListadoElementos);
+		menuelementos.add(itemlistadoelementos);
 		
+		
+		validaringreso(Login.id);
 	}
 	
 	//para personas
@@ -301,4 +319,65 @@ public class PrincipalEscritorio extends JFrame {
 			frm.setVisible(true);
 			
 		}
+		
+		private void validaringreso(int id){
+			
+			try {
+				persona = new Persona();
+				
+				
+				persona = personalogic.GetById(id);
+				
+				String categoria =  persona.getCategoria().getDescripcion();
+				
+				if (categoria.equals("Usuario")) {
+					
+					this.menupersonas.setText("Mis datos");
+					this.itemabmpersonas.setVisible(false);
+					this.itemlistadopersonas.setVisible(false);
+					this.itemabmreservas.setVisible(false);
+					this.itemlistadoreservas.setVisible(false);
+					this.menuelementos.setVisible(false);
+					this.menutipoelementos.setVisible(false);
+					
+					
+				}else if(categoria.equals("Administrador")){
+					this.itemdatospersonales.setVisible(false);
+					this.itemnuevareserva.setVisible(false);
+					
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+				
+			}
+			
+		}
+		
+		private void showdatospersonales(){
+				
+				
+				try {
+					String modo = "EditarPersonales";
+					AbmPersonas abm = new AbmPersonas();
+					persona = personalogic.GetById(Login.id);
+					abm.showAbmPersonas(persona,modo);
+					desktopPane.add(abm);
+					abm.setVisible(true);
+					
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
+				}
+				
+				
+				
+			
+			
+		}
+		
+		
+		
+		
 }

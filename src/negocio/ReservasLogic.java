@@ -111,11 +111,9 @@ public class ReservasLogic {
 	}
 
 
-	public ArrayList<Elemento> getElementosSinReserva(Date fechainicio,Date fechafin,Date fecharegistro,int idtipoelemento) throws Exception{
+	public ArrayList<Elemento> getElementosSinReserva(Date fechainicio,Date fechafin,Date fecharegistro,int idtipoelemento,int idpersona) throws Exception{
 			
-			return reservasD.getElementosSinReserva(fechainicio, fechafin,fecharegistro, idtipoelemento);
-			
-			
+			return reservasD.getElementosSinReserva(fechainicio, fechafin,fecharegistro, idtipoelemento,idpersona);
 			
 	}
 		

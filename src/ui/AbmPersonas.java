@@ -38,6 +38,8 @@ public class AbmPersonas extends JInternalFrame {
 	private JPasswordField txtpassword;
 	private JTextField txtid;
 	private JComboBox cboCategoria;
+	private Persona persona;
+	private PersonaLogic personalogic;
 
 	PersonaLogic perl = new PersonaLogic();
 	private JButton btnAceptar;
@@ -52,6 +54,8 @@ public class AbmPersonas extends JInternalFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		personalogic = new PersonaLogic();
 		
 		
 		JLabel lblNombre = new JLabel("Nombre");
@@ -192,6 +196,7 @@ public class AbmPersonas extends JInternalFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
+		validaringreso(Login.id);
 	}
 	
 	private void btnAceptarClick() {
@@ -201,15 +206,29 @@ public class AbmPersonas extends JInternalFrame {
 			
 		Persona per = this.MapearDesdeform();
 		
-		try{
-			if (btnAceptar.getText() == "Aceptar") {
+		try{if (btnAceptar.getText().equals("Guardar")) {
+				
+				try {
+					perl.update(per);
+					JOptionPane.showMessageDialog(this, "Se ha modificado con exito");
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
+				}
+				
+				
+				
+			}else
+			if (btnAceptar.getText().equals("Aceptar")) {
 				try{
 					perl.add(per);
 					JOptionPane.showMessageDialog(this, "Se ha registrado con exito");
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
-			} else if (btnAceptar.getText() == "Editar") {
+			} else if (btnAceptar.getText().equals("Editar")) {
 				try{
 					perl.update(per);
 					JOptionPane.showMessageDialog(this, "Se ha modificado con exito");
@@ -218,7 +237,8 @@ public class AbmPersonas extends JInternalFrame {
 					frmPersonas.setVisible(true);
 					this.dispose();
 					} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+						JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+						System.out.println(e.getMessage());
 				}
 			} else{
 				try{
@@ -230,13 +250,15 @@ public class AbmPersonas extends JInternalFrame {
 					this.dispose();
 					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
 				
 			}
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+			System.out.println(e.getMessage());
 		}
 		this.txtid.setText(String.valueOf(per.getId_persona()));
 		} else {
@@ -315,12 +337,17 @@ public class AbmPersonas extends JInternalFrame {
 	}
 	
 	public void showAbmPersonas(Persona p,String modo){
+		
 		if (modo == "Editar") {
 			this.MapearAform(p);
 			btnAceptar.setText("Editar");
 			HabilitarControles(true);
 			
-		}else {
+		}else if(modo == "EditarPersonales") {
+			this.MapearAform(p);
+			btnAceptar.setText("Guardar");
+			
+		}else{
 			this.MapearAform(p);
 			btnAceptar.setText("Eliminar");
 			HabilitarControles(false);
@@ -329,6 +356,7 @@ public class AbmPersonas extends JInternalFrame {
 	}
 
 	private void HabilitarControles(boolean b) {
+		
 		this.txtApellido.setEditable(b);;
 		this.txtDni.setEditable(b);;
 		this.txtNombre.setEditable(b);;
@@ -357,4 +385,33 @@ public class AbmPersonas extends JInternalFrame {
 	        
 	      return error;
 	}
+	
+	
+	private void validaringreso(int id){
+		
+		try {
+			persona = new Persona();
+			
+			
+			persona = personalogic.GetById(id);
+			
+			String categoria =  persona.getCategoria().getDescripcion();
+			
+			if (categoria.equals("Usuario")) {
+				this.cboCategoria.setEnabled(false);
+				this.chkHabilitado.setEnabled(false);
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+			
+		}
+		
+	}
+	
+	
+	
+	
 }

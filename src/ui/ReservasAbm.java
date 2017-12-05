@@ -83,6 +83,7 @@ public class ReservasAbm extends JInternalFrame {
 	private JLabel lblpaso3;
 	private JLabel lblpaso2;
 	private JLabel lblpaso4;
+	private Persona persona;
 
 	/**
 	 * Create the frame.
@@ -654,7 +655,7 @@ public class ReservasAbm extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 		
 		cargarlistadopersonas();
-		
+		validaringreso(Login.id);
 		
 
 	}
@@ -801,8 +802,20 @@ public class ReservasAbm extends JInternalFrame {
 		
 		
 		try{
-			
-			if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==true) {
+			if (btnAceptar.getText().equals("Registrar")) {
+				
+				try {
+					reservaslogic.add(res);
+					JOptionPane.showMessageDialog(this, "Se ha registrado la reserva correctamente");
+					this.dispose();
+					
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
+				}
+				
+			}
+			else if (btnAceptar.getText().equals("Aceptar") && reservaslogic.ValidarCantidadReservasPendientes(res)==true) {
 				try{
 					reservaslogic.add(res);
 					
@@ -811,11 +824,13 @@ public class ReservasAbm extends JInternalFrame {
 					this.getDesktopPane().add(frmreservas);
 					frmreservas.setVisible(true);
 					this.dispose();
+					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
 				
-			}	else if (btnAceptar.getText() == "Aceptar" && reservaslogic.ValidarCantidadReservasPendientes(res)==false) {
+			}	else if (btnAceptar.getText().equals("Aceptar") && reservaslogic.ValidarCantidadReservasPendientes(res)==false) {
 					
 				try{
 					JOptionPane.showMessageDialog(this, "Ha superado la cantidad de reservas pendientes de ese tipo");
@@ -824,10 +839,11 @@ public class ReservasAbm extends JInternalFrame {
 					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
 				
-			}	else if (btnAceptar.getText() == "Editar") {
+			}	else if (btnAceptar.getText().equals("Editar")) {
 				try{
 					reservaslogic.update(res);
 					
@@ -837,7 +853,8 @@ public class ReservasAbm extends JInternalFrame {
 					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
 			} else{
 				try{
@@ -848,13 +865,15 @@ public class ReservasAbm extends JInternalFrame {
 					frmreservas.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, e.getMessage());
+					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+					System.out.println(e.getMessage());
 				}
 				
 			}
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+			System.out.println(e.getMessage());
 		}
 		this.txtidelemento.setText(String.valueOf(res.getElemento().getId_elemento()));
 		this.txtidpersona.setText(String.valueOf(res.getPersona().getId_persona()));
@@ -947,9 +966,10 @@ public class ReservasAbm extends JInternalFrame {
 			java.sql.Date fecharegistro = new java.sql.Date(date.getTime());
 
 			int idtipoelementos = Integer.parseInt((this.txtidtipoelemento.getText()));
+			int idpersona = Integer.parseInt((this.txtidpersona.getText()));
 			
 			if (fechainicio != null && fecharegistro != null && fechafin != null && idtipoelementos>0) {
-				listadoelementos = reservaslogic.getElementosSinReserva(fechainicio, fechafin, fecharegistro, idtipoelementos);
+				listadoelementos = reservaslogic.getElementosSinReserva(fechainicio, fechafin, fecharegistro, idtipoelementos,idpersona);
 				
 				if (listadoelementos.isEmpty()) {
 					JOptionPane.showMessageDialog(this, "No hay elementos disponibles para esas fechas");
@@ -1065,5 +1085,48 @@ public class ReservasAbm extends JInternalFrame {
 		frmreservas.setVisible(true);
 		this.dispose();
 	}
+	
+	private void validaringreso(int id){
+		
+		try {
+			persona = new Persona();
+			
+			
+			persona = personalogic.GetById(id);
+			
+			String categoria =  persona.getCategoria().getDescripcion();
+			
+			if (categoria.equals("Usuario")) {
+				
+				mapearPersona(persona);
+				limpiarcontrolestipoelementos();
+		        habilitarcontrolestipoelemento();
+		        lblpaso2.setVisible(true);
+							
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
+			
+		}
+		
+	}
+	
+	private void mapearPersona(Persona per){
+		
+		this.txtidpersona.setText(String.valueOf(per.getId_persona()));
+		this.txtnombrepersona.setText(per.getNombre());
+		this.txtapellido.setText(per.getApellido());
+		this.txtdni.setText(per.getDni());
+		this.txtusuario.setText(per.getUsuario());
+		this.cbbuscarpersona.setVisible(false);
+		this.btnAceptar.setText("Registrar");
+		
+	}
+	
+	
+	
+	
 	
 }

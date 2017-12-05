@@ -449,7 +449,7 @@ public class DataReservas {
 	}
 	
 	
-	public ArrayList<Elemento> getElementosSinReserva(Date fechainicio,Date fechafin,Date fecharegistro,int idtipoelemento) throws Exception{
+public ArrayList<Elemento> getElementosSinReserva(Date fechainicio,Date fechafin,Date fecharegistro,int idtipoelemento,int idpersona) throws Exception{
 		
 		ArrayList<Elemento> lista = new ArrayList<Elemento>();
 		Tipo_Elemento te = null;
@@ -461,23 +461,24 @@ public class DataReservas {
 		try {
 			 /*al poner el signo de pregunta el driver se da cuenta que en ese lugar va a ir un parametro*/
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-			"SELECT DISTINCT e.`id_elemento`,e.`nombre`,e.`autor`,e.`genero`,e.`descripcion`,e.`id_tipoelemento`,e.`stock`, te.`nombre` nombretipoelemento,te.`cantMaxReservasPend` "
-				+	" FROM elementos e "
-				+	" INNER JOIN `tipo_elementos` te on te.`id_tipoelemento` = e.`id_tipoelemento` "
-				+	" LEFT JOIN reservas r on r.`id_elemento` = e.`id_elemento` "
-				+	" LEFT JOIN personas per on per.`id_persona` = r.`id_persona` "
-				+	" WHERE e.`id_tipoelemento`=? and "
-				+	" e.`id_elemento` not IN( SELECT ee.`id_elemento` "
-				+ 	" FROM reservas r "
-				+ 	" INNER JOIN elementos ee on r.`id_elemento` = ee.`id_elemento` "
-				+ 	" INNER JOIN tipo_elementos te on te.`id_tipoelemento` = ee.`id_tipoelemento` "
-				+ 	" WHERE ee.`id_tipoelemento`=? and r.`fecha_inicio` between ? and ? "
-				+ 	" or r.`fecha_fin` BETWEEN  ? and ?) "
-				+ 	" and e.id_elemento NOT IN(SELECT eee.id_elemento "
-				+ 	" FROM elementos eee "
-				+ 	" INNER JOIN reservas r on r.id_elemento=eee.id_elemento "
-				+ 	" WHERE r.fecha_registro=?) "); 
-					
+					" SELECT DISTINCT e.`id_elemento`,e.`nombre`,e.`autor`,e.`genero`,e.`descripcion`,e.`id_tipoelemento`,e.`stock`, te.`nombre` nombretipoelemento,te.`cantMaxReservasPend` "
+							+	" FROM elementos e"
+							+	" INNER JOIN `tipo_elementos` te on te.`id_tipoelemento` = e.`id_tipoelemento`"
+							+	" LEFT JOIN reservas r on r.`id_elemento` = e.`id_elemento`"
+							+	" WHERE e.`id_tipoelemento`=? "
+							+ 	" and e.`id_elemento` not IN "
+							+ 	" (SELECT ee.`id_elemento`"
+							+ 	" FROM reservas r "
+							+ 	" INNER JOIN elementos ee on r.`id_elemento` = ee.`id_elemento` "
+							+	" INNER JOIN tipo_elementos te on te.`id_tipoelemento` = ee.`id_tipoelemento`"
+							+ 	" WHERE (ee.`id_tipoelemento`=? and r.`fecha_inicio` between ? and ? "
+							+ 	" or r.`fecha_fin` BETWEEN  ? and ?) and (r.`estado`='Activa' or r.`estado` = 'Sin devolver')) "
+							+ 	" and e.id_elemento NOT IN "
+							+ 	" (SELECT eee.id_elemento "
+							+ 	" FROM elementos eee "
+							+ 	" INNER JOIN reservas r on r.id_elemento=eee.id_elemento"
+							+ 	" WHERE r.fecha_registro=? and r.`id_persona`=? and (r.`estado`='Terminada' or r.`estado`='Cancelada'))"); 
+								
 			stmt.setInt(1, idtipoelemento);
 			stmt.setInt(2, idtipoelemento);
 			stmt.setDate(3, fechainicio);
@@ -485,6 +486,7 @@ public class DataReservas {
 			stmt.setDate(5, fechainicio);
 			stmt.setDate(6, fechafin);
 			stmt.setDate(7, fecharegistro);
+			stmt.setInt(8, idpersona);
 			
 			rs = stmt.executeQuery();
 			
