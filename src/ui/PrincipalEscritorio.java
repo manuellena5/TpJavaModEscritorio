@@ -142,6 +142,11 @@ public class PrincipalEscritorio extends JFrame {
 		menureservas.add(itemlistadoreservas);
 		
 		itemmisreservas = new JMenuItem("Mis Reservas");
+		itemmisreservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showListadoReservasUsuario();
+			}
+		});
 		/*mntmMisReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ShowMisReservas();
@@ -374,6 +379,13 @@ public class PrincipalEscritorio extends JFrame {
 				
 				
 			
+			
+		}
+		
+		private void showListadoReservasUsuario(){
+			ListadoReservasUsuario frm = new ListadoReservasUsuario();
+			desktopPane.add(frm);
+			frm.setVisible(true);
 			
 		}
 		

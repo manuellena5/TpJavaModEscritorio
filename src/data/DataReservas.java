@@ -383,7 +383,7 @@ public class DataReservas {
 								+ " inner join elementos e on e.id_elemento=r.id_elemento"
 								+ " inner join tipo_elementos te on te.`id_tipoelemento` = e.`id_tipoelemento`"
 								+ " inner join personas p on p.id_persona=r.id_persona"
-								+ " where r.id_persona=? order by r.fecha_registro");
+								+ " where r.id_persona=? order by r.fecha_registro,r.fecha_inicio,r.fecha_fin");
 					
 			stmt.setInt(1, per.getId_persona());
 			rs = stmt.executeQuery();

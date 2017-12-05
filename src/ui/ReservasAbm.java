@@ -683,13 +683,14 @@ public class ReservasAbm extends JInternalFrame {
 			HabilitarControles(true);
 			
 			
-		}else {
+		}else  {
+			
 			this.MapearAform(res);
 			habilitarcontrolesdatosreserva(true);
 			habilitarcontroleselementos(true,modo);
 			habilitarcontrolestipoelemento();
 			habilitarradiobutton(false);
-			btnAceptar.setText("Eliminar");
+			btnAceptar.setText("Cancelar");
 			HabilitarControles(true);
 			this.cbestado.setEnabled(false);
 		}
@@ -856,13 +857,18 @@ public class ReservasAbm extends JInternalFrame {
 					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
 					System.out.println(e.getMessage());
 				}
-			} else{
+			} else if (btnAceptar.getText().equals("Cancelar")) {
+				
+		
 				try{
-					reservaslogic.delete(res);
-					frmreservas = new Reservas();
-					JOptionPane.showMessageDialog(this, "Se ha eliminado la reserva correctamente");
-					this.getDesktopPane().add(frmreservas);
-					frmreservas.setVisible(true);
+					
+					
+					reservaslogic.update(res);
+					JOptionPane.showMessageDialog(this, "Se ha cancelado la reserva correctamente");
+					
+					ListadoReservasUsuario frm = new ListadoReservasUsuario();
+					this.getDesktopPane().add(frm);
+					frm.setVisible(true);
 					this.dispose();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado");
@@ -934,7 +940,7 @@ public class ReservasAbm extends JInternalFrame {
 	
 	private void habilitarcontroleselementos(boolean val,String modo) throws Exception{
 		
-		if(modo.equals("Editar") || modo.equals("Eliminar")){
+		if(modo.equals("Editar") || modo.equals("Cancelar")){
 			
 			this.lblAutor.setVisible(val);
 			this.lblGenero.setVisible(val);

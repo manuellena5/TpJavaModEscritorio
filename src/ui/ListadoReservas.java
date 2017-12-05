@@ -115,8 +115,10 @@ public class ListadoReservas extends JInternalFrame {
 		
 		try{
 			this.lista = reservaLogic.GetAll();
+		
 		} catch (Exception e){
-			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this,"Ha ocurrido un error inesperado");
+			System.out.println(e.getMessage());
 	
 		}
 		initDataBindings();
@@ -175,6 +177,8 @@ public class ListadoReservas extends JInternalFrame {
 		
 		
 	}
+	
+	
 	protected void initDataBindings() {
 		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, lista, table);
 		//

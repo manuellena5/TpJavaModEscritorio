@@ -162,25 +162,6 @@ public class Reservas extends JInternalFrame {
 		});
 		menuBar.add(btnEditar);
 		
-		JButton btnBaja = new JButton("Baja");
-		btnBaja.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				modo = "Eliminar";
-				if (table.getSelectedRow() == -1) {
-					JOptionPane.showMessageDialog(btnEditar, "Debe seleccionar una reserva");}
-				else{
-				try {
-					ShowAbmReservas(modo);
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(rootPane, e1.getMessage());
-				}
-				}
-		
-			}
-		});
-		menuBar.add(btnBaja);
-		
 		try{
 			this.lista = reservaLogic.GetAll();
 		} catch (Exception e){
